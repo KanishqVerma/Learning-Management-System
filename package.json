@@ -1,0 +1,27 @@
+{
+  "name": "lms",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Its-Adarshkumar/Learning-Management-System.git"
+  },
+  "keywords": [],
+  "author": "Adarsh Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Its-Adarshkumar/Learning-Management-System/issues"
+  },
+  "homepage": "https://github.com/Its-Adarshkumar/Learning-Management-System#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  }
+}
