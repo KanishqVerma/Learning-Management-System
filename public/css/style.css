@@ -1,0 +1,319 @@
+body {
+  background-color: #f9fafc;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #111827;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Fade-in */
+.page-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* -- LANDING SECTION -- */
+.landing-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+  flex-wrap: wrap;
+  animation: slideUp 1.2s ease;
+}
+
+/* LEFT SIDE */
+.left {
+  flex: 1.2;
+  min-width: 360px;
+  text-align: left;
+  animation: fadeSlideLeft 1.2s ease;
+}
+
+/* RIGHT SIDE*/
+.right {
+  flex: 1;
+  min-width: 380px;
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 30px rgba(0, 51, 102, 0.2),
+    0 0 40px rgba(0, 51, 102, 0.15);
+  transition: all 0.4s ease;
+  animation: fadeSlideRight 1.3s ease;
+}
+
+.right:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 16px 45px rgba(0, 51, 102, 0.3),
+    0 0 55px rgba(0, 51, 102, 0.25);
+}
+
+/* COLLEGE */
+.college-brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 2.5rem;
+  animation: fadeSlideDown 1.3s ease;
+}
+
+.college-logo {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 25%;
+  box-shadow: 0 0 18px rgba(0, 51, 102, 0.3);
+  border: 2px solid #003366;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.college-logo:hover {
+  transform: rotate(-3deg) scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 51, 102, 0.5);
+}
+
+.college-name {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #003366;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.college-name:hover {
+  color: #001f4d;
+}
+
+/* HEADINGS AND TEXT*/
+h1.fw-bold.display-5 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  animation: fadeSlideUp 1.3s ease;
+}
+
+h1.fw-bold.display-5 span.text-primary {
+  color: #003366 !important;
+  font-size: 3.6rem;
+  position: relative;
+}
+
+/*underline glow effect */
+h1 span.text-primary::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 3px;
+  background: #003366;
+  transition: width 0.5s ease;
+}
+
+h1:hover span.text-primary::after {
+  width: 100%;
+}
+
+.lead.text-secondary {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #4b5563;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 1.6s ease;
+}
+
+/*BUTTONS */
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.15rem;
+  border-radius: 12px;
+  transition: all 0.4s ease;
+}
+
+.btn-primary {
+  background-color: #003366 !important;
+  border-color: #003366 !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background-color: #00264d !important;
+  border-color: #00264d !important;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+}
+
+.btn-outline-secondary {
+  color: #003366 !important;
+  border-color: #003366 !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #003366 !important;
+  color: #ffffff !important;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 51, 102, 0.3);
+}
+
+/* FEATURES GRID */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 520px;
+}
+
+.feature-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(0, 51, 102, 0.1);
+  transition: all 0.4s ease;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid transparent;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardFadeUp 1.3s forwards;
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.3s; }
+.feature-card:nth-child(2) { animation-delay: 0.5s; }
+.feature-card:nth-child(3) { animation-delay: 0.7s; }
+.feature-card:nth-child(4) { animation-delay: 0.9s; }
+
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow:
+    0 10px 30px rgba(0, 51, 102, 0.25),
+    0 0 20px rgba(0, 51, 102, 0.1);
+  border-color: rgba(0, 51, 102, 0.25);
+}
+
+.feature-card i {
+  font-size: 2.5rem !important;
+  color: #003366 !important;
+  margin-bottom: 1.2rem;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover i {
+  transform: rotate(8deg) scale(1.15);
+}
+
+.feature-card h5 {
+  font-size: 1.3rem;
+  color: #111827;
+}
+
+.feature-card p {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* KEYFRAMES  */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadeSlideLeft {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeSlideRight {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideDown {
+  0% { opacity: 0; transform: translateY(-40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardFadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    gap: 4rem;
+    padding: 4rem 2rem;
+  }
+
+  .left {
+    text-align: center;
+  }
+
+  .college-brand {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .college-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .college-name {
+    font-size: 1.8rem;
+  }
+
+  h1.fw-bold.display-5 {
+    font-size: 2.8rem;
+  }
+
+  .lead.text-secondary {
+    font-size: 1.1rem;
+  }
+
+  .right {
+    padding: 2.5rem;
+  }
+
+  .feature-card {
+    padding: 1.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .college-logo {
+    width: 100px;
+    height: 100px;
+  }
+}
