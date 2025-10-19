@@ -23,16 +23,25 @@
 })();
 
 // Pop animation for the pass card
-document.addEventListener("DOMContentLoaded", () => {
-  const passCard = document.getElementById("passCard");
+// document.addEventListener("DOMContentLoaded", () => {
+//   const passCard = document.getElementById("passCard");
 
-  if (passCard) {
-    passCard.addEventListener("click", () => {
-      passCard.classList.add("pop");
+//   if (passCard) {
+//     passCard.addEventListener("click", () => {
+//       passCard.classList.add("pop");
 
-      setTimeout(() => {
-        passCard.classList.remove("pop");
-      }, 300);
-    });
+//       setTimeout(() => {
+//         passCard.classList.remove("pop");
+//       }, 300);
+//     });
+//   }
+// });
+
+window.addEventListener("scroll", function() {
+  const navbar = document.querySelector(".navbar");
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
   }
 });
