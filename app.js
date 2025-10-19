@@ -21,6 +21,6 @@ app.use(express.urlencoded({extended:true}));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"public")));
 
-app.listen(5000,()=>{
+app.listen(8080,()=>{
     console.log('server is listening to port 8080');
 })
