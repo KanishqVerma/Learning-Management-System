@@ -15,6 +15,35 @@ app.get("/", (req, res) => {
   res.render("layouts/boilerplate.ejs");
 });
 
+// ===== ROUTES =====
+
+// Dashboard + subpages (Sidebar)
+app.get("/dashboard", (req, res) => {
+  res.render("includes/dashboard");
+});
+
+app.get("/courses", (req, res) => {
+  res.render("includes/courses");
+});
+
+app.get("/certificates", (req, res) => {
+  res.render("includes/certificates");
+});
+
+app.get("/profile", (req, res) => {
+  res.render("includes/profile");
+});
+
+app.get("/help", (req, res) => {
+  res.render("includes/help");
+});
+
+// Logout → back to landing
+app.post("/logout", (req, res) => {
+  res.redirect("/");
+});
+
+
 app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
