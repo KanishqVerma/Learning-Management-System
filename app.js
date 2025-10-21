@@ -26,6 +26,10 @@ app.get("/admindashboard", (req, res) => {
   res.render("includes/admin_dashboard");
 });
 
+app.get("/video_upload", (req, res) => {
+  res.render("includes/video_upload");
+});
+
 app.get("/courses", (req, res) => {
   res.render("includes/courses");
 });
