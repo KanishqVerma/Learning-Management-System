@@ -18,8 +18,12 @@ app.get("/", (req, res) => {
 // ===== ROUTES =====
 
 // Dashboard + subpages (Sidebar)
-app.get("/dashboard", (req, res) => {
-  res.render("includes/dashboard");
+app.get("/userdashboard", (req, res) => {
+  res.render("includes/user_dashboard");
+});
+
+app.get("/admindashboard", (req, res) => {
+  res.render("includes/admin_dashboard");
 });
 
 app.get("/courses", (req, res) => {
