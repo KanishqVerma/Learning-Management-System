@@ -1059,7 +1059,6 @@ label {
 }
 
 /* === DEVELOPED BY PAGE === */
-/* === DEVELOPERS PAGE CENTERED === */
 .dev-team-section {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f7f9;
@@ -1161,3 +1160,99 @@ label {
     color: #38bdf8;
     transform: scale(1.1);
 }
+
+
+/* === PROFILE PAGE === */
+.profile-page {
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10% !important;
+  margin-top: 0 !important;
+}
+
+/* Remove default Bootstrap spacing */
+.profile-container {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Headings */
+.profile-title {
+  color: #003366;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin: 10px 0 4px 0 !important; /* tighter top gap */
+  line-height: 1.2;
+}
+
+.profile-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 8px !important; /* small gap before card */
+}
+
+/* Profile Card */
+.profile-card {
+  width: 420px;
+  border-radius: 18px;
+  padding: 32px 24px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 4px !important; /* minimal gap below subtitle */
+}
+
+.profile-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Avatar */
+.avatar-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #003366, #0066cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.avatar-initials {
+  color: #fff;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+/* Info */
+.profile-info {
+  font-size: 1.05rem;
+  color: #333;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.profile-info p {
+  margin-bottom: 0.5rem;
+}
+
+/* Button */
+.btn-primary {
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  background-color: #003366;
+  transition: background-color 0.3s ease;
+  padding: 10px 24px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #0059b3;
+}
+
