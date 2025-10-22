@@ -1,0 +1,72 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="d-flex">
+
+  <!-- Main Content -->
+  <main class="main-content flex-grow-1 p-4" style="background-color: #f4f7fb;">
+    <div class="container-fluid">
+
+      <!-- Page Header -->
+      <div class="dashboard-header mb-4">
+        <div>
+          <h2>My Courses</h2>
+          <p>Manage and track all your enrolled courses</p>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="mb-4">
+        <input
+          id="courseSearch"
+          type="text"
+          class="form-control shadow-sm"
+          placeholder="Search courses by title..."
+          style="border-radius: 10px; padding: 12px 16px; font-size: 1rem;"
+        />
+      </div>
+
+      <!-- Courses Grid -->
+      <div class="row g-4" id="coursesContainer">
+        <% const courses = [
+          { title: "Introduction to Computer Science", code: "CS101", instructor: "Dr. Sarah Johnson", hours: "24h", students: 156, progress: 75 },
+          { title: "Data Structures and Algorithms", code: "CS201", instructor: "Prof. Michael Chen", hours: "32h", students: 142, progress: 45 },
+          { title: "Web Development Fundamentals", code: "WD101", instructor: "Dr. Emily Rodriguez", hours: "28h", students: 198, progress: 90 },
+          { title: "Database Management Systems", code: "DB102", instructor: "Prof. Anil Kapoor", hours: "30h", students: 175, progress: 60 },
+          { title: "Operating Systems", code: "CS301", instructor: "Dr. Kavita Sharma", hours: "26h", students: 120, progress: 50 },
+          { title: "Artificial Intelligence Basics", code: "AI101", instructor: "Dr. Amit Joshi", hours: "35h", students: 200, progress: 40 }
+        ]; %>
+
+        <% courses.forEach(course => { %>
+          <div class="col-md-6 col-lg-4 course-card">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
+              
+              <!-- Header -->
+              <div class="card-header text-center text-white" style="background: linear-gradient(135deg, #003366, #0059b3); padding: 25px;">
+                <i class="fa-solid fa-book fa-2x"></i>
+              </div>
+              
+              <!-- Body -->
+              <div class="card-body text-start">
+                <h5 class="card-title mb-1 fw-semibold course-title" style="color: #003366;"><%= course.title %></h5>
+
+                <!-- Progress Text -->
+                <div class="d-flex align-items-center justify-content-between mt-2">
+                  <p class="mb-0 text-secondary small fw-semibold">Progress</p>
+                  <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                    style="background-color: #e6f0ff; color: #003366;">
+                    <%= course.progress %>%
+                  </span>
+                </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="card-footer bg-white border-0 d-flex justify-content-between p-3">
+                <button class="btn btn-sm text-white px-3" style="background-color: #003366; border-radius: 8px;">Continue Learning</button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </main>
+</div>
