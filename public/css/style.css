@@ -874,3 +874,45 @@ label {
   transform: translateY(-3px);
   box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
 }
+
+/* === SIGNUP PAGE === */
+.signup-box .form-control {
+  border-radius: 8px;
+  border: 1px solid #cfd8e3;
+  padding: 10px 12px;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.signup-box .form-control:focus {
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+}
+
+.signup-box button:hover {
+  background-color: #00264d !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 51, 102, 0.25);
+}
+
+/* === Login PAGE === */
+.login-box .form-control, 
+.login-box .form-select {
+  border-radius: 8px;
+  border: 1px solid #cfd8e3;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.login-box .form-control:focus, 
+.login-box .form-select:focus {
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+}
+
+.login-box button:hover {
+  background-color: #00264d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 51, 102, 0.25);
+}
