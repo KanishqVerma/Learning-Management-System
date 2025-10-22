@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet The Developers - Learning Management System</title>
+    
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts for a modern typeface -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- General Page Styling --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f9; /* Light theme background */
+            color: #4a5568; /* Darker text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* --- Main Container & Headings --- */
+        .team-section {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #1a202c; /* Dark heading color */
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #718096; /* Slightly lighter subtitle color */
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Cards Container --- */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; /* Makes cards of uneven content height look same */
+            flex-wrap: wrap;
+            gap: 30px; /* Space between cards */
+        }
+
+        /* --- Individual Developer Card --- */
+        .developer-card {
+            background-color: #ffffff; /* White card background */
+            border-radius: 15px;
+            padding: 30px;
+            width: 270px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Softer shadow for light theme */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* --- Hover Animation --- */
+        .developer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.2); /* Adjusted hover shadow */
+        }
+
+        /* --- Card Content Styling --- */
+        .card-image img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #38bdf8; /* Accent color border */
+            margin-bottom: 20px;
+        }
+
+        .card-name {
+            font-size: 1.4rem;
+            color: #1a202c; /* Dark name color */
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-batch {
+            color: #718096; /* Muted batch color */
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* --- Social Media Links --- */
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: auto; /* Pushes icons to the bottom */
+        }
+
+        .social-links a {
+            color: #a0aec0; /* Grey icon color */
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #38bdf8;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="team-section">
+        <h1 class="section-title">Meet Our Developers</h1>
+        <p class="section-subtitle">The creative minds and dedicated engineers behind the Learning Management System.</p>
+
+        <div class="cards-container">
+
+            <!-- Developer Card 1 -->
+            <div class="developer-card">
+                <div class="card-image">
+                    <img src="../../public/pictures/adarsh-kumar.jpg" alt="Adarsh Kumar">
+                </div>
+                <h2 class="card-name">Adarsh Kumar</h2>
+                <p style="font-size: 15px;">adarshsinghrajput414@gmail.com</p>
+                <div class="social-links">
+                    <a href="https://github.com/Its-Adarshkumar" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/adarsh-kumar-6221762b4/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Developer Card 2 -->
+            <div class="developer-card">
+                <div class="card-image">
+                    <img src="../../public/pictures/yana-malhotra.jpg" alt="Yana Malhotra">
+                </div>
+                <h2 class="card-name">Yana Malhotra</h2>
+                <p>yana27.ym@gmail.com</p>
+                <div class="social-links">
+                    <a href="https://github.com/yana-malhotra27" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/yana-malhotra-427b61293/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Developer Card 3 -->
+            <div class="developer-card">
+                <div class="card-image">
+                    <img src="../../public/pictures/kamya-gurnani.jpg" alt="Kamya Gurnani">
+                </div>
+                <h2 class="card-name">Kamya Gurnani</h2>
+                <p>gurnanikamya@gmail.com</p>
+                <div class="social-links">
+                    <a href="https://github.com/kamya-20" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/kamya-gurnani-476281220/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Developer Card 4 -->
+            <div class="developer-card">
+                <div class="card-image">
+                    <img src="../../public/pictures/kanishq-verma.png" alt="Kanishq Verma">
+                </div>
+                <h2 class="card-name">Kanishq Verma</h2>
+                <p>work.kanishq@gmail.com</p>
+                <div class="social-links">
+                    <a href="https://github.com/KanishqVerma" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/kanishqverma/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
