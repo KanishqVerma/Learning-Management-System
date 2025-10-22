@@ -1057,3 +1057,107 @@ label {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 51, 102, 0.25);
 }
+
+/* === DEVELOPED BY PAGE === */
+/* === DEVELOPERS PAGE CENTERED === */
+.dev-team-section {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f9;
+    color: #4a5568;
+
+    /* center everything in viewport */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* vertical center */
+    align-items: center;       /* horizontal center */
+
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* --- Headings --- */
+.dev-section-title {
+    font-size: 2.5rem;
+    color: #1a202c;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.dev-section-subtitle {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-bottom: 50px;
+    max-width: 600px;
+}
+
+/* --- Cards Container --- */
+.dev-cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- Individual Card --- */
+.dev-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dev-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(56, 189, 248, 0.2);
+}
+
+/* --- Image --- */
+.dev-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #38bdf8;
+    margin-bottom: 20px;
+}
+
+/* --- Text --- */
+.dev-card-name {
+    font-size: 1.4rem;
+    color: #1a202c;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.dev-card-email {
+    color: #718096;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+/* --- Social Links --- */
+.dev-social-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.dev-social-links a {
+    color: #a0aec0;
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.dev-social-links a:hover {
+    color: #38bdf8;
+    transform: scale(1.1);
+}

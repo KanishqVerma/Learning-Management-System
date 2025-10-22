@@ -22,8 +22,11 @@
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="signup" ||
+        <% if (page === "home" || page === "login" || page==="developed_by" ||
         page==="about") { %> <%- include("../includes/header.ejs") %> <% } %>
+        <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" ||
+        page==="profile") { %> <%- include("../includes/user_sidebar.ejs") %> <% } %>
+        <% if (page === "admindashboard" || page === "video_upload" || page === "signup") { %> <%- include("../includes/admin_sidebar.ejs") %> <% } %>
 
         <div>
           <% if (page === "home") { %> <%- include("../includes/landing.ejs") %>
