@@ -1,0 +1,118 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="d-flex">
+  <!-- Sidebar -->
+  <%- include("../includes/user_sidebar.ejs") %>
+
+  <!-- Main Content -->
+  <main class="main-content flex-grow-1 p-4" style="background-color: #f4f7fb;">
+    <div class="container-fluid">
+      <!-- Header -->
+      <div class="dashboard-header mb-4 text-center">
+        <h2 style="color: #fdfdfe; font-weight: 700;">Help & Support</h2>
+        <p style="color: #fefbfe !important;" class="text-secondary mb-0">
+          Find answers to common questions or get in touch with support
+        </p>
+      </div>
+
+      <div class="row">
+        <!-- LEFT SIDE: FAQs -->
+        <div class="col-lg-8 mb-4">
+          <div class="mb-3">
+            <input
+              id="faqSearch"
+              type="text"
+              class="form-control shadow-sm"
+              placeholder="Search help articles..."
+              style="border-radius: 10px; padding: 12px 16px; font-size: 1rem;"
+            />
+          </div>
+
+          <div class="card shadow-sm border-0 p-4" style="border-radius: 14px;">
+            <h5 class="mb-3" style="color: #003366; font-weight: 700;">Frequently Asked Questions</h5>
+            <div class="accordion" id="faqAccordion">
+              <% const faqs = [
+                { q: "How do I access my course materials?", a: "You can access your course materials by visiting the Courses page after logging in." },
+                { q: "How can I download my certificates?", a: "Go to the Certificates section from your dashboard to view and download them." },
+                { q: "What should I do if I forget my password?", a: "Use the 'Forgot Password' option on the login page to reset it." },
+                { q: "How do I track my course progress?", a: "Each course page displays your progress and completed lessons." },
+                { q: "What are the technical requirements for accessing courses?", a: "A modern browser and stable internet connection are sufficient." }
+              ]; %>
+
+              <% faqs.forEach((item, index) => { %>
+                <div class="accordion-item border-0 mb-3">
+                  <h2 class="accordion-header" id="heading<%= index %>">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapse<%= index %>"
+                      aria-expanded="false"
+                      aria-controls="collapse<%= index %>"
+                      style="color: #003366; font-weight: 600; font-size: 1.05rem; padding: 16px 18px; border-radius: 10px;"
+                    >
+                      <%= item.q %>
+                    </button>
+                  </h2>
+                  <div
+                    id="collapse<%= index %>"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="heading<%= index %>"
+                    data-bs-parent="#faqAccordion"
+                  >
+                    <div class="accordion-body text-secondary" style="font-size: 0.95rem; line-height: 1.6;">
+                      <%= item.a %>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE: Contact Support -->
+        <div class="col-lg-4">
+          <div class="card shadow-sm border-0 p-4 mb-4" style="border-radius: 14px;">
+            <h5 class="mb-3" style="color: #003366; font-weight: 700;">Contact Support</h5>
+
+            <div class="mb-3">
+              <i class="fa-solid fa-envelope me-2 text-primary"></i>
+              <strong>Email Support</strong>
+              <p class="mb-1 text-secondary small">support@gtb4cec.edu</p>
+              <a
+                href="mailto:support@gtb4cec.edu"
+                class="btn btn-sm text-white w-100"
+                style="background-color: #003366; border-radius: 8px;"
+              >
+                Send Email
+              </a>
+            </div>
+
+            <hr>
+
+            <div class="mb-3">
+              <i class="fa-solid fa-phone me-2 text-primary"></i>
+              <strong>Phone Support</strong>
+              <p class="mb-1 text-secondary small">+91 98765 43210</p>
+              <a
+                href="tel:+919876543210"
+                class="btn btn-sm text-white w-100"
+                style="background-color: #003366; border-radius: 8px;"
+              >
+                Call Now
+              </a>
+            </div>
+
+            <hr>
+
+            <div>
+              <i class="fa-regular fa-clock me-2 text-primary"></i>
+              <strong>Office Hours</strong>
+              <p class="text-secondary small mb-0">Mon–Fri: 9:00 AM – 5:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
