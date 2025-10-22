@@ -7,22 +7,14 @@
   <main class="main-content flex-grow-1">
     <div class="upload-header">
       <h2><i class="fa-solid fa-upload me-2"></i>Upload a New Video</h2>
-      <p>
-        Fill out the form below to add your lecture video to the LMS database.
-      </p>
+      <p>Fill out the form below to add your lecture video to the LMS database.</p>
     </div>
 
-    <form class="upload-form">
+    <form action="/upload-video" method="POST" class="upload-form" enctype="multipart/form-data">
       <div class="row g-4">
         <div class="col-md-6">
           <label for="topic">📘 Topic</label>
-          <input
-            type="text"
-            id="topic"
-            name="topic"
-            class="form-control"
-            placeholder="Enter topic name"
-          />
+          <input type="text" id="topic" name="topic" class="form-control" placeholder="Enter topic name" />
         </div>
 
         <div class="col-md-6">
@@ -37,56 +29,30 @@
           </select>
 
           <!-- Hidden input (only shown when user selects "New Course") -->
-          <input
-            type="text"
-            id="newCourseInput"
-            name="newCourse"
-            class="form-control mt-2 d-none"
-            placeholder="Enter new course name"
-          />
+          <input type="text" id="newCourseInput" name="newCourse" class="form-control mt-2 d-none" placeholder="Enter new course name" />
         </div>
 
         <div class="form-divider"></div>
 
         <div class="col-12">
           <label for="description">📝 Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="3"
-            class="form-control"
-            placeholder="Write a brief description about this topic..."
-          ></textarea>
+          <textarea id="description" name="description" rows="3" class="form-control" placeholder="Write a brief description about this topic..."></textarea>
         </div>
 
         <div class="col-12">
           <label for="summary">🧾 Summary</label>
-          <textarea
-            id="summary"
-            name="summary"
-            rows="2"
-            class="form-control"
-            placeholder="Add a short summary (key points covered)..."
-          ></textarea>
+          <textarea id="summary" name="summary" rows="2" class="form-control" placeholder="Add a short summary (key points covered)..."></textarea>
         </div>
 
         <div class="form-divider"></div>
 
         <div class="col-12">
           <label for="video">🎥 Upload Video File</label>
-          <input
-            type="file"
-            id="video"
-            name="video"
-            class="form-control"
-            accept="video/*"
-          />
+          <input type="file" id="video" name="video" class="form-control" accept="video/*" />
         </div>
 
         <div class="col-12 text-center">
-          <button type="submit" class="btn-upload">
-            <i class="fa-solid fa-cloud-arrow-up me-2"></i> Upload Video
-          </button>
+          <button type="submit" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up me-2"></i> Upload Video</button>
         </div>
       </div>
     </form>
