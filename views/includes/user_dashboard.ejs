@@ -1,80 +1,75 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="d-flex">
-  <%- include("../includes/user_sidebar.ejs") %>
 
-  <main class="main-content flex-grow-1">
-    <div class="dashboard-header">
-      <h2>Dashboard</h2>
-      <p>Welcome back! Here’s your learning overview.</p>
+<div class="dashboard-header">
+  <h2>Dashboard</h2>
+  <p>Welcome back! Here’s your learning overview.</p>
+</div>
+
+<!-- Stats Section -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div>
+      <div class="stat-number">6</div>
+      <div class="stat-label">Enrolled Courses</div>
+    </div>
+    <i class="fa-solid fa-book-open"></i>
+  </div>
+
+  <div class="stat-card">
+    <div>
+      <div class="stat-number">12</div>
+      <div class="stat-label">Completed Courses</div>
+    </div>
+    <i class="fa-solid fa-circle-check"></i>
+  </div>
+
+  <div class="stat-card">
+    <div>
+      <div class="stat-number">8</div>
+      <div class="stat-label">Certificates Earned</div>
+    </div>
+    <i class="fa-solid fa-award"></i>
+  </div>
+
+  <div class="stat-card">
+    <div>
+      <div class="stat-number">142</div>
+      <div class="stat-label">Study Hours</div>
+    </div>
+    <i class="fa-solid fa-clock"></i>
+  </div>
+</div>
+
+<!-- Continue Learning -->
+<div class="mt-5">
+  <h4>Continue Learning</h4>
+  <div class="course-grid">
+    <div class="course-card">
+      <h5>Introduction to Computer Science</h5>
+      <p class="mb-2 small text-secondary">Progress: 75%</p>
+      <div class="progress mb-2">
+        <div class="progress-bar" style="width: 75%"></div>
+      </div>
+      <button class="btn-continue">Continue Learning</button>
     </div>
 
-    <!-- Stats Section -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div>
-          <div class="stat-number">6</div>
-          <div class="stat-label">Enrolled Courses</div>
-        </div>
-        <i class="fa-solid fa-book-open"></i>
+    <div class="course-card">
+      <h5>Data Structures and Algorithms</h5>
+      <p class="mb-2 small text-secondary">Progress: 45%</p>
+      <div class="progress mb-2">
+        <div class="progress-bar" style="width: 45%"></div>
       </div>
-
-      <div class="stat-card">
-        <div>
-          <div class="stat-number">12</div>
-          <div class="stat-label">Completed Courses</div>
-        </div>
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
-
-      <div class="stat-card">
-        <div>
-          <div class="stat-number">8</div>
-          <div class="stat-label">Certificates Earned</div>
-        </div>
-        <i class="fa-solid fa-award"></i>
-      </div>
-
-      <div class="stat-card">
-        <div>
-          <div class="stat-number">142</div>
-          <div class="stat-label">Study Hours</div>
-        </div>
-        <i class="fa-solid fa-clock"></i>
-      </div>
+      <button class="btn-continue">Continue Learning</button>
     </div>
 
-    <!-- Continue Learning -->
-    <div class="mt-5">
-      <h4>Continue Learning</h4>
-      <div class="course-grid">
-        <div class="course-card">
-          <h5>Introduction to Computer Science</h5>
-          <p class="mb-2 small text-secondary">Progress: 75%</p>
-          <div class="progress mb-2">
-            <div class="progress-bar" style="width: 75%"></div>
-          </div>
-          <button class="btn-continue">Continue Learning</button>
-        </div>
-
-        <div class="course-card">
-          <h5>Data Structures and Algorithms</h5>
-          <p class="mb-2 small text-secondary">Progress: 45%</p>
-          <div class="progress mb-2">
-            <div class="progress-bar" style="width: 45%"></div>
-          </div>
-          <button class="btn-continue">Continue Learning</button>
-        </div>
-
-        <div class="course-card">
-          <h5>Web Development Fundamentals</h5>
-          <p class="mb-2 small text-secondary">Progress: 90%</p>
-          <div class="progress mb-2">
-            <div class="progress-bar" style="width: 90%"></div>
-          </div>
-          <button class="btn-continue">Continue Learning</button>
-        </div>
+    <div class="course-card">
+      <h5>Web Development Fundamentals</h5>
+      <p class="mb-2 small text-secondary">Progress: 90%</p>
+      <div class="progress mb-2">
+        <div class="progress-bar" style="width: 90%"></div>
       </div>
+      <button class="btn-continue">Continue Learning</button>
     </div>
-  </main>
+  </div>
 </div>
