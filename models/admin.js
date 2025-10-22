@@ -9,6 +9,10 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  videoUrls: {
+    type: [String], //array of strings
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("Admin", adminSchema);
