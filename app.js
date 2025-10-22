@@ -51,7 +51,6 @@ app.post("/logout", (req, res) => {
   res.redirect("/");
 });
 
-
 app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
