@@ -1,82 +1,98 @@
 <% layout('layouts/boilerplate') %>
 
-  <div class="d-flex">
-    <%- include("../includes/admin_sidebar.ejs") %>
+<div class="d-flex">
+  <%- include("../includes/admin_sidebar.ejs") %>
 
-    <main class="main-content flex-grow-1">
-      <!-- Header -->
-      <div class="dashboard-header">
-        <div>
-          <h2>Welcome, Admin</h2>
-          <p>Here’s an overview of your uploaded content.</p>
-        </div>
-        <a href="/video_upload" class="upload-btn">
-  <i class="fa-solid fa-upload me-2"></i> Upload a Video
-</a>
+  <main class="main-content flex-grow-1">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h2>Welcome, Admin</h2>
+        <p>Here’s an overview of your uploaded content.</p>
+      </div>
+      <a href="/video_upload" class="upload-btn">
+        <i class="fa-solid fa-upload me-2"></i> Upload a Video
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fa-solid fa-video"></i>
+        <h5>Total Videos</h5>
+        <p>24 Uploaded</p>
       </div>
 
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <i class="fa-solid fa-video"></i>
-          <h5>Total Videos</h5>
-          <p>24 Uploaded</p>
-        </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-book"></i>
+        <h5>Total Courses</h5>
+        <p>8 Active Courses</p>
+      </div>
+    </div>
 
-        <div class="stat-card">
-          <i class="fa-solid fa-book"></i>
-          <h5>Total Courses</h5>
-          <p>8 Active Courses</p>
-        </div>
+    <!-- Uploaded Videos Table -->
+    <div class="table-section">
+      <div class="table-header">
+        <h5><i class="fa-solid fa-film me-2"></i> Uploaded Videos</h5>
+        <button class="btn btn-outline-light btn-sm">
+          <i class="fa-solid fa-rotate-right me-1"></i> Refresh
+        </button>
       </div>
 
-      <!-- Uploaded Videos Table -->
-      <div class="table-section">
-        <div class="table-header">
-          <h5><i class="fa-solid fa-film me-2"></i> Uploaded Videos</h5>
-          <button class="btn btn-outline-light btn-sm">
-            <i class="fa-solid fa-rotate-right me-1"></i> Refresh
-          </button>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table mb-0">
-            <thead>
-              <tr>
-                <th>Course Name</th>
-                <th>Topic</th>
-                <th>Date</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Web Development</td>
-                <td>Intro to HTML</td>
-                <td>2025-10-18</td>
-                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button></td>
-              </tr>
-              <tr>
-                <td>Data Structures</td>
-                <td>Linked Lists</td>
-                <td>2025-10-19</td>
-                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button></td>
-              </tr>
-              <tr>
-                <td>Computer Networks</td>
-                <td>OSI Model</td>
-                <td>2025-10-17</td>
-                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button></td>
-              </tr>
-              <tr>
-                <td>Database Systems</td>
-                <td>SQL Basics</td>
-                <td>2025-10-16</td>
-                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i> Delete</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Topic</th>
+              <th>Date</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Web Development</td>
+              <td>Intro to HTML</td>
+              <td>2025-10-18</td>
+              <td>
+                <button class="btn-delete">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Data Structures</td>
+              <td>Linked Lists</td>
+              <td>2025-10-19</td>
+              <td>
+                <button class="btn-delete">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Computer Networks</td>
+              <td>OSI Model</td>
+              <td>2025-10-17</td>
+              <td>
+                <button class="btn-delete">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Database Systems</td>
+              <td>SQL Basics</td>
+              <td>2025-10-16</td>
+              <td>
+                <button class="btn-delete">
+                  <i class="fa-solid fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
+</div>

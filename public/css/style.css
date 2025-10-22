@@ -705,6 +705,8 @@ label {
   color: #f0f0f0;
 }
 
+
+
 .dashboard-header p {
   color: #f0f0f0;
   font-size: 1rem;
@@ -809,4 +811,66 @@ label {
   background-color: #f9fafc;
   min-height: 100vh;
   transition: all 0.4s ease;
+}
+
+/* === Certificates Page (Clean Theme) === */
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* narrower width */
+  gap: 2rem;
+  margin-top: 1.5rem;
+  justify-items: center;
+}
+
+.certificate-card {
+  width: 90%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.certificate-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Blue theme banner */
+.certificate-banner {
+  background: linear-gradient(135deg, #003366, #0059b3);
+  color: #fff;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+}
+
+.certificate-body {
+  padding: 1.3rem;
+}
+
+.certificate-body h5 {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.btn-download {
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+  background-color: #00264d;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
 }
