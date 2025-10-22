@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= courseName %> | Course</title>
+
+    <!-- Bootstrap (optional) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f9fafc;
+        margin: 0;
+        padding: 0;
+      }
+
+      .video-page {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .topic-sidebar {
+        width: 300px;
+        background: #ffffff;
+        border-right: 1px solid #e0e0e0;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .topic-sidebar h4 {
+        font-weight: 600;
+        color: #004aad;
+        margin-bottom: 20px;
+      }
+
+      .topic-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .topic-list li {
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        background: #f1f4f9;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+
+      .topic-list li.active,
+      .topic-list li:hover {
+        background: #004aad;
+        color: #fff;
+      }
+
+      .topic-list li a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      /* Main video area */
+      .video-player {
+        flex: 1;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .video-box {
+        width: 90%;
+        max-width: 900px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      video {
+        width: 100%;
+        border-radius: 12px;
+      }
+
+      .video-info {
+        width: 90%;
+        max-width: 900px;
+        margin-top: 20px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .video-info h3 {
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .video-info p {
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="video-page">
+      <!-- Sidebar -->
+      <aside class="topic-sidebar">
+        <h4>Course Topics</h4>
+        <ul class="topic-list">
+          <% videos.forEach(video => { %>
+          <li class="<%= currentVideo && video._id.toString() === currentVideo._id.toString() ? 'active' : '' %>">
+            <a href="/course/<%= encodeURIComponent(video.course) %>?v=<%= video._id %>"><%= video.topic %></a>
+          </li>
+          <% }) %>
+        </ul>
+      </aside>
+
+      <!-- Main Video Section -->
+      <section class="video-player">
+        <% if (currentVideo) { %>
+        <div class="video-box">
+          <video controls poster="<%= currentVideo.thumbnailUrl %>">
+            <source src="<%= currentVideo.videoUrl %>" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="video-info">
+          <h3><strong>Topic:</strong> <%= currentVideo.topic %></h3>
+          <% if (currentVideo.description) { %>
+          <p><strong>Description:</strong> <%= currentVideo.description %></p>
+          <% } %> <% if (currentVideo.summary) { %>
+          <hr />
+          <p><strong>Summary:</strong> <%= currentVideo.summary %></p>
+          <% } %>
+        </div>
+
+        <% } else { %>
+        <p style="margin-top: 40px; color: #777">Select a topic to start learning.</p>
+        <% } %>
+      </section>
+    </div>
+  </body>
+</html>

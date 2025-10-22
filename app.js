@@ -69,9 +69,9 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-app.get("/userdashboard", (req, res) => {
-  res.render("includes/user_dashboard.ejs", { page: "userdashboard" });
-});
+// app.get("/userdashboard", (req, res) => {
+//   res.render("includes/user_dashboard.ejs", { page: "userdashboard" });
+// });
 
 app.get("/admindashboard", (req, res) => {
   res.render("includes/admin_dashboard", { page: "admindashboard" });
@@ -156,6 +156,89 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Upload failed");
+  }
+});
+
+// app.get("/show-videos", async (req, res) => {
+//   try {
+//     const videos = await videoModel.find().sort({ createdAt: -1 });
+//     res.render("showVideos", { videos });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error loading videos");
+//   }
+// });
+
+// app.get("/course/:courseName", async (req, res) => {
+//   try {
+//     const courseName = req.params.courseName;
+//     const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
+
+//     const selectedVideoId = req.query.v;
+//     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0];
+
+//     res.render("includes/show.ejs", { videos, courseName });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error loading course videos");
+//   }
+// });
+
+// app.get("/course/:courseName", async (req, res) => {
+//   try {
+//     const courseName = decodeURIComponent(req.params.courseName);
+
+//     // Get all videos for that course
+//     const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
+
+//     // Check if a specific video is requested using ?v=videoId
+//     const selectedVideoId = req.query.v;
+
+//     // If ?v= is passed, find that video; otherwise, take the first one
+//     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0];
+
+//     // Render show.ejs and pass everything
+//     res.render("includes/show", { videos, currentVideo, courseName });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error loading course videos");
+//   }
+// });
+
+app.get("/course/:courseName", async (req, res) => {
+  try {
+    const courseName = decodeURIComponent(req.params.courseName);
+
+    // get all videos of that course
+    const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
+
+    // check which video is selected
+    const selectedVideoId = req.query.v;
+    const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0]; // default = first video
+
+    res.render("includes/show", { videos, currentVideo, courseName });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading course videos");
+  }
+});
+
+app.get("/userdashboard", async (req, res) => {
+  try {
+    // Get unique course names from all videos
+    const courses = await videoModel.distinct("course");
+
+    // If you want, you can also fetch some videos for thumbnails
+    const courseThumbnails = {};
+    for (const course of courses) {
+      // const firstVideo = await videoModel.findOne({ course });
+      courseThumbnails[course] = "";
+    }
+    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails });
+    // res.render("user/userdashboard", { courses, courseThumbnails });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading dashboard");
   }
 });
 
