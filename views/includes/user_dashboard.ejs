@@ -1,5 +1,119 @@
 <% layout('layouts/boilerplate') %>
 
+<!-- <style>
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .course-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 280px; /* ✅ Square-like shape */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .course-card img {
+    width: 100%;
+    height: 150px; /* ✅ Keeps image square proportion */
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .course-card h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0 5px;
+  }
+
+  .btn-continue {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+</style> -->
+
+<style>
+  /* ===== Course Grid (Container) ===== */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+  }
+
+  /* ===== Course Card ===== */
+  .course-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 280px; /* ✅ Square shape */
+    cursor: pointer;
+  }
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  } /* ===== Course Title ===== */
+  .course-card h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #002b80;
+    margin-bottom: 8px;
+  } /* ===== Progress Section ===== */
+  .course-card p {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 6px;
+  }
+  .progress {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    background-color: #004aad;
+    height: 100%;
+    border-radius: 8px;
+  } /* ===== Continue Button ===== */
+  .btn-continue {
+    background-color: #004aad;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: 0.3s;
+    align-self: flex-start;
+  }
+  .btn-continue:hover {
+    background-color: #00337c;
+  }
+</style>
+
 <div class="d-flex">
   <%- include("../includes/user_sidebar.ejs") %>
 
@@ -13,7 +127,7 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div>
-          <div class="stat-number">6</div>
+          <div class="stat-number"><%= courses.length %></div>
           <div class="stat-label">Enrolled Courses</div>
         </div>
         <i class="fa-solid fa-book-open"></i>
@@ -21,7 +135,7 @@
 
       <div class="stat-card">
         <div>
-          <div class="stat-number">12</div>
+          <div class="stat-number">0</div>
           <div class="stat-label">Completed Courses</div>
         </div>
         <i class="fa-solid fa-circle-check"></i>
@@ -29,7 +143,7 @@
 
       <div class="stat-card">
         <div>
-          <div class="stat-number">8</div>
+          <div class="stat-number">0</div>
           <div class="stat-label">Certificates Earned</div>
         </div>
         <i class="fa-solid fa-award"></i>
@@ -37,7 +151,7 @@
 
       <div class="stat-card">
         <div>
-          <div class="stat-number">142</div>
+          <div class="stat-number">0</div>
           <div class="stat-label">Study Hours</div>
         </div>
         <i class="fa-solid fa-clock"></i>
@@ -47,33 +161,22 @@
     <!-- Continue Learning -->
     <div class="mt-5">
       <h4>Continue Learning</h4>
+
       <div class="course-grid">
+        <% if (courses.length > 0) { %> <% courses.forEach(course => { %>
         <div class="course-card">
-          <h5>Introduction to Computer Science</h5>
-          <p class="mb-2 small text-secondary">Progress: 75%</p>
-          <div class="progress mb-2">
-            <div class="progress-bar" style="width: 75%"></div>
-          </div>
-          <button class="btn-continue">Continue Learning</button>
-        </div>
+          <h5><%= course %></h5>
+          <p class="mb-2 small text-secondary">Your learning progress is ongoing...</p>
 
-        <div class="course-card">
-          <h5>Data Structures and Algorithms</h5>
-          <p class="mb-2 small text-secondary">Progress: 45%</p>
           <div class="progress mb-2">
-            <div class="progress-bar" style="width: 45%"></div>
+            <div class="progress-bar" style="width: 60%"></div>
           </div>
-          <button class="btn-continue">Continue Learning</button>
-        </div>
 
-        <div class="course-card">
-          <h5>Web Development Fundamentals</h5>
-          <p class="mb-2 small text-secondary">Progress: 90%</p>
-          <div class="progress mb-2">
-            <div class="progress-bar" style="width: 90%"></div>
-          </div>
-          <button class="btn-continue">Continue Learning</button>
+          <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">Continue Learning</button>
         </div>
+        <% }) %> <% } else { %>
+        <p>No courses available yet. Please check back later.</p>
+        <% } %>
       </div>
     </div>
   </main>
