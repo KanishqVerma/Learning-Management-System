@@ -11,13 +11,11 @@
 <body>
     <div class="page-container">
       <main class="content">
-        <%- include("../includes/header.ejs") %>
-
-    
+        <% if (page === "home" || page === "login" || page==="signup" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %>
 
         <div>
-          <!-- // landing page isme likhna -->
-           <%- include("../includes/landing.ejs") %>
+          <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" || page==="about") { %> <%- body
+          %> <% } %>
         </div>
 
       </main>
