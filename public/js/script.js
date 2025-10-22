@@ -22,21 +22,6 @@
   });
 })();
 
-// Pop animation for the pass card
-// document.addEventListener("DOMContentLoaded", () => {
-//   const passCard = document.getElementById("passCard");
-
-//   if (passCard) {
-//     passCard.addEventListener("click", () => {
-//       passCard.classList.add("pop");
-
-//       setTimeout(() => {
-//         passCard.classList.remove("pop");
-//       }, 300);
-//     });
-//   }
-// });
-
 window.addEventListener("scroll", function() {
   const navbar = document.querySelector(".navbar");
   if (window.scrollY > 50) {
@@ -45,3 +30,20 @@ window.addEventListener("scroll", function() {
     navbar.classList.remove("scrolled");
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const courseSelect = document.getElementById("courseSelect");
+    const newCourseInput = document.getElementById("newCourseInput");
+
+    courseSelect.addEventListener("change", function () {
+      if (this.value === "new") {
+        newCourseInput.classList.remove("d-none");
+        newCourseInput.required = true;
+        newCourseInput.focus();
+      } else {
+        newCourseInput.classList.add("d-none");
+        newCourseInput.required = false;
+        newCourseInput.value = "";
+      }
+    });
+  });

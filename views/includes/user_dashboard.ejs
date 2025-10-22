@@ -1,207 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | College LMS</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    /* Dashboard Layout */
-    .dashboard-header h2 {
-      font-weight: 700;
-      color: #111827;
-    }
+<% layout('layouts/boilerplate') %>
 
-    .dashboard-header p {
-      color: #6b7280;
-      font-size: 1rem;
-    }
+<div class="d-flex">
+  <%- include("../includes/user_sidebar.ejs") %>
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
+  <main class="main-content flex-grow-1">
+    <div class="dashboard-header">
+      <h2>Dashboard</h2>
+      <p>Welcome back! Here’s your learning overview.</p>
+    </div>
 
-    .stat-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    }
-
-    .stat-card i {
-      font-size: 1.8rem;
-      color: #003366;
-    }
-
-    .stat-card .stat-number {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #111827;
-    }
-
-    .stat-card .stat-label {
-      font-size: 0.95rem;
-      color: #6b7280;
-    }
-
-    /* Continue Learning Section */
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .course-card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
-      padding: 1.5rem;
-      transition: all 0.3s ease;
-    }
-
-    .course-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-
-    .course-card h5 {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .progress {
-      height: 8px;
-      background: #e5e7eb;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      background-color: #003366;
-    }
-
-    .btn-continue {
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      width: 100%;
-      margin-top: 1rem;
-      padding: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-continue:hover {
-      background-color: #00264d;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
-    }
-
-    .main-content {
-      margin-left: 270px;
-      padding: 2.5rem;
-      background-color: #f9fafc;
-      min-height: 100vh;
-      transition: all 0.4s ease;
-    }
-  </style>
-</head>
-<body>
-  <div class="d-flex">
-    <%- include("../includes/user_sidebar.ejs") %>
-
-    <main class="main-content flex-grow-1">
-      <div class="dashboard-header">
-        <h2>Dashboard</h2>
-        <p>Welcome back! Here’s your learning overview.</p>
+    <!-- Stats Section -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div>
+          <div class="stat-number">6</div>
+          <div class="stat-label">Enrolled Courses</div>
+        </div>
+        <i class="fa-solid fa-book-open"></i>
       </div>
 
-      <!-- Stats Section -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div>
-            <div class="stat-number">6</div>
-            <div class="stat-label">Enrolled Courses</div>
-          </div>
-          <i class="fa-solid fa-book-open"></i>
+      <div class="stat-card">
+        <div>
+          <div class="stat-number">12</div>
+          <div class="stat-label">Completed Courses</div>
         </div>
-
-        <div class="stat-card">
-          <div>
-            <div class="stat-number">12</div>
-            <div class="stat-label">Completed Courses</div>
-          </div>
-          <i class="fa-solid fa-circle-check"></i>
-        </div>
-
-        <div class="stat-card">
-          <div>
-            <div class="stat-number">8</div>
-            <div class="stat-label">Certificates Earned</div>
-          </div>
-          <i class="fa-solid fa-award"></i>
-        </div>
-
-        <div class="stat-card">
-          <div>
-            <div class="stat-number">142</div>
-            <div class="stat-label">Study Hours</div>
-          </div>
-          <i class="fa-solid fa-clock"></i>
-        </div>
+        <i class="fa-solid fa-circle-check"></i>
       </div>
 
-      <!-- Continue Learning -->
-      <div class="mt-5">
-        <h4>Continue Learning</h4>
-        <div class="course-grid">
-          <div class="course-card">
-            <h5>Introduction to Computer Science</h5>
-            <p class="text-muted mb-1">CS101 &middot; Dr. Sarah Johnson</p>
-            <p class="mb-2 small text-secondary">Progress: 75%</p>
-            <div class="progress mb-2">
-              <div class="progress-bar" style="width: 75%;"></div>
-            </div>
-            <button class="btn-continue">Continue Learning</button>
-          </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-number">8</div>
+          <div class="stat-label">Certificates Earned</div>
+        </div>
+        <i class="fa-solid fa-award"></i>
+      </div>
 
-          <div class="course-card">
-            <h5>Data Structures and Algorithms</h5>
-            <p class="text-muted mb-1">CS201 &middot; Prof. Michael Chen</p>
-            <p class="mb-2 small text-secondary">Progress: 45%</p>
-            <div class="progress mb-2">
-              <div class="progress-bar" style="width: 45%;"></div>
-            </div>
-            <button class="btn-continue">Continue Learning</button>
-          </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-number">142</div>
+          <div class="stat-label">Study Hours</div>
+        </div>
+        <i class="fa-solid fa-clock"></i>
+      </div>
+    </div>
 
-          <div class="course-card">
-            <h5>Web Development Fundamentals</h5>
-            <p class="text-muted mb-1">WD101 &middot; Dr. Emily Rodriguez</p>
-            <p class="mb-2 small text-secondary">Progress: 90%</p>
-            <div class="progress mb-2">
-              <div class="progress-bar" style="width: 90%;"></div>
-            </div>
-            <button class="btn-continue">Continue Learning</button>
+    <!-- Continue Learning -->
+    <div class="mt-5">
+      <h4>Continue Learning</h4>
+      <div class="course-grid">
+        <div class="course-card">
+          <h5>Introduction to Computer Science</h5>
+          <p class="text-muted mb-1">CS101 &middot; Dr. Sarah Johnson</p>
+          <p class="mb-2 small text-secondary">Progress: 75%</p>
+          <div class="progress mb-2">
+            <div class="progress-bar" style="width: 75%"></div>
           </div>
+          <button class="btn-continue">Continue Learning</button>
+        </div>
+
+        <div class="course-card">
+          <h5>Data Structures and Algorithms</h5>
+          <p class="text-muted mb-1">CS201 &middot; Prof. Michael Chen</p>
+          <p class="mb-2 small text-secondary">Progress: 45%</p>
+          <div class="progress mb-2">
+            <div class="progress-bar" style="width: 45%"></div>
+          </div>
+          <button class="btn-continue">Continue Learning</button>
+        </div>
+
+        <div class="course-card">
+          <h5>Web Development Fundamentals</h5>
+          <p class="text-muted mb-1">WD101 &middot; Dr. Emily Rodriguez</p>
+          <p class="mb-2 small text-secondary">Progress: 90%</p>
+          <div class="progress mb-2">
+            <div class="progress-bar" style="width: 90%"></div>
+          </div>
+          <button class="btn-continue">Continue Learning</button>
         </div>
       </div>
-    </main>
-  </div>
-</body>
-</html>
+    </div>
+  </main>
+</div>
