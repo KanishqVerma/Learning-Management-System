@@ -22,7 +22,7 @@
   });
 })();
 
-window.addEventListener("scroll", function() {
+window.addEventListener("scroll", function () {
   const navbar = document.querySelector(".navbar");
   if (window.scrollY > 50) {
     navbar.classList.add("scrolled");
@@ -32,18 +32,35 @@ window.addEventListener("scroll", function() {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const courseSelect = document.getElementById("courseSelect");
-    const newCourseInput = document.getElementById("newCourseInput");
+  const courseSelect = document.getElementById("courseSelect");
+  const newCourseInput = document.getElementById("newCourseInput");
 
-    courseSelect.addEventListener("change", function () {
-      if (this.value === "new") {
-        newCourseInput.classList.remove("d-none");
-        newCourseInput.required = true;
-        newCourseInput.focus();
-      } else {
-        newCourseInput.classList.add("d-none");
-        newCourseInput.required = false;
-        newCourseInput.value = "";
-      }
-    });
+  courseSelect.addEventListener("change", function () {
+    if (this.value === "new") {
+      newCourseInput.classList.remove("d-none");
+      newCourseInput.required = true;
+      newCourseInput.focus();
+    } else {
+      newCourseInput.classList.add("d-none");
+      newCourseInput.required = false;
+      newCourseInput.value = "";
+    }
   });
+});
+
+// FAQ Search Functionality
+document.getElementById("faqSearch").addEventListener("keyup", function () {
+  const searchValue = this.value.toLowerCase();
+  const items = document.querySelectorAll(".accordion-item");
+
+  items.forEach((item) => {
+    const question = item
+      .querySelector(".accordion-button")
+      .textContent.toLowerCase();
+    if (question.includes(searchValue)) {
+      item.style.display = "";
+    } else {
+      item.style.display = "none";
+    }
+  });
+});

@@ -97,6 +97,10 @@ app.get("/help", (req, res) => {
   res.render("includes/help", { page: "help" });
 });
 
+app.get("/developed_by", (req, res) => {
+  res.render("includes/developed_by", { page: "developed_by" });
+});
+
 // Logout → back to landing
 app.post("/logout", (req, res) => {
   res.redirect("/");
