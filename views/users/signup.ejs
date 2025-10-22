@@ -3,7 +3,7 @@
 <div class="container d-flex justify-content-center align-items-center" 
      style="min-height: 100vh; background-color: #f0f4f9; margin-top: 40px;">
   <div class="card shadow-lg border-0 p-5" 
-       style="width: 38rem; border-radius: 16px;">
+       style="width: 40rem; border-radius: 16px;">
        
     <div class="text-center mb-4">
       <div
@@ -18,57 +18,52 @@
 
     <!-- Signup Form -->
     <form action="/signup" method="POST" class="signup-box">
-      <div class="row">
-        <!-- College ID -->
-        <div class="mb-3 col-md-6">
-          <label for="collegeId" class="form-label fw-semibold" style="color: #003366;">College ID</label>
-          <input type="text" class="form-control" id="collegeId" name="collegeId" placeholder="Enter college ID" required />
-        </div>
+      <div class="row g-3">
 
         <!-- Enrollment ID -->
-        <div class="mb-3 col-md-6">
+        <div class="col-md-6">
           <label for="enrollmentId" class="form-label fw-semibold" style="color: #003366;">Enrollment ID</label>
           <input type="text" class="form-control" id="enrollmentId" name="enrollmentId" placeholder="Enter enrollment ID" required />
         </div>
-      </div>
 
-      <div class="row">
         <!-- Full Name -->
-        <div class="mb-3 col-md-6">
+        <div class="col-md-6">
           <label for="name" class="form-label fw-semibold" style="color: #003366;">Full Name</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Enter full name" required />
         </div>
 
         <!-- College Name -->
-        <div class="mb-3 col-md-6">
+        <div class="col-md-6">
           <label for="collegeName" class="form-label fw-semibold" style="color: #003366;">College Name</label>
           <input type="text" class="form-control" id="collegeName" name="collegeName" placeholder="Enter college name" required />
         </div>
-      </div>
 
-      <!-- Passwords -->
-      <div class="row">
-        <div class="mb-3 col-md-6">
+        <!-- Batch -->
+        <div class="col-md-6">
+          <label for="collegeBatch" class="form-label fw-semibold" style="color: #003366;">Batch</label>
+          <input type="text" class="form-control" id="collegeBatch" name="collegeBatch" placeholder="e.g. 2021–2025" required />
+        </div>
+
+        <!-- Create Password -->
+        <div class="col-md-6">
           <label for="password" class="form-label fw-semibold" style="color: #003366;">Create Password</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="New Password" required />
         </div>
-        <div class="mb-3 col-md-6">
+
+        <!-- Confirm Password -->
+        <div class="col-md-6">
           <label for="confirmPassword" class="form-label fw-semibold" style="color: #003366;">Confirm Password</label>
           <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
         </div>
+
       </div>
 
       <button type="submit" 
-              class="btn w-100 fw-semibold"
+              class="btn w-100 fw-semibold mt-4"
               style="background-color: #003366; color: white; border-radius: 10px; 
                      padding: 12px 0; font-size: 1rem;">
-        Sign Up
+        Create Account
       </button>
     </form>
-
-    <p class="text-center mt-3 mb-0" style="font-size: 0.95rem;">
-      Already have an account?
-      <a href="/login" class="fw-semibold" style="color: #003366; text-decoration: none;">Login</a>
-    </p>
   </div>
 </div>
