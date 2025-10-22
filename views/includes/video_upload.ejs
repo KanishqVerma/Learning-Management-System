@@ -1,261 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Upload Video | College LMS</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
+<% layout('layouts/boilerplate') %>
 
-    <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const courseSelect = document.getElementById("courseSelect");
-    const newCourseInput = document.getElementById("newCourseInput");
+<div class="d-flex">
+  <!-- Sidebar -->
+  <%- include("../includes/admin_sidebar.ejs") %>
 
-    courseSelect.addEventListener("change", function () {
-      if (this.value === "new") {
-        newCourseInput.classList.remove("d-none");
-        newCourseInput.required = true;
-        newCourseInput.focus();
-      } else {
-        newCourseInput.classList.add("d-none");
-        newCourseInput.required = false;
-        newCourseInput.value = "";
-      }
-    });
-  });
-</script>
+  <main class="main-content flex-grow-1">
+    <div class="upload-header">
+      <h2><i class="fa-solid fa-upload me-2"></i>Upload a New Video</h2>
+      <p>
+        Fill out the form below to add your lecture video to the LMS database.
+      </p>
+    </div>
 
-    <style>
-      #newCourseInput {
-  transition: all 0.3s ease;
-}
-
-      body {
-        background-color: #f0f4f9;
-        font-family: "Segoe UI", sans-serif;
-      }
-
-      .main-content {
-        margin-left: 270px;
-        padding: 3rem 2.5rem;
-        min-height: 100vh;
-      }
-
-      /* Header */
-      .upload-header {
-        background: linear-gradient(90deg, #002b5c, #004080);
-        color: #fff;
-        padding: 2rem;
-        border-radius: 14px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-        margin-bottom: 2.5rem;
-        text-align: center;
-        animation: fadeInDown 0.8s ease;
-      }
-
-      .upload-header h2 {
-        font-weight: 600;
-        margin-bottom: 0.3rem;
-        font-size: 1.9rem;
-        letter-spacing: 0.5px;
-      }
-
-      .upload-header p {
-        color: #dbeafe;
-        font-size: 1rem;
-        margin: 0;
-      }
-
-      /* Form Container */
-      .upload-form {
-        background: #fff;
-        border-radius: 14px;
-        padding: 2.5rem 2rem;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-        max-width: 900px;
-        margin: auto;
-        transition: all 0.3s ease;
-        animation: fadeInUp 0.8s ease;
-      }
-
-      .upload-form:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
-      }
-
-      label {
-        font-weight: 600;
-        color: #1e293b;
-        margin-top: 1rem;
-        display: inline-block;
-      }
-
-      .form-control,
-      .form-select {
-        border-radius: 10px;
-        border: 1px solid #cbd5e1;
-        padding: 12px 15px;
-        transition: all 0.2s ease;
-      }
-
-      .form-control:focus,
-      .form-select:focus {
-        border-color: #004080;
-        box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.15);
-      }
-
-      /* Upload Button */
-      .btn-upload {
-        background: linear-gradient(90deg, #003366, #004c99);
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        padding: 12px 25px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        margin-top: 2rem;
-        letter-spacing: 0.3px;
-        box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
-      }
-
-      .btn-upload:hover {
-        background: linear-gradient(90deg, #004080, #0059b3);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 18px rgba(0, 51, 102, 0.3);
-      }
-
-      /* Divider */
-      .form-divider {
-        border-top: 2px dashed #dbeafe;
-        margin: 1.5rem 0;
-      }
-
-      /* Animations */
-      @keyframes fadeInDown {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="d-flex">
-      <!-- Sidebar -->
-      <%- include("../includes/admin_sidebar.ejs") %>
-
-      <main class="main-content flex-grow-1">
-        <div class="upload-header">
-          <h2><i class="fa-solid fa-upload me-2"></i>Upload a New Video</h2>
-          <p>
-            Fill out the form below to add your lecture video to the LMS
-            database.
-          </p>
+    <form class="upload-form">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label for="topic">📘 Topic</label>
+          <input
+            type="text"
+            id="topic"
+            name="topic"
+            class="form-control"
+            placeholder="Enter topic name"
+          />
         </div>
 
-        <form class="upload-form">
-          <div class="row g-4">
-            <div class="col-md-6">
-              <label for="topic">📘 Topic</label>
-              <input
-                type="text"
-                id="topic"
-                name="topic"
-                class="form-control"
-                placeholder="Enter topic name"
-              />
-            </div>
+        <div class="col-md-6">
+          <label for="courseSelect">🎓 Course</label>
+          <select id="courseSelect" name="course" class="form-select">
+            <option value="" disabled selected>Select a course</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Data Structures">Data Structures</option>
+            <option value="Database Systems">Database Systems</option>
+            <option value="Computer Networks">Computer Networks</option>
+            <option value="new">➕ New Course</option>
+          </select>
 
-            <div class="col-md-6">
-              <label for="courseSelect">🎓 Course</label>
-              <select id="courseSelect" name="course" class="form-select">
-                <option value="" disabled selected>Select a course</option>
-                <option value="Web Development">Web Development</option>
-                <option value="Data Structures">Data Structures</option>
-                <option value="Database Systems">Database Systems</option>
-                <option value="Computer Networks">Computer Networks</option>
-                <option value="new">➕ New Course</option>
-              </select>
+          <!-- Hidden input (only shown when user selects "New Course") -->
+          <input
+            type="text"
+            id="newCourseInput"
+            name="newCourse"
+            class="form-control mt-2 d-none"
+            placeholder="Enter new course name"
+          />
+        </div>
 
-              <!-- Hidden input (only shown when user selects "New Course") -->
-              <input
-                type="text"
-                id="newCourseInput"
-                name="newCourse"
-                class="form-control mt-2 d-none"
-                placeholder="Enter new course name"
-              />
-            </div>
+        <div class="form-divider"></div>
 
-            <div class="form-divider"></div>
+        <div class="col-12">
+          <label for="description">📝 Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            class="form-control"
+            placeholder="Write a brief description about this topic..."
+          ></textarea>
+        </div>
 
-            <div class="col-12">
-              <label for="description">📝 Description</label>
-              <textarea
-                id="description"
-                name="description"
-                rows="3"
-                class="form-control"
-                placeholder="Write a brief description about this topic..."
-              ></textarea>
-            </div>
+        <div class="col-12">
+          <label for="summary">🧾 Summary</label>
+          <textarea
+            id="summary"
+            name="summary"
+            rows="2"
+            class="form-control"
+            placeholder="Add a short summary (key points covered)..."
+          ></textarea>
+        </div>
 
-            <div class="col-12">
-              <label for="summary">🧾 Summary</label>
-              <textarea
-                id="summary"
-                name="summary"
-                rows="2"
-                class="form-control"
-                placeholder="Add a short summary (key points covered)..."
-              ></textarea>
-            </div>
+        <div class="form-divider"></div>
 
-            <div class="form-divider"></div>
+        <div class="col-12">
+          <label for="video">🎥 Upload Video File</label>
+          <input
+            type="file"
+            id="video"
+            name="video"
+            class="form-control"
+            accept="video/*"
+          />
+        </div>
 
-            <div class="col-12">
-              <label for="video">🎥 Upload Video File</label>
-              <input
-                type="file"
-                id="video"
-                name="video"
-                class="form-control"
-                accept="video/*"
-              />
-            </div>
-
-            <div class="col-12 text-center">
-              <button type="submit" class="btn-upload">
-                <i class="fa-solid fa-cloud-arrow-up me-2"></i> Upload Video
-              </button>
-            </div>
-          </div>
-        </form>
-      </main>
-    </div>
-  </body>
-</html>
+        <div class="col-12 text-center">
+          <button type="submit" class="btn-upload">
+            <i class="fa-solid fa-cloud-arrow-up me-2"></i> Upload Video
+          </button>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
