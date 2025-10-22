@@ -1,11 +1,20 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="d-flex flex-column">
-  <!-- Main Content -->
-  <main class="main-content profile-page">
+<div class="d-flex">
+  <main class="main-content flex-grow-1">
+
+    <!-- Page Header (like Certificates page) -->
+    <div class="dashboard-header mb-4">
+      <div>
+        <h2>Profile</h2>
+        <p>View and manage your personal details</p>
+      </div>
+    </div>
+
+    <!-- Profile Section -->
     <div class="container-fluid d-flex flex-column align-items-center justify-content-start profile-container">
 
-      <h2 class="profile-title">Profile</h2>
+      <h2 class="profile-title">Details</h2>
       <p class="profile-subtitle">Your academic details</p>
 
       <div class="profile-card text-center shadow-lg">
@@ -30,3 +39,4 @@
     </div>
   </main>
 </div>
+
