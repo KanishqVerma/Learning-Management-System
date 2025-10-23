@@ -957,7 +957,7 @@ label {
 /* === Certificates Page (Clean Theme) === */
 .certificate-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* narrower width */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   margin-top: 1.5rem;
   justify-items: center;
@@ -970,7 +970,10 @@ label {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: all 0.3s ease;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .certificate-card:hover {
@@ -978,7 +981,7 @@ label {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
 }
 
-/* Blue theme banner */
+/* Blue banner */
 .certificate-banner {
   background: linear-gradient(135deg, #003366, #0059b3);
   color: #fff;
@@ -990,31 +993,61 @@ label {
 }
 
 .certificate-body {
-  padding: 1.3rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.3rem 1rem 1.5rem;
+  text-align: center;
 }
 
 .certificate-body h5 {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 600;
   color: #111827;
   font-size: 1.05rem;
-  line-height: 1.4;
+  margin-bottom: 1rem;
 }
 
+/* --- Download Button --- */
 .btn-download {
-  background-color: #003366;
-  color: white;
+  background: linear-gradient(135deg, #003366, #0059b3);
+  color: #fff;
+  font-weight: 600;
   border: none;
-  border-radius: 8px;
-  width: 100%;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 9px 18px;
+  text-decoration: none;
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 3px 8px rgba(0, 51, 102, 0.15);
+  width: auto;              /* ✅ not full width */
+  min-width: 170px;         /* ✅ consistent size */
+  margin-top: auto;         /* ✅ stays at bottom */
+}
+
+.btn-download i {
+  font-size: 0.9rem;
 }
 
 .btn-download:hover {
-  background-color: #00264d;
   transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
+  box-shadow: 0 8px 18px rgba(0, 51, 102, 0.25);
+  filter: brightness(1.1);
 }
+
+.btn-download:active {
+  transform: scale(0.98);
+}
+
+
 
 /* === SIGNUP PAGE === */
 .signup-box .form-control {
