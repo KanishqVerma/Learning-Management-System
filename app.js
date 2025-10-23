@@ -16,7 +16,7 @@ const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
 const { URLSearchParams } = require("url");
-
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
@@ -290,6 +290,6 @@ app.post("/deleteuser/:id", async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });
