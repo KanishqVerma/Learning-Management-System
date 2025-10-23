@@ -73,9 +73,32 @@ app.get("/", (req, res) => {
 //   res.render("includes/user_dashboard.ejs", { page: "userdashboard" });
 // });
 
-app.get("/admindashboard", (req, res) => {
-  res.render("includes/admin_dashboard", { page: "admindashboard" });
+
+// Admin Dashboard
+app.get("/admin/dashboard", async (req, res) => {
+  try {
+    const videos = await videoModel.find().sort({ createdAt: -1 }); // latest first
+    const totalVideos = videos.length;
+    const totalCourses = await videoModel.distinct("course");
+
+    res.render("includes/admin_dashboard", { page: "admindashboard" ,videos,totalCourses,totalVideos});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
+
+//Delete Video
+app.post("/video/delete/:id", async (req, res) => {
+  try {
+    await videoModel.findByIdAndDelete(req.params.id);
+    res.redirect("/admin/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 
 app.get("/video_upload", (req, res) => {
   res.render("includes/video_upload", { page: "video_upload" });
