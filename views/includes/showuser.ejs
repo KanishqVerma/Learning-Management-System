@@ -1,0 +1,176 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .main-content {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+  }
+
+  /* === HEADER === */
+  .dashboard-header {
+    background-color: #003366;
+    color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .dashboard-header h2 {
+    font-weight: 700;
+  }
+
+  /* === CARD === */
+  .videos-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .videos-header {
+    background-color: #003366;
+    color: white;
+    padding: 1rem 1.5rem;
+  }
+
+  .videos-header h4 {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .btn-outline-secondary {
+    background-color: transparent;
+    border: 1.5px solid white;
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: 0.3s ease;
+  }
+
+  .btn-outline-secondary:hover {
+    background-color: white;
+    color: #003366;
+  }
+
+  /* === TABLE === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    font-weight: 600;
+    color: #555;
+  }
+
+  td, th {
+    padding: 0.75rem 1rem;
+    border: none;
+  }
+
+  tr {
+    background-color: #f9fafb;
+    transition: background-color 0.2s ease;
+  }
+
+  tr:hover {
+    background-color: #ffffff;
+  }
+
+  .btn-delete {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-delete:hover {
+    background-color: #c82333;
+  }
+</style>
+
+<div class="d-flex">
+
+  <main class="main-content flex-grow-1 p-4">
+    <!-- HEADER -->
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2>See Users</h2>
+        <p>View all registered students below.</p>
+      </div>
+    </div>
+
+    <!-- USERS TABLE CARD -->
+    <div class="videos-card mt-4">
+      <div class="videos-header d-flex justify-content-between align-items-center">
+        <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
+        <button class="btn btn-outline-secondary btn-sm">
+          <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
+        </button>
+      </div>
+
+      <div class="table-responsive p-3">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Batch</th>
+              <th>College Name</th>
+              <th>Enrollment ID</th>
+              <th>Password</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Static sample data -->
+            <tr>
+              <td>Yana Verma</td>
+              <td>2022–2026</td>
+              <td>GTB4CEC</td>
+              <td>GTB22CSE001</td>
+              <td>yana123</td>
+              <td>
+                <button class="btn btn-delete">
+                  <i class="fa-solid fa-trash me-1"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Adarsh Kumar</td>
+              <td>2021–2025</td>
+              <td>GTB4CEC</td>
+              <td>GTB21CSE014</td>
+              <td>adarsh@lms</td>
+              <td>
+                <button class="btn btn-delete">
+                  <i class="fa-solid fa-trash me-1"></i> Delete
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>Riya Sharma</td>
+              <td>2023–2027</td>
+              <td>GTB4CEC</td>
+              <td>GTB23ECE003</td>
+              <td>riya@123</td>
+              <td>
+                <button class="btn btn-delete">
+                  <i class="fa-solid fa-trash me-1"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
