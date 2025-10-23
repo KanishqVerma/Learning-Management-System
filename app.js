@@ -81,8 +81,20 @@ app.get("/video_upload", (req, res) => {
   res.render("includes/video_upload", { page: "video_upload" });
 });
 
-app.get("/courses", (req, res) => {
-  res.render("includes/courses", { page: "courses" });
+app.get("/courses", async (req, res) => {
+  try {
+    // Fetch distinct course names from videos
+    const courses = await videoModel.distinct("course");
+
+    // Render template with courses array
+    res.render("includes/courses", {
+      page: "courses",
+      courses, // array of course names
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
 
 app.get("/certificates", (req, res) => {
