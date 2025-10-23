@@ -15,6 +15,7 @@ const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
+const { URLSearchParams } = require("url");
 
 // app.get("/",(req,res)=>{
 //     res.send("Hi , I am root");
@@ -74,9 +75,6 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-app.get("/showuser", (req, res) => {
-  res.render("includes/showuser.ejs", { page: "showuser" });
-});
 
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
@@ -235,27 +233,7 @@ app.get("/userdashboard", async (req, res) => {
   }
 });
 
-// Show users dynamically
-app.get("/showuser", async (req, res) => {
-  try {
-    const users = await userModel.find().lean();
-    res.render("/showuser", { users });
-  } catch (err) {
-    console.error("Error fetching users:", err);
-    res.status(500).send("Server Error");
-  }
-});
 
-// Delete a user from showuser page
-app.post("/deleteuser/:id", async (req, res) => {
-  try {
-    await userModel.findByIdAndDelete(req.params.id);
-    res.redirect("/showuser");
-  } catch (err) {
-    console.error("Error deleting user:", err);
-    res.status(500).send("Server Error");
-  }
-});
 
 //   try {
 //     const userId = req.user._id; // Assuming you have authentication middleware
@@ -292,7 +270,7 @@ app.post("/signup", async (req, res) => {
     const existing = await userModel.findOne({ enrollmentId });
     if (existing) return res.status(400).send("Email already registered");
 
-    const passwordHash = await bcrypt.hash(password, 100);
+    const passwordHash = await bcrypt.hash(password, 10);
     const passwordEncrypted = encrypt(password);
 
     const user = await userModel.create({ name, enrollmentId, passwordHash, passwordEncrypted, collegeName, batch });
@@ -300,6 +278,28 @@ app.post("/signup", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
+  }
+});
+
+// Showuser dynamically
+app.get("/showuser", async (req, res) => {
+  try {
+    const users = await userModel.find().lean();
+    res.render("includes/showuser.ejs", { page: "showuser" ,users});
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Delete a user from showuser page
+app.post("/deleteuser/:id", async (req, res) => {
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    res.redirect("/showuser");
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).send("Server Error");
   }
 });
 

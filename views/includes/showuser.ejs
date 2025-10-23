@@ -11,7 +11,6 @@
     min-height: 100vh;
   }
 
-  /* === HEADER === */
   .dashboard-header {
     background-color: #003366;
     color: white;
@@ -24,7 +23,6 @@
     font-weight: 700;
   }
 
-  /* === CARD === */
   .videos-card {
     background-color: #ffffff;
     border-radius: 12px;
@@ -58,7 +56,6 @@
     color: #003366;
   }
 
-  /* === TABLE === */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -100,7 +97,6 @@
 
 <div class="d-flex">
   <main class="main-content flex-grow-1 p-4">
-    <!-- HEADER -->
     <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
       <div>
         <h2>See Users</h2>
@@ -108,7 +104,6 @@
       </div>
     </div>
 
-    <!-- USERS TABLE CARD -->
     <div class="videos-card mt-4">
       <div class="videos-header d-flex justify-content-between align-items-center">
         <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
@@ -123,9 +118,9 @@
             <tr>
               <th>Name</th>
               <th>Batch</th>
-              <th>College Name</th>
+              <th>College</th>
               <th>Enrollment ID</th>
-              <th>Password</th>
+              <th>Password (Decrypted)</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -137,7 +132,7 @@
                   <td><%= user.batch %></td>
                   <td><%= user.collegeName %></td>
                   <td><%= user.enrollmentId %></td>
-                  <td><%= user.password %></td>
+                  <td><%= user.passwordEncrypted %></td>
                   <td>
                     <form action="/deleteuser/<%= user._id %>" method="POST" style="display:inline;">
                       <button type="submit" class="btn btn-delete">
@@ -158,3 +153,4 @@
     </div>
   </main>
 </div>
+
