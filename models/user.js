@@ -13,5 +13,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  enrolledCourses: [
+    {
+      course: String,       // course name
+      progress: { type: Number, default: 0 } // in percentage
+    }
+  ]
 });
 module.exports = mongoose.model("User", userSchema);

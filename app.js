@@ -32,9 +32,7 @@ mongoose
   .then(() => console.log("Mongodb connected"))
   .catch((err) => console.log("Error connecting mongodb", err));
 
-// For local uploads
-// const __filename = fileURLToPath(import.meta.url);
-// const _dirname = path.dirname(_filename);
+
 
 // Multer setup
 const storage = multer.diskStorage({
@@ -227,6 +225,31 @@ app.get("/userdashboard", async (req, res) => {
     res.status(500).send("Error loading dashboard");
   }
 });
+
+//   try {
+//     const userId = req.user._id; // Assuming you have authentication middleware
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).send("User not found");
+//     }
+
+//     // user.enrolledCourses contains courses with progress
+//     const courses = user.enrolledCourses; // [{ course: "Web Dev", progress: 60 }, ... ]
+
+//     // Optional: fetch thumbnails for each course
+//     const courseThumbnails = {};
+//     for (const c of courses) {
+//       const firstVideo = await videoModel.findOne({ course: c.course });
+//       courseThumbnails[c.course] = firstVideo ? firstVideo.thumbnailUrl : "";
+//     }
+
+//     res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error loading dashboard");
+//   }
+// });
 
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
