@@ -67,6 +67,9 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
+app.get("/showuser", (req, res) => {
+  res.render("includes/showuser.ejs", { page: "showuser" });
+});
 
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
@@ -199,8 +202,9 @@ app.get("/course/:courseName", async (req, res) => {
     // check which video is selected
     const selectedVideoId = req.query.v;
     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0]; // default = first video
+console.log(videos);
 
-    res.render("includes/show", { videos, currentVideo, courseName });
+    res.render("includes/show", { page: "show", videos, currentVideo, courseName });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error loading course videos");

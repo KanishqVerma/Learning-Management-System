@@ -1256,3 +1256,16 @@ label {
   background-color: #0059b3;
 }
 
+/* Show */
+  .topic-link {
+    color: #003366;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  .topic-link:hover {
+    background-color: #e6f0ff;
+  }
+  .active-topic {
+    background-color: #003366 !important;
+    color: #fff !important;
+  }
