@@ -10,6 +10,8 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const ejsMate = require("ejs-mate");
 const dotenv = require("dotenv");
+const { encrypt, decrypt } = require("./utils/crypto");
+const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
@@ -32,14 +34,19 @@ mongoose
   .then(() => console.log("Mongodb connected"))
   .catch((err) => console.log("Error connecting mongodb", err));
 
-
-
 // Multer setup
 const storage = multer.diskStorage({
   destination: "uploads/",
   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 const upload = multer({ storage });
+
+const KEY = process.env.PW_SECRET_KEY; // must be 32 bytes base64 or hex (see below)
+
+// helper to ensure key format
+if (!KEY) {
+  throw new Error("Set PW_SECRET_KEY env var (32 bytes base64 string).");
+}
 
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -78,7 +85,7 @@ app.get("/admin/dashboard", async (req, res) => {
     const totalVideos = videos.length;
     const totalCourses = await videoModel.distinct("course");
 
-    res.render("includes/admin_dashboard", { page: "admindashboard" ,videos,totalCourses,totalVideos});
+    res.render("includes/admin_dashboard", { page: "admindashboard", videos, totalCourses, totalVideos });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
@@ -95,7 +102,6 @@ app.post("/video/delete/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
 
 app.get("/video_upload", (req, res) => {
   res.render("includes/video_upload", { page: "video_upload" });
@@ -191,7 +197,6 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
   }
 });
 
-
 app.get("/course/:courseName", async (req, res) => {
   try {
     const courseName = decodeURIComponent(req.params.courseName);
@@ -202,7 +207,7 @@ app.get("/course/:courseName", async (req, res) => {
     // check which video is selected
     const selectedVideoId = req.query.v;
     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0]; // default = first video
-console.log(videos);
+    console.log(videos);
 
     res.render("includes/show", { page: "show", videos, currentVideo, courseName });
   } catch (err) {
@@ -276,6 +281,27 @@ app.post("/deleteuser/:id", async (req, res) => {
 //     res.status(500).send("Error loading dashboard");
 //   }
 // });
+
+// SIGNUP TRY
+app.post("/signup", async (req, res) => {
+  try {
+    const { name, enrollmentId, password, collegeName, batch } = req.body;
+
+    if (!enrollmentId || !password) return res.status(400).send("password and enrollmentID required");
+
+    const existing = await userModel.findOne({ enrollmentId });
+    if (existing) return res.status(400).send("Email already registered");
+
+    const passwordHash = await bcrypt.hash(password, 100);
+    const passwordEncrypted = encrypt(password);
+
+    const user = await userModel.create({ name, enrollmentId, passwordHash, passwordEncrypted, collegeName, batch });
+    res.status(201).json({ message: "Registered", userId: user._id });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
 
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
