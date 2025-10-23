@@ -99,7 +99,6 @@
 </style>
 
 <div class="d-flex">
-
   <main class="main-content flex-grow-1 p-4">
     <!-- HEADER -->
     <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
@@ -113,7 +112,7 @@
     <div class="videos-card mt-4">
       <div class="videos-header d-flex justify-content-between align-items-center">
         <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
-        <button class="btn btn-outline-secondary btn-sm">
+        <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm">
           <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
         </button>
       </div>
@@ -127,47 +126,32 @@
               <th>College Name</th>
               <th>Enrollment ID</th>
               <th>Password</th>
-              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Static sample data -->
-            <tr>
-              <td>Yana Verma</td>
-              <td>2022–2026</td>
-              <td>GTB4CEC</td>
-              <td>GTB22CSE001</td>
-              <td>yana123</td>
-              <td>
-                <button class="btn btn-delete">
-                  <i class="fa-solid fa-trash me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Adarsh Kumar</td>
-              <td>2021–2025</td>
-              <td>GTB4CEC</td>
-              <td>GTB21CSE014</td>
-              <td>adarsh@lms</td>
-              <td>
-                <button class="btn btn-delete">
-                  <i class="fa-solid fa-trash me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Riya Sharma</td>
-              <td>2023–2027</td>
-              <td>GTB4CEC</td>
-              <td>GTB23ECE003</td>
-              <td>riya@123</td>
-              <td>
-                <button class="btn btn-delete">
-                  <i class="fa-solid fa-trash me-1"></i> Delete
-                </button>
-              </td>
-            </tr>
+            <% if (users && users.length > 0) { %>
+              <% users.forEach(user => { %>
+                <tr>
+                  <td><%= user.name %></td>
+                  <td><%= user.batch %></td>
+                  <td><%= user.collegeName %></td>
+                  <td><%= user.enrollmentId %></td>
+                  <td><%= user.password %></td>
+                  <td>
+                    <form action="/deleteuser/<%= user._id %>" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-delete">
+                        <i class="fa-solid fa-trash me-1"></i> Delete
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="6" class="text-center text-muted">No registered users found.</td>
+              </tr>
+            <% } %>
           </tbody>
         </table>
       </div>

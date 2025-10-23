@@ -230,6 +230,28 @@ app.get("/userdashboard", async (req, res) => {
   }
 });
 
+// Show users dynamically
+app.get("/showuser", async (req, res) => {
+  try {
+    const users = await userModel.find().lean();
+    res.render("/showuser", { users });
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Delete a user from showuser page
+app.post("/deleteuser/:id", async (req, res) => {
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    res.redirect("/showuser");
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
 //   try {
 //     const userId = req.user._id; // Assuming you have authentication middleware
 //     const user = await User.findById(userId);
