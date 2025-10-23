@@ -78,6 +78,10 @@ app.get("/showuser", (req, res) => {
   res.render("includes/showuser.ejs", { page: "showuser" });
 });
 
+app.get("/show_certificate", (req, res) => {
+  res.render("includes/show_certificate.ejs", { page: "show_certificate" });
+});
+
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
   try {

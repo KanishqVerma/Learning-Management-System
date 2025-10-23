@@ -1,0 +1,158 @@
+<% layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background-color: #f4f7fb;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f7fb;
+    padding: 2rem;
+    position: relative;
+  }
+
+  /* --- Go Back Button --- */
+  .back-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px; /* moved to right */
+    background-color: white;
+    border: 1.5px solid #003366;
+    color: #003366;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .back-btn:hover {
+    background-color: #003366;
+    color: white;
+  }
+
+  /* --- Certificate --- */
+  .certificate-container {
+    position: relative;
+    background: white;
+    border: 6px solid #003366;
+    border-radius: 16px;
+    padding: 3rem 4rem;
+    width: 900px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    margin-top: 8rem; /* space for button & navbar */
+  }
+
+  .certificate-header {
+    color: #003366;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .certificate-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+
+  .certificate-body {
+    border-top: 2px dashed #003366;
+    border-bottom: 2px dashed #003366;
+    padding: 2rem 0;
+    margin: 2rem 0;
+  }
+
+  .cert-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .cert-text {
+    color: #555;
+    font-size: 1.1rem;
+    margin-top: 0.8rem;
+  }
+
+  .cert-course {
+    color: #003366;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  .certificate-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .signature-block {
+    text-align: left;
+  }
+
+  .signature-line {
+    width: 150px;
+    border-top: 2px solid #003366;
+    margin-bottom: 4px;
+  }
+
+  .signature-name {
+    font-weight: 600;
+    color: #003366;
+  }
+
+  .seal {
+    font-size: 3rem;
+    color: #003366;
+    opacity: 0.6;
+  }
+</style>
+
+<div class="main-content">
+  <!-- Go Back Button -->
+  <a href="/certificates" class="back-btn">
+    <i class="fa-solid fa-arrow-left me-2"></i> Go Back
+  </a>
+  <br><br><br><br>
+
+  <!-- Certificate -->
+  <div class="certificate-container">
+    <div class="certificate-header">Certificate of Completion</div>
+    <div class="certificate-subtitle">This is to proudly certify that</div>
+
+    <div class="certificate-body">
+      <div class="cert-name">Yana Malhotra</div>
+      <div class="cert-text">has successfully completed the course</div>
+      <div class="cert-course">"Web Development Fundamentals"</div>
+    </div>
+
+    <div class="certificate-footer">
+      <div class="signature-block">
+        <div class="signature-line"></div>
+        <div class="signature-name">Prof. Adarsh Kumar</div>
+        <div class="text-secondary">Course Instructor</div>
+      </div>
+      <div class="seal">
+        <i class="fa-solid fa-award"></i>
+      </div>
+      <div class="signature-block" style="text-align: right;">
+        <div class="signature-line"></div>
+        <div class="signature-name">GTB4CEC LMS</div>
+        <div class="text-secondary">Official Seal</div>
+      </div>
+    </div>
+  </div>
+</div>
