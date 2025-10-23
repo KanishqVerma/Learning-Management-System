@@ -15,6 +15,7 @@ const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
+const { URLSearchParams } = require("url");
 
 // app.get("/",(req,res)=>{
 //     res.send("Hi , I am root");
@@ -74,8 +75,9 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-app.get("/showuser", (req, res) => {
-  res.render("includes/showuser.ejs", { page: "showuser" });
+
+app.get("/show_certificate", (req, res) => {
+  res.render("includes/show_certificate.ejs", { page: "show_certificate" });
 });
 
 // Admin Dashboard
@@ -235,6 +237,8 @@ app.get("/userdashboard", async (req, res) => {
   }
 });
 
+
+
 //   try {
 //     const userId = req.user._id; // Assuming you have authentication middleware
 //     const user = await User.findById(userId);
@@ -281,6 +285,28 @@ app.post("/signup", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
+  }
+});
+
+// Showuser dynamically
+app.get("/showuser", async (req, res) => {
+  try {
+    const users = await userModel.find().lean();
+    res.render("includes/showuser.ejs", { page: "showuser" ,users});
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Delete a user from showuser page
+app.post("/deleteuser/:id", async (req, res) => {
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    res.redirect("/showuser");
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).send("Server Error");
   }
 });
 

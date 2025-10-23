@@ -11,16 +11,16 @@
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile") { %> <%-
+        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile"|| page==="show_certificate") { %> <%-
         include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %> <%- include("../includes/admin_sidebar.ejs") %> <% } %>
 
         <div>
-          <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" || page
+          <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" || page==="show_certificate" || page
           === "developed_by" || page==="about" || page === "courses" || page==="show" || page === "showuser") { %> <%- body %> <% } %>
         </div>
       </main>
 
-      <footer><%- include("../includes/footer.ejs") %></footer>
+      <footer><% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/footer.ejs") %> <% } %></footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
