@@ -75,7 +75,6 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-
 app.get("/show_certificate", (req, res) => {
   res.render("includes/show_certificate.ejs", { page: "show_certificate" });
 });
@@ -237,8 +236,6 @@ app.get("/userdashboard", async (req, res) => {
   }
 });
 
-
-
 //   try {
 //     const userId = req.user._id; // Assuming you have authentication middleware
 //     const user = await User.findById(userId);
@@ -268,7 +265,6 @@ app.get("/userdashboard", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     const { name, enrollmentId, password, collegeName, batch } = req.body;
-    console.log(req.body);
 
     if (!enrollmentId || !password) return res.status(400).send("password and enrollmentID required");
 
@@ -277,9 +273,8 @@ app.post("/signup", async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
     const passwordEncrypted = encrypt(password);
-    console.log("user se pehle");
+
     const user = await userModel.create({ name, enrollmentId, passwordHash, passwordEncrypted, collegeName, batch });
-    console.log(user);
 
     res.status(201).json({ message: "Registered", userId: user._id });
   } catch (err) {
@@ -289,10 +284,32 @@ app.post("/signup", async (req, res) => {
 });
 
 // Showuser dynamically
+// app.get("/showuser", async (req, res) => {
+//   try {
+//     const users = await userModel.find().lean();
+//     const plaintext = decrypt(users.passwordEncrypted);
+
+//     res.render("includes/showuser.ejs", { page: "showuser", users, plaintext });
+//   } catch (error) {
+//     console.error("Error fetching users:", error);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
 app.get("/showuser", async (req, res) => {
   try {
     const users = await userModel.find().lean();
-    res.render("includes/showuser.ejs", { page: "showuser" ,users});
+
+    // decrypt passwords for each user
+    const usersWithPlaintext = users.map((user) => {
+      const decryptedPassword = decrypt(user.passwordEncrypted);
+      return { ...user, plaintextPassword: decryptedPassword };
+    });
+
+    res.render("includes/showuser.ejs", {
+      page: "showuser",
+      users: usersWithPlaintext,
+    });
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).send("Server Error");
