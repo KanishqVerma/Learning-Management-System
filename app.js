@@ -264,16 +264,19 @@ app.get("/userdashboard", async (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     const { name, enrollmentId, password, collegeName, batch } = req.body;
+    console.log(req.body);
 
     if (!enrollmentId || !password) return res.status(400).send("password and enrollmentID required");
 
     const existing = await userModel.findOne({ enrollmentId });
     if (existing) return res.status(400).send("Email already registered");
 
-    const passwordHash = await bcrypt.hash(password, 100);
+    const passwordHash = await bcrypt.hash(password, 10);
     const passwordEncrypted = encrypt(password);
-
+    console.log("user se pehle");
     const user = await userModel.create({ name, enrollmentId, passwordHash, passwordEncrypted, collegeName, batch });
+    console.log(user);
+
     res.status(201).json({ message: "Registered", userId: user._id });
   } catch (err) {
     console.error(err);
