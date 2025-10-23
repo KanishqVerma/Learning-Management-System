@@ -24,11 +24,11 @@
       </div>
 
       <!-- Courses Grid -->
-      <div class="row g-4" style = "gap: 15px;" id="coursesContainer">
+      <div class="row g-4" id="coursesContainer">
         <% if (courses && courses.length > 0) { %>
-          <% courses.forEach(course => { %>
-            <div class="col-md-6 col-lg-4 course-card">
-              <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
+            <% courses.forEach(course => { %>
+                <div class="col-md-4">
+              <div class="card course-card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
                 
                 <!-- Header -->
                 <div class="card-header text-center text-white" style="background: linear-gradient(135deg, #003366, #0059b3); padding: 25px;">
