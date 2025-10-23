@@ -69,10 +69,6 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-// app.get("/userdashboard", (req, res) => {
-//   res.render("includes/user_dashboard.ejs", { page: "userdashboard" });
-// });
-
 
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
@@ -187,58 +183,13 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
     fs.unlinkSync(videoPath);
     fs.unlinkSync(thumbnailPath);
 
-    res.redirect("/admindashboard"); // redirect to videos page after upload
+    res.redirect("/admin/dashboard"); // redirect to videos page after upload
   } catch (err) {
     console.error(err);
     res.status(500).send("Upload failed");
   }
 });
 
-// app.get("/show-videos", async (req, res) => {
-//   try {
-//     const videos = await videoModel.find().sort({ createdAt: -1 });
-//     res.render("showVideos", { videos });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Error loading videos");
-//   }
-// });
-
-// app.get("/course/:courseName", async (req, res) => {
-//   try {
-//     const courseName = req.params.courseName;
-//     const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
-
-//     const selectedVideoId = req.query.v;
-//     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0];
-
-//     res.render("includes/show.ejs", { videos, courseName });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error loading course videos");
-//   }
-// });
-
-// app.get("/course/:courseName", async (req, res) => {
-//   try {
-//     const courseName = decodeURIComponent(req.params.courseName);
-
-//     // Get all videos for that course
-//     const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
-
-//     // Check if a specific video is requested using ?v=videoId
-//     const selectedVideoId = req.query.v;
-
-//     // If ?v= is passed, find that video; otherwise, take the first one
-//     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0];
-
-//     // Render show.ejs and pass everything
-//     res.render("includes/show", { videos, currentVideo, courseName });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error loading course videos");
-//   }
-// });
 
 app.get("/course/:courseName", async (req, res) => {
   try {
