@@ -985,20 +985,22 @@ body {
   font-family: "Segoe UI", sans-serif;
 }
 
+/* === Main Layout === */
 .main-content {
   margin-left: 270px;
-  padding: 3rem 2.5rem;
+  padding: 4rem 2.5rem 3rem; /* slightly reduced top padding */
   min-height: 100vh;
+  transition: all 0.3s ease;
 }
 
-/* Header */
+/* === Header === */
 .upload-header {
   background: linear-gradient(90deg, #002b5c, #004080);
   color: #fff;
   padding: 2rem;
   border-radius: 14px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   text-align: center;
   animation: fadeInDown 0.8s ease;
 }
@@ -1016,11 +1018,11 @@ body {
   margin: 0;
 }
 
-/* Form Container */
+/* === Form Container === */
 .upload-form {
   background: #fff;
   border-radius: 14px;
-  padding: 2.5rem 2rem;
+  padding: 2.2rem 2rem; /* slightly less padding */
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   max-width: 900px;
   margin: auto;
@@ -1036,8 +1038,14 @@ body {
 label {
   font-weight: 600;
   color: #1e293b;
-  margin-top: 1rem;
+  margin-top: 0.6rem; /* ⬅ reduced spacing above labels */
   display: inline-block;
+}
+
+/* tighten only before description / video file */
+label[for="description"],
+label[for="videoFile"] {
+  margin-top: 0.4rem; /* less gap above these */
 }
 
 .form-control,
@@ -1054,7 +1062,7 @@ label {
   box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.15);
 }
 
-/* Upload Button */
+/* === Upload Button === */
 .btn-upload {
   background: linear-gradient(90deg, #003366, #004c99);
   color: #fff;
@@ -1063,7 +1071,7 @@ label {
   padding: 12px 25px;
   font-weight: 600;
   transition: all 0.3s ease;
-  margin-top: 2rem;
+  margin-top: 1.6rem; /* slightly reduced */
   letter-spacing: 0.3px;
   box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
 }
@@ -1074,19 +1082,12 @@ label {
   box-shadow: 0 6px 18px rgba(0, 51, 102, 0.3);
 }
 
-/* Divider */
-.form-divider {
-  border-top: 2px dashed #dbeafe;
-  margin: 1.5rem 0;
-}
-
-/* Animations */
+/* === Animations === */
 @keyframes fadeInDown {
   from {
     opacity: 0;
     transform: translateY(-20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1098,12 +1099,158 @@ label {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+/* === Responsive Design === */
+
+/* 💻 Tablets & small laptops */
+@media (max-width: 992px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .upload-header {
+    padding: 1.8rem 1.2rem;
+    border-radius: 12px;
+  }
+
+  .upload-header h2 {
+    font-size: 1.7rem;
+  }
+
+  .upload-header p {
+    font-size: 0.95rem;
+  }
+
+  .upload-form {
+    padding: 1.8rem 1.4rem;
+    max-width: 700px;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+
+  .btn-upload {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+/* 📱 Mobile Screens */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 2.5rem 1rem 1rem; /* less space to prevent overlap */
+    background-color: #f0f4f9;
+  }
+
+  .upload-header {
+    padding: 1.3rem 1rem;
+    margin-bottom: 1.2rem;
+    border-radius: 10px;
+  }
+
+  .upload-header h2 {
+    font-size: 1.45rem;
+  }
+
+  .upload-header p {
+    font-size: 0.88rem;
+  }
+
+  .upload-form {
+    padding: 1.3rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .upload-form .row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem; /* tighter spacing */
+  }
+
+  .upload-form .col-md-6 {
+    width: 100%;
+  }
+
+  label {
+    font-size: 0.9rem;
+    margin-top: 0.4rem; /* less vertical gap */
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+    padding: 9px 11px;
+  }
+
+  .btn-upload {
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1rem;
+    margin-top: 1.3rem; /* reduced */
+  }
+}
+
+/* 📱 Extra Small Devices (≤480px) */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 2.2rem 0.9rem 1rem;
+  }
+
+  .upload-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .upload-header p {
+    font-size: 0.85rem;
+  }
+
+  .upload-form {
+    padding: 1.1rem 0.9rem;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .btn-upload {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+}
+
+/* === Push content down ONLY on smaller screens === */
+@media (max-width: 992px) {
+  .main-content {
+    margin-top: 70px; /* for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: 65px; /* for mobile screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    margin-top: 60px; /* a bit tighter for very small screens */
+  }
+}
+
+
 
 /* ===USER DASHBOARD=== */
 .dashboard-header h2 {
