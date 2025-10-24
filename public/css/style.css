@@ -1710,3 +1710,62 @@ label {
     background-color: #003366 !important;
     color: #fff !important;
   }
+
+
+  /* === TOGGLE BUTTON === */
+.toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #0a1a2f;
+  font-size: 1.6rem;
+  margin: 1rem;
+  cursor: pointer;
+  z-index: 1100;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}
+
+/* === RESPONSIVE SIDEBAR === */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -250px;
+    width: 240px;
+    transition: left 0.3s ease;
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .toggle-btn {
+    display: inline-block;
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+  }
+
+  .main-wrapper.shifted {
+    margin-left: 240px;
+  }
+}
+
+
+/* === FIX: Remove left space when sidebar is closed === */
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 0;
+}
+
+/* Smooth transition */
+.main-content {
+  transition: margin-left 0.4s ease;
+}

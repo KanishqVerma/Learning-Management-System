@@ -3,16 +3,18 @@
   body {
     background-color: #f0f2f5;
     font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
   }
 
   .main-content {
     background-color: #f0f2f5;
     min-height: 100vh;
+    width: 100%;
   }
 
   /* === HEADER SECTION === */
   .dashboard-header {
-    background-color: #003366; /* Deep navy blue */
+    background-color: #003366;
     color: white;
     border-radius: 12px;
     padding: 2rem;
@@ -37,9 +39,10 @@
     color: #002b5b;
   }
 
-  /* === STAT CARDS === */
+  /* === STATS GRID === */
   .stats-grid {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     margin-top: 1.5rem;
   }
@@ -48,6 +51,7 @@
     background-color: #ffffff;
     border-radius: 12px;
     text-align: center;
+    flex: 1 1 45%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
   }
@@ -83,7 +87,6 @@
     background-color: #003366;
     color: white;
     padding: 1rem 1.5rem;
-    border-bottom: none;
   }
 
   .videos-header h4 {
@@ -109,11 +112,6 @@
   table {
     width: 100%;
     border-collapse: collapse;
-  }
-
-  thead.table-dark {
-    background-color: transparent;
-    color: #333;
   }
 
   th {
@@ -148,6 +146,47 @@
   .btn-delete:hover {
     background-color: #c82333;
   }
+
+  /* === MOBILE FIX === */
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 0.8rem !important;
+      margin-left: 0 !important;
+      width: 100%;
+      overflow-x: hidden;
+      margin-top: 4.2rem; /* ensures toggle button not overlapping */
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-top: 0.5rem !important;
+      border-radius: 10px !important;
+    }
+
+    .upload-btn {
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .stats-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-card {
+      width: 100%;
+    }
+
+    .videos-card {
+      margin-top: 1.5rem;
+    }
+
+    .videos-header {
+      text-align: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
 </style>
 
 <div class="d-flex">
@@ -155,24 +194,25 @@
 
   <main class="main-content flex-grow-1 p-4">
     <!-- HEADER -->
-    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-4">
       <div>
         <h2>Welcome, Admin</h2>
         <p>Here’s an overview of your uploaded content.</p>
       </div>
-      <a href="/video_upload" class="upload-btn btn btn-light">
+      <a href="/video_upload" class="upload-btn btn btn-light mt-2 mt-md-0">
         <i class="fa-solid fa-upload me-2"></i> Upload a Video
       </a>
     </div>
 
     <!-- STATS -->
     <div class="stats-grid">
-      <div class="stat-card p-4 flex-grow-1">
+      <div class="stat-card p-4">
         <i class="fa-solid fa-video fa-2x mb-2"></i>
         <h5>Total Videos</h5>
         <p class="h5"><%= totalVideos %> Uploaded</p>
       </div>
-      <div class="stat-card p-4 flex-grow-1">
+
+      <div class="stat-card p-4">
         <i class="fa-solid fa-book fa-2x mb-2"></i>
         <h5>Total Courses</h5>
         <p class="h5"><%= totalCourses.length %> Active Courses</p>
