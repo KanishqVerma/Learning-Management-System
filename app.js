@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const multer = require("multer");
 const ffmpeg = require("fluent-ffmpeg");
@@ -18,6 +17,7 @@ const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
 const MongoStore = require("connect-mongo");
+const app = express();
 const cookieParser = require("cookie-parser");
 const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
@@ -85,6 +85,8 @@ app.use(
     }),
     cookie: {
       httpOnly: true,
+      secure: false,
+      sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24 * 7, 
     },   
   })
