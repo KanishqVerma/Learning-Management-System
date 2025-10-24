@@ -1,24 +1,25 @@
 <% layout('layouts/boilerplate') %>
 
 <style>
-  /* ===== Main Content Spacing ===== */
+  /* ===== MAIN CONTENT ===== */
   .main-content {
     padding: 2rem;
     background-color: #f9fafc;
+    min-height: 100vh;
   }
 
-  /* ===== Header ===== */
+  /* ===== HEADER ===== */
   .dashboard-header h2 {
     font-weight: 700;
-    color: #e9f0f7;
+    color: #f3f4f4;
   }
 
   .dashboard-header p {
-    color: #eaf2f5;
+    color: #e3e7ea;
     font-size: 1rem;
   }
 
-  /* ===== Stats Grid ===== */
+  /* ===== STATS GRID ===== */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -34,6 +35,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: transform 0.2s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
   }
 
   .stat-number {
@@ -52,15 +58,15 @@
     color: #004aad;
   }
 
-  /* ===== Course Grid ===== */
+  /* ===== COURSE GRID ===== */
   .course-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 25px;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
-  /* ===== Course Card ===== */
+  /* ===== COURSE CARD ===== */
   .course-card {
     background: #ffffff;
     border-radius: 18px;
@@ -102,6 +108,7 @@
     background-color: #004aad;
     height: 100%;
     border-radius: 8px;
+    transition: width 0.6s ease-in-out;
   }
 
   .btn-continue {
@@ -121,9 +128,7 @@
     background-color: #00337c;
   }
 
-  /* ===== RESPONSIVE DESIGN ===== */
-
-  /* Push content down for mobile to avoid toggle overlap */
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 992px) {
     .main-content {
       margin-top: 70px;
@@ -178,13 +183,17 @@
 </style>
 
 <div class="d-flex">
-  <main class="main-content flex-grow-1">
-    <div class="dashboard-header">
-      <h2>Welcome <%=user.name %></h2>
+  <!-- Include Sidebar -->
+  <%- include("../includes/user_sidebar.ejs") %>
 
+  <main class="main-content flex-grow-1">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <h2>Welcome, <%= user.name %> </h2>
       <p>Here’s your learning overview.</p>
     </div>
 
+    <!-- Stats Section -->
     <div class="stats-grid">
       <div class="stat-card">
         <div>
@@ -193,6 +202,7 @@
         </div>
         <i class="fa-solid fa-book-open"></i>
       </div>
+
       <div class="stat-card">
         <div>
           <div class="stat-number">0</div>
@@ -200,6 +210,7 @@
         </div>
         <i class="fa-solid fa-circle-check"></i>
       </div>
+
       <div class="stat-card">
         <div>
           <div class="stat-number">0</div>
@@ -207,6 +218,7 @@
         </div>
         <i class="fa-solid fa-award"></i>
       </div>
+
       <div class="stat-card">
         <div>
           <div class="stat-number">0</div>
@@ -216,26 +228,33 @@
       </div>
     </div>
 
+    <!-- Continue Learning Section -->
     <div class="mt-5">
       <h4>Continue Learning</h4>
 
       <div class="course-grid">
-        <% if (courses.length > 0) { %> <% courses.forEach(course => { %>
-        <div class="course-card">
-          <div>
-            <h5><%= course %></h5>
-            <p class="progress-text">Progress: 60%</p>
-            <div class="progress">
-              <div class="progress-bar" style="width: 60%"></div>
+        <% if (courses.length > 0) { %>
+          <% courses.forEach(course => { %>
+            <div class="course-card">
+              <div>
+                <h5><%= course %></h5>
+                <p class="progress-text">Progress: <%= progressData[course] %>%</p>
+                <div class="progress">
+                  <div class="progress-bar" style="width: <%= progressData[course] %>%"></div>
+                </div>
+              </div>
+              <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">
+                Continue Learning
+              </button>
             </div>
-          </div>
-
-          <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">Continue Learning</button>
-        </div>
-        <% }) %> <% } else { %>
-        <p>No courses available yet. Please check back later.</p>
+          <% }) %>
+        <% } else { %>
+          <p class="text-muted mt-3">No courses available yet. Please check back later.</p>
         <% } %>
       </div>
     </div>
   </main>
 </div>
+
+
+

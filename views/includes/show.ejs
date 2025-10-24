@@ -99,6 +99,21 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("Sidebar toggle not initialized — missing elements");
   }
 });
+
+function markVideoWatched(videoId) {
+  fetch(`/watch/${videoId}`, { method: "POST" })
+    .then(res => res.text())
+    .then(msg => console.log(msg))
+    .catch(err => console.error(err));
+}
+
+const videoPlayer = document.getElementById("videoPlayer");
+if (videoPlayer) {
+  videoPlayer.addEventListener("ended", () => {
+    const videoId = "<%= currentVideo._id %>";
+    markVideoWatched(videoId);
+  });
+}
 </script>
 
 <!-- ✅ Responsive Fix -->
@@ -129,3 +144,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 }
 </style>
+
+

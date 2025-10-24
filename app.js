@@ -252,6 +252,40 @@ app.get("/course/:courseName", async (req, res) => {
   }
 });
 
+// ✅ Add in your routes file
+app.post("/watch/:videoId", async (req, res) => {
+  try {
+    if (!req.session.user) return res.status(401).send("Login required");
+
+    const videoId = req.params.videoId;
+    const userIdentifier = req.session.user.id; // could be _id or enrollmentId
+
+    // Try fetching by Mongo _id first, fallback to enrollmentId
+    const user =
+      (await userModel.findById(userIdentifier)) ||
+      (await userModel.findOne({ enrollmentId: userIdentifier }));
+
+    if (!user) return res.status(404).send("User not found");
+
+    // ✅ Prevent duplicates
+    const alreadyWatched = user.watchedVideos.some(
+      (v) => v.videoId.toString() === videoId
+    );
+
+    if (!alreadyWatched) {
+      user.watchedVideos.push({ videoId });
+      await user.save();
+    }
+
+    res.status(200).send("Progress updated");
+  } catch (err) {
+    console.error("Error updating progress:", err);
+    res.status(500).send("Error updating progress");
+  }
+});
+
+
+
 app.get("/userdashboard", async (req, res) => {
   try {
     // 🔸 Check if user is logged in
@@ -260,17 +294,37 @@ app.get("/userdashboard", async (req, res) => {
     }
 
     // 🔸 Fetch the logged-in user's data from DB if needed
-    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
     // Get unique course names from all videos
     const courses = await videoModel.distinct("course");
 
+     const progressData = {};
+
     // If you want, you can also fetch some videos for thumbnails
     const courseThumbnails = {};
-    for (const course of courses) {
-      // const firstVideo = await videoModel.findOne({ course });
-      courseThumbnails[course] = "";
+    // for (const course of courses) {
+    //   // const firstVideo = await videoModel.findOne({ course });
+    //   courseThumbnails[course] = "";
+    // const total = await videoModel.countDocuments({ course });
+    // const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
+    // const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+    // progressData[course] = progress;
+    // }
+
+
+      for (const course of courses) {
+      // 🔸 (Optional) Fetch first video thumbnail per course
+      const firstVideo = await videoModel.findOne({ course });
+      courseThumbnails[course] = firstVideo?.thumbnailUrl || "";
+
+      // 🔸 Calculate progress
+      const total = await videoModel.countDocuments({ course });
+      const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
+      const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+      progressData[course] = progress;
     }
-    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user });
+
+    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user,progressData });
     // res.render("user/userdashboard", { courses, courseThumbnails });
   } catch (err) {
     console.error(err);
@@ -375,49 +429,7 @@ app.post("/deleteuser/:id", async (req, res) => {
   }
 });
 
-// app.get("/profile", async (req, res) => {
-//   try {
-//     // ✅ 1. Check if user is logged in
-//     if (!req.session.user) {
-//       console.log("Logged-in session user:", req.session.user);
 
-//       return res.redirect("/login");
-//     }
-//     console.log("Logged-in session user:", req.session.user);
-//     // ✅ 2. Get user ID from session
-//     const userId = req.session.user.id;
-//     console.log(userId);
-//     // ✅ 3. Fetch user details from MongoDB
-//     const user = await userModel
-//       .findOne({
-//         uniqueId: userId,
-//       })
-//       .lean();
-
-//     console.log(user);
-
-//     if (!user) {
-//       console.log("User not found for:", userId);
-//       return res.status(404).render("includes/profile", {
-//         layout: "layouts/boilerplate",
-//         title: "Profile",
-//         user: null,
-//         message: "User not found",
-//       });
-//     }
-
-//     // ✅ 4. Render EJS file with real user data
-//     res.render("includes/profile", {
-//       layout: "layouts/boilerplate",
-//       title: "Profile | Student Portal",
-//       user,
-//       page: "profile",
-//     });
-//   } catch (err) {
-//     console.error("Profile route error:", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
 
 app.get("/profile", async (req, res) => {
   try {
