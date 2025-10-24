@@ -3,6 +3,7 @@
 <div class="d-flex">
   <main class="main-content flex-grow-1">
 
+    <!-- Page Header (like Certificates page) -->
     <div class="dashboard-header mb-4">
       <div>
         <h2>Profile</h2>
@@ -10,42 +11,32 @@
       </div>
     </div>
 
+    <!-- Profile Section -->
     <div class="container-fluid d-flex flex-column align-items-center justify-content-start profile-container">
 
-      <% if (user) { %>
-        <h2 class="profile-title">Details</h2>
-        <p class="profile-subtitle">Your academic details</p>
+      <h2 class="profile-title">Details</h2>
+      <p class="profile-subtitle">Your academic details</p>
 
-        <div class="profile-card text-center shadow-lg">
-          <div class="avatar-circle mx-auto mb-3">
-            <span class="avatar-initials">
-              <%= user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : "U" %>
-            </span>
-          </div>
-
-          <h4 class="fw-bold mb-1"><%= user.name || "Unknown User" %></h4>
-          <p class="text-secondary mb-2">Enrollment ID: <%= user.enrollmentId || "N/A" %></p>
-
-          <hr class="my-2">
-
-          <div class="profile-info">
-            <p><strong>College:</strong> <%= user.collegeName || "Not provided" %></p>
-            <p><strong>Batch:</strong> <%= user.batch || "N/A" %></p>
-            <p><strong>Email:</strong> <%= user.email || "Not available" %></p>
-          </div>
-
-          <a href="/userdashboard" class="btn btn-primary mt-3 px-4 py-2">Student Portal</a>
+      <div class="profile-card text-center shadow-lg">
+        <div class="avatar-circle mx-auto mb-3">
+          <span class="avatar-initials">JS</span>
         </div>
 
-      <% } else { %>
-        <h4>No profile data found</h4>
-      <% } %>
-      
+        <h4 class="fw-bold mb-1">John Smith</h4>
+        <p class="text-secondary mb-2">Enrollment ID: 2024001</p>
+
+        <hr class="my-2">
+
+        <div class="profile-info">
+          <p><strong>College:</strong> ABC College of Engineering</p>
+          <p><strong>Batch:</strong> 2022 - 2026</p>
+          <p><strong>Email:</strong> johnsmith@example.com</p>
+        </div>
+
+        <button class="btn btn-primary mt-3 px-4 py-2">Student Portal</button>
+      </div>
+
     </div>
   </main>
 </div>
-
-
-
-
 
