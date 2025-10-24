@@ -427,10 +427,8 @@ app.get("/profile", async (req, res) => {
     }
 
     console.log("Logged-in session user:", req.session.user);
-
     // ✅ 2. Get user ID from session
-    const userId = req.session.user.id; // This stores enrollmentId
-    console.log("Session ID:", userId);
+    const userId = req.session.user.id;
 
     // ✅ 3. Fetch user details using correct field name
     const user = await userModel.findOne({ enrollmentId: userId }).lean();
