@@ -20,6 +20,7 @@ const videoModel = require("./models/video");
 const MongoStore = require("connect-mongo");
 const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
+const flash = require("flash");
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ const KEY = process.env.PW_SECRET_KEY; // must be 32 bytes base64 or hex (see be
 if (!KEY) {
   throw new Error("Set PW_SECRET_KEY env var (32 bytes base64 string).");
 }
+app.use(express.static("public"));
 
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -65,9 +67,16 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
   })
 );
+app.use(session());
+app.use(async (req, res, next) => {
+  // res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
+});
 
 app.get("/", (req, res) => {
   res.render("layouts/boilerplate.ejs", { page: "home" });
@@ -87,48 +96,6 @@ const admins = [
     role: "admin",
   },
 ];
-
-app.post("/login", async (req, res) => {
-  const { uniqueId, password } = req.body;
-
-  // 1️⃣ Check if admin (from .env)
-  const admin = admins.find((a) => a.uniqueId === uniqueId && a.password === password);
-
-  if (admin) {
-    req.session.user = {
-      id: admin.uniqueId,
-      name: admin.name,
-      role: admin.role,
-    };
-    return res.redirect("/admin/dashboard");
-  }
-
-  // 2️⃣ Else check MongoDB user
-  const user = await userModel.findOne({ enrollmentId: uniqueId });
-  if (!user) {
-    return res.status(401).render("users/login", { error: "User not found", values: { uniqueId }, page: "login" });
-  }
-
-  // if (user.password !== password) {
-  //   return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
-  // }
-
-  console.log(user)
-
-  const isMatch = await bcrypt.compare(password, user.passwordHash);
-  if (!isMatch) {
-    return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
-  }
-
-  // success
-  req.session.user = {
-    id: user.uniqueId,
-    name: user.name,
-    role: user.role || "user",
-  };
-
-  res.redirect("/userdashboard");
-});
 
 app.post("/logout", (req, res) => {
   console.log("logging out");
@@ -287,6 +254,13 @@ app.get("/course/:courseName", async (req, res) => {
 
 app.get("/userdashboard", async (req, res) => {
   try {
+    // 🔸 Check if user is logged in
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+
+    // 🔸 Fetch the logged-in user's data from DB if needed
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
     // Get unique course names from all videos
     const courses = await videoModel.distinct("course");
 
@@ -296,7 +270,7 @@ app.get("/userdashboard", async (req, res) => {
       // const firstVideo = await videoModel.findOne({ course });
       courseThumbnails[course] = "";
     }
-    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails });
+    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user });
     // res.render("user/userdashboard", { courses, courseThumbnails });
   } catch (err) {
     console.error(err);
@@ -325,6 +299,49 @@ app.post("/signup", async (req, res) => {
     console.error(err);
     res.status(500).send("Server error");
   }
+});
+
+app.post("/login", async (req, res) => {
+  const { uniqueId, password } = req.body;
+
+  // 1️⃣ Check if admin (from .env)
+  const admin = admins.find((a) => a.uniqueId === uniqueId && a.password === password);
+
+  if (admin) {
+    req.session.user = {
+      id: admin.uniqueId,
+      name: admin.name,
+      role: admin.role,
+    };
+    return res.redirect("/admin/dashboard");
+  }
+
+  // 2️⃣ Else check MongoDB user
+  const user = await userModel.findOne({ enrollmentId: uniqueId });
+  if (!user) {
+    return res.status(401).render("users/login", { error: "User not found", values: { uniqueId }, page: "login" });
+  }
+
+  // if (user.password !== password) {
+  //   return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
+  // }
+
+  console.log(user);
+
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
+  if (!isMatch) {
+    return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
+  }
+
+  // success
+  req.session.user = {
+    id: user.enrollmentId,
+    name: user.name,
+    role: user.role || "user",
+  };
+
+  res.redirect("/userdashboard");
+  // res.render("includes/user_dashboard.ejs", { page: "userdashboard",user });
 });
 
 app.get("/showuser", async (req, res) => {
@@ -358,56 +375,85 @@ app.post("/deleteuser/:id", async (req, res) => {
   }
 });
 
+// app.get("/profile", async (req, res) => {
+//   try {
+//     // ✅ 1. Check if user is logged in
+//     if (!req.session.user) {
+//       console.log("Logged-in session user:", req.session.user);
+
+//       return res.redirect("/login");
+//     }
+//     console.log("Logged-in session user:", req.session.user);
+//     // ✅ 2. Get user ID from session
+//     const userId = req.session.user.id;
+//     console.log(userId);
+//     // ✅ 3. Fetch user details from MongoDB
+//     const user = await userModel
+//       .findOne({
+//         uniqueId: userId,
+//       })
+//       .lean();
+
+//     console.log(user);
+
+//     if (!user) {
+//       console.log("User not found for:", userId);
+//       return res.status(404).render("includes/profile", {
+//         layout: "layouts/boilerplate",
+//         title: "Profile",
+//         user: null,
+//         message: "User not found",
+//       });
+//     }
+
+//     // ✅ 4. Render EJS file with real user data
+//     res.render("includes/profile", {
+//       layout: "layouts/boilerplate",
+//       title: "Profile | Student Portal",
+//       user,
+//       page: "profile",
+//     });
+//   } catch (err) {
+//     console.error("Profile route error:", err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 app.get("/profile", async (req, res) => {
   try {
     // ✅ 1. Check if user is logged in
     if (!req.session.user) {
-      console.log("Logged-in session user:", req.session.user);
-
       return res.redirect("/login");
     }
 
-console.log("Logged-in session user:", req.session.user);
+    console.log("Logged-in session user:", req.session.user);
     // ✅ 2. Get user ID from session
     const userId = req.session.user.id;
-    
- 
-    
 
-    // ✅ 3. Fetch user details from MongoDB
-    const user = await userModel.findOne({
-      uniqueId: userId }, 
-    ).lean();
-
-    console.log(user)
+    // ✅ 3. Fetch user details using correct field name
+    const user = await userModel.findOne({ enrollmentId: userId }).lean();
+    console.log("Fetched user:", user);
 
     if (!user) {
-      console.log("User not found for:", userId);
       return res.status(404).render("includes/profile", {
         layout: "layouts/boilerplate",
         title: "Profile",
         user: null,
         message: "User not found",
+        page: "profile",
       });
     }
 
-    // ✅ 4. Render EJS file with real user data
+    // ✅ 4. Render EJS with user data
     res.render("includes/profile", {
-      layout: "layouts/boilerplate",
-      title: "Profile | Student Portal",
       user,
-      page:"profile"
+      page: "profile",
     });
-
   } catch (err) {
     console.error("Profile route error:", err);
     res.status(500).send("Internal Server Error");
   }
 });
-
-
-
 
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
