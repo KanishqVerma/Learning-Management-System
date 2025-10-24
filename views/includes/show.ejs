@@ -83,23 +83,7 @@
   </main>
 </div>
 
-<!-- ✅ Toggle Script -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-btn");
-  const sidebar = document.getElementById("sidebar");
-  const mainWrapper = document.querySelector(".main-wrapper");
 
-  if (toggleBtn && sidebar && mainWrapper) {
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      mainWrapper.classList.toggle("shifted");
-    });
-  } else {
-    console.warn("Sidebar toggle not initialized — missing elements");
-  }
-});
-</script>
 
 <!-- ✅ Responsive Fix -->
 <style>
