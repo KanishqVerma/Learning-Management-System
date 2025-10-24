@@ -17,7 +17,9 @@ const bodyParser = require("body-parser");
 const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
+const MongoStore = require("connect-mongo");
 const { URLSearchParams } = require("url");
+const { isAuthenticated } = require("./middleware.js");
 
 dotenv.config();
 
@@ -62,6 +64,8 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
   })
 );
 
@@ -108,6 +112,8 @@ app.post("/login", async (req, res) => {
   // if (user.password !== password) {
   //   return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
   // }
+
+  console.log(user)
 
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {
@@ -196,9 +202,9 @@ app.get("/certificates", (req, res) => {
   res.render("includes/certificates", { page: "certificates" });
 });
 
-app.get("/profile", (req, res) => {
-  res.render("includes/profile", { page: "profile" });
-});
+// app.get("/profile", (req, res) => {
+//   res.render("includes/profile", { page: "profile" });
+// });
 
 app.get("/help", (req, res) => {
   res.render("includes/help", { page: "help" });
@@ -351,6 +357,55 @@ app.post("/deleteuser/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+
+app.get("/profile", async (req, res) => {
+  try {
+    // ✅ 1. Check if user is logged in
+    if (!req.session.user) {
+      console.log("Logged-in session user:", req.session.user);
+
+      return res.redirect("/login");
+    }
+console.log("Logged-in session user:", req.session.user);
+    // ✅ 2. Get user ID from session
+    const userId = req.session.user.id;
+ 
+    
+
+    // ✅ 3. Fetch user details from MongoDB
+    const user = await userModel.findOne({
+      uniqueId: userId }, 
+    ).lean();
+
+    console.log(user)
+
+    if (!user) {
+      console.log("User not found for:", userId);
+      return res.status(404).render("includes/profile", {
+        layout: "layouts/boilerplate",
+        title: "Profile",
+        user: null,
+        message: "User not found",
+      });
+    }
+
+    // ✅ 4. Render EJS file with real user data
+    res.render("includes/profile", {
+      layout: "layouts/boilerplate",
+      title: "Profile | Student Portal",
+      user,
+      page:"profile"
+    });
+
+  } catch (err) {
+    console.error("Profile route error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
 
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
