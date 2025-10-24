@@ -367,9 +367,11 @@ app.get("/profile", async (req, res) => {
 
       return res.redirect("/login");
     }
+
 console.log("Logged-in session user:", req.session.user);
     // ✅ 2. Get user ID from session
     const userId = req.session.user.id;
+    
  
     
 
