@@ -21,6 +21,7 @@ const MongoStore = require("connect-mongo");
 const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
@@ -467,6 +468,6 @@ app.get("/profile", async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });
