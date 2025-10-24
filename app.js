@@ -269,7 +269,7 @@ app.post("/signup", async (req, res) => {
     if (!enrollmentId || !password) return res.status(400).send("password and enrollmentID required");
 
     const existing = await userModel.findOne({ enrollmentId });
-    if (existing) return res.status(400).send("Email already registered");
+    if (existing) return res.status(400).send(" already registered");
 
     const passwordHash = await bcrypt.hash(password, 10);
     const passwordEncrypted = encrypt(password);
