@@ -12,17 +12,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* centers vertically */
     min-height: 100vh;
     background-color: #f4f7fb;
-    padding: 2rem;
     position: relative;
+    padding: 2rem;
   }
 
   /* --- Go Back Button --- */
   .back-btn {
     position: fixed;
     top: 20px;
-    right: 20px; /* moved to right */
+    right: 20px;
     background-color: white;
     border: 1.5px solid #003366;
     color: #003366;
@@ -42,7 +43,6 @@
 
   /* --- Certificate --- */
   .certificate-container {
-    position: relative;
     background: white;
     border: 6px solid #003366;
     border-radius: 16px;
@@ -50,7 +50,6 @@
     width: 900px;
     text-align: center;
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    margin-top: 8rem; /* space for button & navbar */
   }
 
   .certificate-header {
@@ -126,7 +125,6 @@
   <a href="/certificates" class="back-btn">
     <i class="fa-solid fa-arrow-left me-2"></i> Go Back
   </a>
-  <br><br><br><br>
 
   <!-- Certificate -->
   <div class="certificate-container">
@@ -145,9 +143,11 @@
         <div class="signature-name">Prof. Adarsh Kumar</div>
         <div class="text-secondary">Course Instructor</div>
       </div>
+
       <div class="seal">
         <i class="fa-solid fa-award"></i>
       </div>
+
       <div class="signature-block" style="text-align: right;">
         <div class="signature-line"></div>
         <div class="signature-name">GTB4CEC LMS</div>

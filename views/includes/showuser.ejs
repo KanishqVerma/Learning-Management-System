@@ -56,6 +56,14 @@
     color: #003366;
   }
 
+  .search-input {
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -106,13 +114,27 @@
     </div>
 
     <div class="videos-card mt-4">
-      <div class="videos-header d-flex justify-content-between align-items-center">
+      <div class="videos-header d-flex justify-content-between align-items-center flex-wrap">
         <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
-        <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrows-rotate me-1"></i> Refresh</button>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <!-- 🔍 Search bar -->
+          <input 
+            type="text" 
+            id="userSearch" 
+            class="search-input"
+            placeholder="🔍 Search by name..."
+          />
+
+          <!-- Refresh Button -->
+          <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
+          </button>
+        </div>
       </div>
 
       <div class="table-responsive p-3">
-        <table class="table align-middle">
+        <table class="table align-middle" id="usersTable">
           <thead>
             <tr>
               <th>Name</th>
@@ -124,23 +146,27 @@
             </tr>
           </thead>
           <tbody>
-            <% if (users && users.length > 0) { %> <% users.forEach(user => { %>
-            <tr>
-              <td><%= user.name %></td>
-              <td><%= user.batch %></td>
-              <td><%= user.collegeName %></td>
-              <td><%= user.enrollmentId %></td>
-              <td><%= user.plaintextPassword %></td>
-              <td>
-                <form action="/deleteuser/<%= user._id %>" method="POST" style="display: inline">
-                  <button type="submit" class="btn btn-delete"><i class="fa-solid fa-trash me-1"></i> Delete</button>
-                </form>
-              </td>
-            </tr>
-            <% }) %> <% } else { %>
-            <tr>
-              <td colspan="6" class="text-center text-muted">No registered users found.</td>
-            </tr>
+            <% if (users && users.length > 0) { %> 
+              <% users.forEach(user => { %>
+                <tr>
+                  <td><%= user.name %></td>
+                  <td><%= user.batch %></td>
+                  <td><%= user.collegeName %></td>
+                  <td><%= user.enrollmentId %></td>
+                  <td><%= user.plaintextPassword %></td>
+                  <td>
+                    <form action="/deleteuser/<%= user._id %>" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-delete">
+                        <i class="fa-solid fa-trash me-1"></i> Delete
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %> 
+            <% } else { %>
+              <tr>
+                <td colspan="6" class="text-center text-muted">No registered users found.</td>
+              </tr>
             <% } %>
           </tbody>
         </table>
@@ -148,3 +174,16 @@
     </div>
   </main>
 </div>
+
+<script>
+  // 🔍 Client-side search (by name)
+  document.getElementById("userSearch").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#usersTable tbody tr");
+
+    rows.forEach(row => {
+      const name = row.querySelector("td:first-child")?.textContent.toLowerCase() || "";
+      row.style.display = name.includes(query) ? "" : "none";
+    });
+  });
+</script>

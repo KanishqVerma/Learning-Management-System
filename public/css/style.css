@@ -91,6 +91,145 @@ body {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
 }
 
+
+/* === RESPONSIVE NAVBAR (INLINE ON ALL SCREENS) === */
+
+/* Base fix for responsiveness */
+.navbar {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0 6rem;
+}
+
+.navbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for a clean look */
+}
+
+/* Shrink elements slightly for medium screens */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 0 4rem;
+  }
+
+  .nav-logo {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .navbar .btn-primary,
+  .navbar .btn-admin {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+  }
+
+  .navbar .btn-group {
+    gap: 1rem;
+  }
+}
+
+/* Tablets (≤992px) — keep inline but tighter */
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0 2.5rem;
+    height: 70px;
+  }
+
+  .navbar-brand {
+    gap: 10px;
+  }
+
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .navbar-brand span {
+    font-size: 1rem;
+  }
+
+  .navbar .btn-group {
+    gap: 0.8rem;
+  }
+
+  .navbar .btn-primary,
+  .navbar .btn-admin {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+
+  .navbar .btn-help {
+    font-size: 1.6rem;
+  }
+}
+
+/* Mobile phones (≤768px) — still inline, no wrapping */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+    height: 65px;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .navbar-brand span {
+    font-size: 0.9rem;
+  }
+
+  .navbar .btn-group {
+    gap: 0.5rem;
+  }
+
+  .navbar .btn-primary,
+  .navbar .btn-admin {
+    padding: 5px 12px;
+    font-size: 0.85rem;
+  }
+
+  .navbar .btn-help {
+    font-size: 1.5rem;
+  }
+}
+
+/* Extra small devices (≤480px) — compact mode */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 0.8rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .navbar-brand span {
+    display: none; /* hide long text to save space */
+  }
+
+  .navbar .btn-group {
+    gap: 0.4rem;
+  }
+
+  .navbar .btn-primary,
+  .navbar .btn-admin {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  .navbar .btn-help {
+    font-size: 1.3rem;
+  }
+}
+
+
 /* === LANDING SECTION === */
 .landing-section {
   min-height: 100vh;
@@ -279,6 +418,130 @@ h1:hover span.text-primary::after {
   color: #6b7280;
 }
 
+/* === RESPONSIVE DESIGN === */
+
+/* For large tablets and below (≤1200px) */
+@media (max-width: 1200px) {
+  .container {
+    gap: 5rem;
+    padding: 3rem 3rem;
+  }
+
+  .college-logo {
+    width: 130px;
+    height: 130px;
+  }
+
+  h1.fw-bold.display-5 {
+    font-size: 3rem;
+  }
+
+  .lead.text-secondary {
+    font-size: 1.1rem;
+  }
+}
+
+/* For tablets (≤992px) */
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4rem;
+    padding: 3rem 2rem;
+  }
+
+  .left,
+  .right {
+    min-width: 100%;
+  }
+
+  .college-brand {
+    justify-content: center;
+  }
+
+  .college-name {
+    font-size: 1.8rem;
+  }
+
+  .right {
+    padding: 2.5rem;
+    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.15);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* For small tablets & large phones (≤768px) */
+@media (max-width: 768px) {
+  h1.fw-bold.display-5 {
+    font-size: 2.4rem;
+  }
+
+  .lead.text-secondary {
+    font-size: 1rem;
+  }
+
+  .college-logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* For mobile phones (≤576px) */
+@media (max-width: 576px) {
+  .landing-section {
+    padding-top: 60px;
+  }
+
+  .container {
+    padding: 2rem 1.2rem;
+  }
+
+  h1.fw-bold.display-5 {
+    font-size: 2rem;
+  }
+
+  .college-name {
+    font-size: 1.5rem;
+  }
+
+  .college-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .right {
+    padding: 2rem 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-card h5 {
+    font-size: 1.1rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+}
+
+
 
 /* === SIDEBAR === */
 .sidebar {
@@ -379,6 +642,8 @@ h1:hover span.text-primary::after {
   color: #fff;
   font-weight: 600;
 }
+
+
 
 /* Logout button */
 .logout-form {
@@ -1090,6 +1355,149 @@ label {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 51, 102, 0.25);
 }
+
+/* === RESPONSIVE LOGIN PAGE === */
+
+/* Large tablets and below (≤1200px) */
+@media (max-width: 1200px) {
+  .login-box .form-control,
+  .login-box .form-select {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
+
+  .card {
+    width: 32rem !important;
+    padding: 3.5rem !important;
+  }
+
+  .card h3 {
+    font-size: 1.7rem;
+  }
+}
+
+/* Tablets (≤992px) */
+@media (max-width: 992px) {
+  .card {
+    width: 28rem !important;
+    padding: 3rem !important;
+  }
+
+  .card h3 {
+    font-size: 1.6rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+
+  .login-box .form-control,
+  .login-box .form-select {
+    font-size: 0.9rem;
+  }
+
+  .login-box button {
+    font-size: 0.95rem !important;
+    padding: 10px 0 !important;
+  }
+}
+
+/* Small tablets and large phones (≤768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1rem !important;
+  }
+
+  .card {
+    width: 90% !important;
+    padding: 2.5rem !important;
+    border-radius: 14px !important;
+  }
+
+  .card div[style*="width: 120px"] {
+    width: 100px !important;
+    height: 60px !important;
+    font-size: 1.4rem !important;
+  }
+
+  .card h3 {
+    font-size: 1.5rem !important;
+  }
+
+  .login-box .form-control,
+  .login-box .form-select {
+    font-size: 0.9rem !important;
+    padding: 9px 11px !important;
+  }
+
+  .login-box button {
+    font-size: 0.95rem !important;
+    padding: 11px 0 !important;
+  }
+}
+
+/* Mobile phones (≤576px) */
+@media (max-width: 576px) {
+  .container {
+    margin-top: 0 !important;
+    padding: 1.5rem 0.8rem !important;
+  }
+
+  .card {
+    width: 100% !important;
+    padding: 2rem 1.5rem !important;
+    border-radius: 12px !important;
+  }
+
+  .card div[style*="width: 120px"] {
+    width: 85px !important;
+    height: 50px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .card h3 {
+    font-size: 1.4rem !important;
+  }
+
+  .card p {
+    font-size: 0.85rem !important;
+  }
+
+  .login-box .form-control,
+  .login-box .form-select {
+    font-size: 0.85rem !important;
+    padding: 8px 10px !important;
+  }
+
+  .login-box button {
+    font-size: 0.9rem !important;
+    padding: 10px 0 !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Extra small devices (≤400px) */
+@media (max-width: 400px) {
+  .card {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .card div[style*="width: 120px"] {
+    width: 70px !important;
+    height: 45px !important;
+    font-size: 1rem !important;
+  }
+
+  .card h3 {
+    font-size: 1.25rem !important;
+  }
+
+  .login-box button {
+    font-size: 0.85rem !important;
+    padding: 9px 0 !important;
+  }
+}
+
 
 /* === DEVELOPED BY PAGE === */
 .dev-team-section {
