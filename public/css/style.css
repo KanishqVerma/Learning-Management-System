@@ -1751,18 +1751,15 @@ label[for="videoFile"] {
 
 
 /* === PROFILE PAGE === */
-.profile-page {
-  background-color: #f4f7fb;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10% !important;
-  margin-top: 0 !important;
+.main-content {
+  transition: margin-left 0.3s ease;
 }
 
-/* Remove default Bootstrap spacing */
+.main-content.shifted {
+  margin-left: 220px; /* sidebar open */
+}
+
+/* Remove default spacing */
 .profile-container {
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -1772,15 +1769,15 @@ label[for="videoFile"] {
 .profile-title {
   color: #003366;
   font-weight: 700;
-  font-size: 2.2rem;
-  margin: 10px 0 4px 0 !important; /* tighter top gap */
+  font-size: 2rem;
+  margin: 10px 0 4px 0 !important;
   line-height: 1.2;
 }
 
 .profile-subtitle {
   color: #6c757d;
   font-size: 1rem;
-  margin-bottom: 8px !important; /* small gap before card */
+  margin-bottom: 8px !important;
 }
 
 /* Profile Card */
@@ -1791,7 +1788,7 @@ label[for="videoFile"] {
   background-color: #ffffff;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 4px !important; /* minimal gap below subtitle */
+  margin-top: 4px !important;
 }
 
 .profile-card:hover {
@@ -1844,19 +1841,62 @@ label[for="videoFile"] {
   background-color: #0059b3;
 }
 
-/* Show */
-  .topic-link {
-    color: #003366;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+  .profile-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 24px 20px;
   }
-  .topic-link:hover {
-    background-color: #e6f0ff;
+
+  .profile-title {
+    font-size: 1.6rem;
   }
-  .active-topic {
-    background-color: #003366 !important;
-    color: #fff !important;
+
+  .avatar-circle {
+    width: 90px;
+    height: 90px;
   }
+
+  .avatar-initials {
+    font-size: 32px;
+  }
+
+  .main-content.shifted {
+    margin-left: 0; /* toggle active override */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-header p {
+    font-size: 0.9rem;
+  }
+
+  .profile-card {
+    margin-top: 1rem !important;
+  }
+}
+
+/* Sidebar toggle working shift */
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+  margin-left: 220px; /* Sidebar width */
+}
+
+/* Responsive fix */
+@media (max-width: 992px) {
+  .main-content.shifted {
+    margin-left: 0; /* Don't shift on mobile */
+  }
+}
+
 
 
   /* === TOGGLE BUTTON === */

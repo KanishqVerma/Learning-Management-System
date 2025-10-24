@@ -374,7 +374,7 @@
         <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
 
         <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
-          <input type="text" id="userSearch" class="search-input flex-grow-1" placeholder="🔍 Search by name..." />
+          <input type="text" id="userSearch" class="search-input flex-grow-1" placeholder="🔍Name or enrollment id..." />
           <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm">
             <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
           </button>
@@ -426,15 +426,24 @@
 </div>
 
 <script>
-  // 🔍 Client-side search
-  document.getElementById("userSearch").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    const rows = document.querySelectorAll("#usersTable tbody tr");
-    rows.forEach(row => {
-      const name = row.querySelector("td:first-child")?.textContent.toLowerCase() || "";
-      row.style.display = name.includes(query) ? "" : "none";
-    });
+// 🔍 Client-side search
+document.getElementById("userSearch").addEventListener("input", function () {
+  const query = this.value.toLowerCase().trim();
+  const rows = document.querySelectorAll("#usersTable tbody tr");
+
+  rows.forEach(row => {
+    const name = row.querySelector("td:nth-child(1)")?.textContent.toLowerCase() || "";
+    const enrollmentId = row.querySelector("td:nth-child(4)")?.textContent.toLowerCase() || "";
+
+    // ✅ Match by name OR enrollment ID
+    if (name.includes(query) || enrollmentId.includes(query)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
   });
+});
+
 
   // Sidebar toggle
   document.addEventListener("DOMContentLoaded", () => {

@@ -1,109 +1,132 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="d-flex">
-  <main class="main-content flex-grow-1 p-4" style="background-color: #f4f7fb;">
-    <div class="container-fluid">
+<style>
+  .main-content {
+    background-color: #f4f7fb !important;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    padding: 2rem;
+  }
 
-      <!-- Page Header -->
-      <div class="dashboard-header mb-4">
-        <div>
-          <h2>My Courses</h2>
-          <p>Manage and track all your enrolled courses</p>
-        </div>
-      </div>
+  /* === Responsive === */
+  @media (max-width: 992px) {
+    .main-content {
+      margin-top: 70px;
+      margin-left: 0 !important;
+      padding: 1.5rem;
+    }
+  }
 
-      <!-- Search Bar -->
-      <div class="mb-4">
-        <input
-          id="courseSearch"
-          type="text"
-          class="form-control shadow-sm"
-          placeholder="Search courses by title..."
-          style="border-radius: 10px; padding: 12px 16px; font-size: 1rem;"
-        />
-      </div>
+  @media (max-width: 768px) {
+    .main-content {
+      margin-top: 65px;
+      padding: 1.2rem;
+    }
 
-      <!-- Courses Grid -->
-      <div class="row g-4" id="coursesContainer">
-        <% if (courses && courses.length > 0) { %>
-            <% courses.forEach(course => { %>
-                <div class="col-md-4">
-              <div class="card course-card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
-                
-                <!-- Header -->
-                <div class="card-header text-center text-white" style="background: linear-gradient(135deg, #003366, #0059b3); padding: 25px;">
-                  <i class="fa-solid fa-book fa-2x"></i>
-                </div>
-                
-                <!-- Body -->
-                <div class="card-body text-start">
-                  <h5 class="card-title mb-1 fw-semibold course-title" style="color: #003366;">
-                    <%= course.title || course %>
-                  </h5>
+    #courseSearch {
+      padding: 10px 14px;
+      font-size: 0.95rem;
+    }
 
-                  <!-- Progress Text -->
-                  <div class="d-flex align-items-center justify-content-between mt-2">
-                    <p class="mb-0 text-secondary small fw-semibold">Progress</p>
-                    <span class="badge rounded-pill px-3 py-2 fw-semibold"
-                      style="background-color: #e6f0ff; color: #003366;">
-                      <%= course.progress || 60 %>%
-                    </span>
-                  </div>
-                </div>
+    .course-card {
+      margin-bottom: 1rem;
+    }
 
-                <!-- Footer -->
-                <div class="card-footer bg-white border-0 d-flex justify-content-between p-3">
-                  <button class="btn btn-sm text-white px-3"
-                    style="background-color: #003366; border-radius: 8px;"
-                    onclick="location.href='/course/<%= encodeURIComponent(course.title || course) %>'">
-                    Continue Learning
-                  </button>
+    .card-header {
+      padding: 18px !important;
+    }
+
+    .card-title {
+      font-size: 1rem !important;
+    }
+
+    .btn {
+      font-size: 0.9rem !important;
+      padding: 8px 12px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .main-content {
+      margin-top: 60px;
+      padding: 1rem;
+    }
+  }
+</style>
+
+<main class="main-content flex-grow-1">
+  <div class="container-fluid">
+
+    <div class="dashboard-header mb-4 border-0 bg-transparent">
+      <h2>My Courses</h2>
+      <p style="color: #e6f0ff !important;" class="text-muted">Manage and track all your enrolled courses</p>
+    </div>
+
+    <div class="mb-4">
+      <input
+        id="courseSearch"
+        type="text"
+        class="form-control shadow-sm"
+        placeholder="Search courses by title..."
+        style="border-radius: 10px; padding: 12px 16px; font-size: 1rem;"
+      />
+    </div>
+
+    <div class="row g-4" id="coursesContainer">
+      <% if (courses && courses.length > 0) { %>
+        <% courses.forEach(course => { %>
+          <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card course-card shadow-sm border-0 h-100"
+                 style="border-radius: 12px; overflow: hidden; transition: transform 0.2s ease;">
+              
+              <div class="card-header text-center text-white"
+                   style="background: linear-gradient(135deg, #003366, #0059b3); padding: 25px;">
+                <i class="fa-solid fa-book fa-2x"></i>
+              </div>
+              
+              <div class="card-body text-start">
+                <h5 class="card-title mb-1 fw-semibold course-title" style="color: #003366;">
+                  <%= course.title || course %>
+                </h5>
+
+                <div class="d-flex align-items-center justify-content-between mt-2">
+                  <p class="mb-0 text-secondary small fw-semibold">Progress</p>
+                  <span class="badge rounded-pill px-3 py-2 fw-semibold"
+                        style="background-color: #e6f0ff; color: #003366;">
+                    <%= course.progress || 60 %>%
+                  </span>
                 </div>
               </div>
-            </div>
-          <% }) %>
-        <% } else { %>
-          <p>No courses available yet. Please check back later.</p>
-        <% } %>
-      </div>
-    </div>
-  </main>
-</div>
 
+              <div class="card-footer bg-white border-0 d-flex justify-content-between p-3">
+                <button class="btn btn-sm text-white px-3"
+                        style="background-color: #003366; border-radius: 8px;"
+                        onclick="location.href='/course/<%= encodeURIComponent(course.title || course) %>'">
+                  Continue Learning
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No courses available yet. Please check back later.</p>
+      <% } %>
+    </div>
+  </div>
+</main>
 
 <script>
+  // === Search Filter ===
   const searchInput = document.getElementById("courseSearch");
   const courseCards = document.querySelectorAll(".course-card");
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
-
-    courseCards.forEach(card => {
-      const titleElement = card.querySelector(".course-title");
-      const title = titleElement ? titleElement.textContent.toLowerCase() : "";
-
-      if (title.includes(query)) {
-        card.style.display = "block"; // Show matching course
-      } else {
-        card.style.display = "none"; // Hide non-matching
-      }
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      courseCards.forEach(card => {
+        const title = card.querySelector(".course-title")?.textContent.toLowerCase() || "";
+        card.style.display = title.includes(query) ? "block" : "none";
+      });
     });
-  });
-
-  
-      document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-btn");
-  const sidebar = document.getElementById("sidebar"); // ✅ note: using ID
-  const main = document.querySelector(".main-wrapper");
-
-  if (toggleBtn && sidebar && main) {
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      main.classList.toggle("shifted");
-    });
-  } else {
-    console.warn("Sidebar toggle not initialized — element(s) missing");
   }
-});
-
-    </script>
+</script>
