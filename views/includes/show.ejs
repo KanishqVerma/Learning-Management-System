@@ -85,20 +85,20 @@
 
 <!-- ✅ Toggle Script -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-btn");
-  const sidebar = document.getElementById("sidebar");
-  const mainWrapper = document.querySelector(".main-wrapper");
+function markVideoWatched(videoId) {
+  fetch(`/watch/${videoId}`, { method: "POST" })
+    .then(res => res.text())
+    .then(msg => console.log(msg))
+    .catch(err => console.error(err));
+}
 
-  if (toggleBtn && sidebar && mainWrapper) {
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-      mainWrapper.classList.toggle("shifted");
-    });
-  } else {
-    console.warn("Sidebar toggle not initialized — missing elements");
-  }
-});
+const videoPlayer = document.getElementById("videoPlayer");
+if (videoPlayer) {
+  videoPlayer.addEventListener("ended", () => {
+    const videoId = "<%= currentVideo._id %>";
+    markVideoWatched(videoId);
+  });
+}
 </script>
 
 <!-- ✅ Responsive Fix -->
