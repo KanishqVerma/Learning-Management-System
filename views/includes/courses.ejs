@@ -89,4 +89,21 @@
       }
     });
   });
-</script>
+
+  
+      document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("toggle-btn");
+  const sidebar = document.getElementById("sidebar"); // ✅ note: using ID
+  const main = document.querySelector(".main-wrapper");
+
+  if (toggleBtn && sidebar && main) {
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      main.classList.toggle("shifted");
+    });
+  } else {
+    console.warn("Sidebar toggle not initialized — element(s) missing");
+  }
+});
+
+    </script>

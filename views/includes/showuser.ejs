@@ -9,8 +9,11 @@
   .main-content {
     background-color: #f0f2f5;
     min-height: 100vh;
+    margin-top: 2.5rem !important;
+    padding: 2rem 1rem !important;
   }
 
+  /* === HEADER === */
   .dashboard-header {
     background-color: #003366;
     color: white;
@@ -21,8 +24,15 @@
 
   .dashboard-header h2 {
     font-weight: 700;
+    font-size: 1.8rem;
   }
 
+  .dashboard-header p {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  /* === CARD WRAPPER === */
   .videos-card {
     background-color: #ffffff;
     border-radius: 12px;
@@ -31,62 +41,110 @@
     overflow: hidden;
   }
 
+  /* === REGISTERED USERS HEADER === */
   .videos-header {
     background-color: #003366;
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 1.8rem;
+    border-bottom: 2px solid #002855;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   }
 
   .videos-header h4 {
     margin: 0;
     font-weight: 600;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .btn-outline-secondary {
-    background-color: transparent;
-    border: 1.5px solid white;
-    color: white;
-    font-weight: 500;
-    border-radius: 8px;
-    transition: 0.3s ease;
-  }
-
-  .btn-outline-secondary:hover {
-    background-color: white;
-    color: #003366;
+  /* === SEARCH AREA === */
+  .videos-header .d-flex {
+    background-color: #002b6b;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.08);
   }
 
   .search-input {
     border: none;
     border-radius: 8px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.6rem 1rem;
     font-size: 0.95rem;
+    height: 2.6rem;
+    flex-grow: 1;
+    background-color: #ffffff;
+    transition: 0.3s ease;
+  }
+
+  .search-input:focus {
     outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 92, 255, 0.3);
+  }
+
+  .btn-outline-secondary {
+    border: 1.5px solid #fff;
+    color: white;
+    background-color: transparent;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: 0.3s ease;
+    padding: 0.55rem 1.2rem;
+  }
+
+  .btn-outline-secondary:hover {
+    background-color: #fff;
+    color: #003366;
+  }
+
+  /* === TABLE SECTION === */
+  .table-section {
+    background-color: #ffffff;
+    border-radius: 0 0 12px 12px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .table-responsive {
+    background-color: transparent;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  thead {
+    background-color: #f4f6f8;
   }
 
   th {
     font-weight: 600;
-    color: #555;
+    color: #333;
+    text-align: left;
+    padding: 1rem 1.2rem;
+    border-bottom: 2px solid #e5e7eb;
+    white-space: nowrap;
   }
 
-  td,
-  th {
-    padding: 0.75rem 1rem;
-    border: none;
+  td {
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
   }
 
   tr {
-    background-color: #f9fafb;
-    transition: background-color 0.2s ease;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease, transform 0.1s ease;
   }
 
   tr:hover {
-    background-color: #ffffff;
+    background-color: #f9fafc;
+    transform: scale(1.01);
   }
 
   .btn-delete {
@@ -95,18 +153,216 @@
     border-radius: 6px;
     color: white;
     font-weight: 500;
-    padding: 0.4rem 0.8rem;
-    transition: background-color 0.2s ease;
+    padding: 0.45rem 0.9rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
   }
 
   .btn-delete:hover {
-    background-color: #c82333;
+    background-color: #b52b38;
+    transform: scale(1.05);
   }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .dashboard-header {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .videos-header {
+      padding: 1.2rem 1rem;
+      text-align: center;
+    }
+
+    .videos-header .d-flex {
+      flex-direction: column;
+      gap: 0.9rem;
+      padding: 1rem;
+    }
+
+    .search-input {
+      height: 2.3rem;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.9rem;
+    }
+
+    .btn-outline-secondary {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
+
+    .table-section {
+      padding: 1rem 1.2rem;
+    }
+
+    th, td {
+      padding: 0.7rem 0.9rem;
+    }
+
+    table {
+      min-width: 600px;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .videos-header {
+      padding: 1rem;
+    }
+
+    .videos-header h4 {
+      font-size: 1rem;
+    }
+
+    .table-section {
+      padding: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.65rem 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-delete {
+      padding: 0.35rem 0.7rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* === REMOVE LEFT SPACE ONLY ON SMALL SCREENS === */
+@media (max-width: 768px) {
+  .main-content {
+    padding-left: 0 !important;   /* removes that unwanted left space */
+    padding-right: 0.5rem !important;
+    margin-left: 0 !important;
+  }
+
+  .d-flex {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .videos-card,
+  .dashboard-header,
+  .table-section {
+    margin-left: 0 !important;
+    border-radius: 0 !important; /* looks cleaner edge-to-edge */
+  }
+}
+
+/* === MOBILE POLISH (balanced spacing & rounded look) === */
+@media (max-width: 768px) {
+  .main-content {
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+  }
+
+  .videos-card {
+    border-radius: 10px !important;
+    margin: 0.5rem 0 !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .dashboard-header {
+    border-radius: 10px !important;
+    margin: 0 0.3rem 1rem 0.3rem !important;
+  }
+
+  .videos-header {
+    border-radius: 10px 10px 0 0 !important;
+  }
+
+  .table-section {
+    border-radius: 0 0 10px 10px !important;
+    padding: 1rem !important;
+  }
+}
+
+/* === FIX ICON SPACING FOR HEADERS === */
+.dashboard-header h2 i,
+.videos-header h4 i {
+  margin-right: 8px; /* space between icon and text */
+  margin-left: 2px; /* small space from border/edge */
+  vertical-align: middle;
+}
+
+/* Add slight left padding for the entire header so icon doesn't touch edge */
+.dashboard-header {
+  padding-left: 2.2rem !important;
+}
+
+.videos-header {
+  padding-left: 2rem !important;
+}
+
+/* Responsive fine-tuning */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding-left: 1.5rem !important;
+  }
+
+  .videos-header {
+    padding-left: 1.3rem !important;
+  }
+
+  .dashboard-header h2 i,
+  .videos-header h4 i {
+    margin-right: 6px;
+  }
+}
+
+/* === ALWAYS VISIBLE REFRESH BUTTON FIX === */
+.videos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ensure refresh stays aligned and visible */
+.videos-header h4 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.videos-header .btn-outline-secondary {
+  background-color: white;
+  color: #003366;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.45rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.videos-header .btn-outline-secondary:hover {
+  background-color: #e8f0ff;
+}
+
+/* mobile responsive */
+@media (max-width: 768px) {
+  .videos-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .videos-header .btn-outline-secondary {
+    width: 100%;
+    margin-top: 0.4rem;
+  }
+}
+
 </style>
 
 <div class="d-flex">
   <main class="main-content flex-grow-1 p-4">
-    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4 flex-wrap">
       <div>
         <h2>See Users</h2>
         <p>View all registered students below.</p>
@@ -114,76 +370,84 @@
     </div>
 
     <div class="videos-card mt-4">
-      <div class="videos-header d-flex justify-content-between align-items-center flex-wrap">
+      <div class="videos-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <h4><i class="fa-solid fa-users me-2"></i> Registered Users</h4>
 
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <!-- 🔍 Search bar -->
-          <input 
-            type="text" 
-            id="userSearch" 
-            class="search-input"
-            placeholder="🔍 Search by name..."
-          />
-
-          <!-- Refresh Button -->
+        <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
+          <input type="text" id="userSearch" class="search-input flex-grow-1" placeholder="🔍 Search by name..." />
           <button onclick="location.reload()" class="btn btn-outline-secondary btn-sm">
             <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh
           </button>
         </div>
       </div>
 
-      <div class="table-responsive p-3">
-        <table class="table align-middle" id="usersTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Batch</th>
-              <th>College</th>
-              <th>Enrollment ID</th>
-              <th>Password (Decrypted)</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (users && users.length > 0) { %> 
-              <% users.forEach(user => { %>
-                <tr>
-                  <td><%= user.name %></td>
-                  <td><%= user.batch %></td>
-                  <td><%= user.collegeName %></td>
-                  <td><%= user.enrollmentId %></td>
-                  <td><%= user.plaintextPassword %></td>
-                  <td>
-                    <form action="/deleteuser/<%= user._id %>" method="POST" style="display:inline;">
-                      <button type="submit" class="btn btn-delete">
-                        <i class="fa-solid fa-trash me-1"></i> Delete
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              <% }) %> 
-            <% } else { %>
+      <div class="table-section">
+        <div class="table-responsive">
+          <table class="table align-middle" id="usersTable">
+            <thead>
               <tr>
-                <td colspan="6" class="text-center text-muted">No registered users found.</td>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>College</th>
+                <th>Enrollment ID</th>
+                <th>Password (Decrypted)</th>
+                <th>Delete</th>
               </tr>
-            <% } %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% if (users && users.length > 0) { %>
+                <% users.forEach(user => { %>
+                  <tr>
+                    <td><%= user.name %></td>
+                    <td><%= user.batch %></td>
+                    <td><%= user.collegeName %></td>
+                    <td><%= user.enrollmentId %></td>
+                    <td><%= user.plaintextPassword %></td>
+                    <td>
+                      <form action="/deleteuser/<%= user._id %>" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-delete">
+                          <i class="fa-solid fa-trash me-1"></i> Delete
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="6" class="text-center text-muted">No registered users found.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </main>
 </div>
 
 <script>
-  // 🔍 Client-side search (by name)
+  // 🔍 Client-side search
   document.getElementById("userSearch").addEventListener("input", function () {
     const query = this.value.toLowerCase();
     const rows = document.querySelectorAll("#usersTable tbody tr");
-
     rows.forEach(row => {
       const name = row.querySelector("td:first-child")?.textContent.toLowerCase() || "";
       row.style.display = name.includes(query) ? "" : "none";
     });
+  });
+
+  // Sidebar toggle
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("toggle-btn");
+    const sidebar = document.getElementById("sidebar");
+    const main = document.querySelector(".main-wrapper");
+    if (toggleBtn && sidebar && main) {
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+        main.classList.toggle("shifted");
+      });
+    } else {
+      console.warn("Sidebar toggle not initialized — element(s) missing");
+    }
   });
 </script>
