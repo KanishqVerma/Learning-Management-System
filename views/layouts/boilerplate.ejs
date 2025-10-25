@@ -14,15 +14,15 @@
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile") { %>
+        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page === "feedback" || page==="courses" || page==="help" || page==="show" || page==="profile") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
-        <%- include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %>
+        <%- include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard"|| page==="developed_by" || page === "video_upload" || page === "signup" || page === "showuser") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
         <%- include("../includes/admin_sidebar.ejs") %> <% } %>
 
         <div class="main-wrapper">
           <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" ||
-          page==="show_certificate" || page==="developed_by" || page==="courses" || page==="show" || page==="showuser") { %> <%- body %> <% } %>
+          page==="show_certificate" || page==="developed_by" || page==="feedback" || page==="courses" || page==="show" || page==="showuser") { %> <%- body %> <% } %>
         </div>
       </main>
 

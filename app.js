@@ -142,6 +142,10 @@ app.get("/show_certificate", (req, res) => {
   res.render("includes/show_certificate.ejs", { page: "show_certificate" });
 });
 
+app.get("/feedback", (req, res) => {
+  res.render("includes/feedback.ejs", { page: "feedback" });
+});
+
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
   try {
