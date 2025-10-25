@@ -602,7 +602,7 @@ app.get("/download_certificate_image", async (req, res) => {
     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 
     const browser = await puppeteer.launch({
-      executablePath: '/opt/render/.cache/puppeteer/chrome/linux-141.0.7390.122/chrome-linux64/chrome',
+      
       headless: true,
       args: [
         "--no-sandbox",
