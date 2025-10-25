@@ -142,6 +142,10 @@ app.get("/show_certificate", (req, res) => {
   res.render("includes/show_certificate.ejs", { page: "show_certificate" });
 });
 
+app.get("/feedback", (req, res) => {
+  res.render("includes/feedback.ejs", { page: "feedback" });
+});
+
 // Admin Dashboard
 app.get("/admin/dashboard", async (req, res) => {
   try {
@@ -489,6 +493,59 @@ app.get("/profile", async (req, res) => {
   }
 });
 
+// ===== Download Certificate as Image (PNG) =====
+const puppeteer = require("puppeteer");
+
+app.get("/download_certificate_image", async (req, res) => {
+  try {
+    const course = req.query.course || "Web Development Fundamentals";
+    const userName = req.session.user?.name || "Student"; // dynamically from session
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+
+    const page = await browser.newPage();
+
+    // Load your existing certificate page (with dynamic params)
+    await page.goto(
+      `http://localhost:5000/show_certificate?course=${encodeURIComponent(
+        course
+      )}&name=${encodeURIComponent(userName)}`,
+      { waitUntil: "networkidle0" }
+    );
+
+    // Give fonts/CSS a moment to render
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // Select only the certificate container
+    const cert = await page.$(".certificate-container");
+
+    // Screenshot just that part
+    const imageBuffer = await cert.screenshot({
+      type: "png",
+      omitBackground: false,
+    });
+
+    await browser.close();
+
+    // Send as download
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${userName}-${course}-Certificate.png"`
+    );
+    res.contentType("image/png");
+    res.send(imageBuffer);
+  } catch (err) {
+    console.error("Error generating certificate image:", err);
+    res.status(500).send("Failed to generate certificate image");
+  }
+});
+
+
+
+
 app.listen(PORT, () => {
-  console.log("server is listening to port 8080");
+  console.log("server is listening to port 5000");
 });
