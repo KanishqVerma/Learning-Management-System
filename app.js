@@ -23,6 +23,7 @@ const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
 const PORT = process.env.PORT || 5000;
+const puppeteer = require("puppeteer");
 
 dotenv.config();
 
@@ -494,7 +495,7 @@ app.get("/profile", async (req, res) => {
 });
 
 // ===== Download Certificate as Image (PNG) =====
-const puppeteer = require("puppeteer");
+
 
 // app.get("/download_certificate_image", async (req, res) => {
 //   try {
