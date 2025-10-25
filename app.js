@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const multer = require("multer");
 const ffmpeg = require("fluent-ffmpeg");
@@ -18,10 +17,12 @@ const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
 const MongoStore = require("connect-mongo");
+const app = express();
+const cookieParser = require("cookie-parser");
 const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
-
+const PORT = process.env.PORT || 5000;
 
 dotenv.config();
 
@@ -62,16 +63,36 @@ app.use(express.static(path.join(__dirname, "public")));
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath); // add this line too
 
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+//     cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+//   })
+// );
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,       
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+    store: MongoStore.create({
+      mongoUrl:  process.env.MONGO_URI,
+      collectionName: "sessions",
+      ttl: 14 * 24 * 60 * 60,           // 14 days
+    }),
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7, 
+    },   
   })
 );
-app.use(session());
+
+
 app.use(async (req, res, next) => {
   // res.locals.success = req.flash("success");
   // res.locals.error = req.flash("error");
@@ -468,60 +489,6 @@ app.get("/profile", async (req, res) => {
   }
 });
 
-
-// ===== Download Certificate as Image (PNG) =====
-const puppeteer = require("puppeteer");
-
-app.get("/download_certificate_image", async (req, res) => {
-  try {
-    const course = req.query.course || "Web Development Fundamentals";
-    const userName = req.session.user?.name || "Student"; // dynamically from session
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-
-    const page = await browser.newPage();
-
-    // Load your existing certificate page (with dynamic params)
-    await page.goto(
-      `http://localhost:8080/show_certificate?course=${encodeURIComponent(
-        course
-      )}&name=${encodeURIComponent(userName)}`,
-      { waitUntil: "networkidle0" }
-    );
-
-    // Give fonts/CSS a moment to render
-    await new Promise((r) => setTimeout(r, 1000));
-
-    // Select only the certificate container
-    const cert = await page.$(".certificate-container");
-
-    // Screenshot just that part
-    const imageBuffer = await cert.screenshot({
-      type: "png",
-      omitBackground: false,
-    });
-
-    await browser.close();
-
-    // Send as download
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${userName}-${course}-Certificate.png"`
-    );
-    res.contentType("image/png");
-    res.send(imageBuffer);
-  } catch (err) {
-    console.error("Error generating certificate image:", err);
-    res.status(500).send("Failed to generate certificate image");
-  }
-});
-
-
-
-
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });
