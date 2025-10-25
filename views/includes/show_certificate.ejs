@@ -118,13 +118,62 @@
     color: #003366;
     opacity: 0.6;
   }
+
+  .certificate-container {
+  background: white;
+  border: 6px solid #003366;
+  border-radius: 16px;
+  padding: 3rem 4rem;
+  width: 90%;
+  max-width: 900px; /* keeps it from getting too wide on desktop */
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.certificate-header {
+  font-size: 2.2rem;
+}
+
+.cert-name {
+  font-size: 2rem;
+}
+
+.cert-course {
+  font-size: 1.3rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .certificate-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .certificate-header {
+    font-size: 1.5rem;
+  }
+
+  .cert-name {
+    font-size: 1.5rem;
+  }
+
+  .cert-course {
+    font-size: 1.1rem;
+  }
+
+  .certificate-footer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .signature-block {
+    text-align: center !important;
+  }
+}
+
 </style>
 
 <div class="main-content">
-  <!-- Go Back Button -->
-  <a href="/certificates" class="back-btn">
-    <i class="fa-solid fa-arrow-left me-2"></i> Go Back
-  </a>
 
   <!-- Certificate -->
   <div class="certificate-container">

@@ -22,6 +22,7 @@ const { URLSearchParams } = require("url");
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
 
+
 dotenv.config();
 
 // ===== Cloudinary Configuration =====
@@ -466,6 +467,60 @@ app.get("/profile", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+// ===== Download Certificate as Image (PNG) =====
+const puppeteer = require("puppeteer");
+
+app.get("/download_certificate_image", async (req, res) => {
+  try {
+    const course = req.query.course || "Web Development Fundamentals";
+    const userName = req.session.user?.name || "Student"; // dynamically from session
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+
+    const page = await browser.newPage();
+
+    // Load your existing certificate page (with dynamic params)
+    await page.goto(
+      `http://localhost:8080/show_certificate?course=${encodeURIComponent(
+        course
+      )}&name=${encodeURIComponent(userName)}`,
+      { waitUntil: "networkidle0" }
+    );
+
+    // Give fonts/CSS a moment to render
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // Select only the certificate container
+    const cert = await page.$(".certificate-container");
+
+    // Screenshot just that part
+    const imageBuffer = await cert.screenshot({
+      type: "png",
+      omitBackground: false,
+    });
+
+    await browser.close();
+
+    // Send as download
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${userName}-${course}-Certificate.png"`
+    );
+    res.contentType("image/png");
+    res.send(imageBuffer);
+  } catch (err) {
+    console.error("Error generating certificate image:", err);
+    res.status(500).send("Failed to generate certificate image");
+  }
+});
+
+
+
 
 app.listen(8080, () => {
   console.log("server is listening to port 8080");

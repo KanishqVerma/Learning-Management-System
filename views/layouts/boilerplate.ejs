@@ -14,8 +14,7 @@
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile"||
-        page==="show_certificate") { %>
+        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
         <%- include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
@@ -35,7 +34,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const toggleBtn = document.getElementById("toggle-btn");
-        const sidebar = document.getElementById("sidebar"); // ✅ note: using ID
+        const sidebar = document.getElementById("sidebar");
         const main = document.querySelector(".main-wrapper");
 
         if (toggleBtn && sidebar && main) {
