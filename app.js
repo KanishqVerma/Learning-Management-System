@@ -633,7 +633,7 @@ app.get("/download_certificate_image", async (req, res) => {
     // ⬇ THIS LINE IS FIXED ⬇
     res.setHeader(
       "Content-Disposition",
-      attachment. filename="${userName}-${course}-Certificate.png"
+      `attachment; filename="${userName}-${course}-Certificate.png"`   // this line have error
     );
     res.contentType("image/png");
     res.send(imageBuffer);
