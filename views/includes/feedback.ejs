@@ -1,0 +1,102 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-lg-8 col-md-10 col-12">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+
+        <!-- Go Back Button -->
+        <div class="mb-4 text-center">
+          <a href="/certificates" class="btn btn-outline-secondary btn-go-back">&larr; Go Back</a>
+        </div>
+
+        <!-- Header -->
+        <h3 class="card-title mb-2 text-center">Course Feedback</h3>
+        <p class="text-center text-muted mb-4">We'd love your feedback on this course!</p>
+
+        <!-- Feedback Form -->
+        <form action="/feedback/submit" method="POST">
+
+          <!-- Course Name -->
+          <div class="mb-3">
+            <label for="courseName" class="form-label">Course Name</label>
+            <input type="text" class="form-control" id="courseName" name="courseName" value="WEB DEVELOPMENT" readonly>
+          </div>
+
+          <!-- Overall Rating -->
+          <div class="mb-3">
+            <label class="form-label">Overall Course Rating</label>
+            <select class="form-select" name="rating" required>
+              <option value="">Select rating</option>
+              <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+              <option value="4">⭐⭐⭐⭐ Very Good</option>
+              <option value="3">⭐⭐⭐ Good</option>
+              <option value="2">⭐⭐ Fair</option>
+              <option value="1">⭐ Poor</option>
+            </select>
+          </div>
+
+          <!-- Course Content Feedback -->
+          <div class="mb-3">
+            <label class="form-label">Course Content</label>
+            <textarea class="form-control" name="contentFeedback" rows="3" placeholder="What did you think about the course material?" required></textarea>
+          </div>
+
+          <!-- Additional Comments -->
+          <div class="mb-3">
+            <label class="form-label">Additional Comments</label>
+            <textarea class="form-control" name="additionalComments" rows="2" placeholder="Any suggestions or feedback?"></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-primary btn-lg">Submit Feedback</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #f4f7fb;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .card {
+    border-radius: 1rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .btn-go-back {
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1.5rem;
+    }
+    .btn-go-back {
+      width: 100%;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .d-grid button {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card {
+      margin: 0 0.5rem;
+    }
+  }
+</style>

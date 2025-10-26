@@ -20,13 +20,12 @@ const MongoStore = require("connect-mongo");
 const app = express();
 const cookieParser = require("cookie-parser");
 const { URLSearchParams } = require("url");
-<<<<<<< HEAD
-=======
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
->>>>>>> upstream/main
 const PORT = process.env.PORT || 5000;
-
+const { isAuthenticated } = require("./middleware.js");
+const flash = require("flash");
+const puppeteer = require("puppeteer");
 dotenv.config();
 
 // ===== Cloudinary Configuration =====
@@ -78,23 +77,22 @@ ffmpeg.setFfprobePath(ffprobePath); // add this line too
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,       
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl:  process.env.MONGO_URI,
+      mongoUrl: process.env.MONGO_URI,
       collectionName: "sessions",
-      ttl: 14 * 24 * 60 * 60,           // 14 days
+      ttl: 14 * 24 * 60 * 60, // 14 days
     }),
     cookie: {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7, 
-    },   
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
   })
 );
-
 
 app.use(async (req, res, next) => {
   // res.locals.success = req.flash("success");
@@ -141,8 +139,12 @@ app.get("/", (req, res) => {
   res.render("includes/landing.ejs", { page: "home" });
 });
 
-app.get("/show_certificate", (req, res) => {
-  res.render("includes/show_certificate.ejs", { page: "show_certificate" });
+// app.get("/show_certificate", (req, res) => {
+//   res.render("includes/show_certificate.ejs", { page: "show_certificate" });
+// });
+
+app.get("/feedback", (req, res) => {
+  res.render("includes/feedback.ejs", { page: "feedback" });
 });
 
 // Admin Dashboard
@@ -176,27 +178,44 @@ app.get("/video_upload", (req, res) => {
 
 app.get("/courses", async (req, res) => {
   try {
-    // Fetch distinct course names from videos
-    const courses = await videoModel.distinct("course");
+    // 🔸 Check if user is logged in
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+    const userId = req.session.user.id;
+
+    // 1️⃣ Get user and all videos
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+
+    const allCourses = await videoModel.distinct("course");
+    const coursesWithProgress = [];
+
+    // 2️⃣ For each course, calculate progress
+    for (const courseName of allCourses) {
+      console.log(`\n➡️ Calculating progress for course: ${courseName}`);
+      const totalVideos = await videoModel.countDocuments({ course: courseName });
+
+      // find all videoIds belonging to this course
+      const courseVideos = await videoModel.find({ course: courseName }).select("_id");
+
+      // count how many of these are in user.watchedVideos
+      const watchedCount = user.watchedVideos.filter((w) => courseVideos.some((v) => v._id.toString() === w.videoId.toString())).length;
+
+      const progress = totalVideos > 0 ? Math.round((watchedCount / totalVideos) * 100) : 0;
+      console.log("📈 Progress:", progress, "%");
+      coursesWithProgress.push({ title: courseName, progress });
+    }
 
     // Render template with courses array
     res.render("includes/courses", {
       page: "courses",
-      courses, // array of course names
+      courses: coursesWithProgress,
     });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
-
-app.get("/certificates", (req, res) => {
-  res.render("includes/certificates", { page: "certificates" });
-});
-
-// app.get("/profile", (req, res) => {
-//   res.render("includes/profile", { page: "profile" });
-// });
 
 app.get("/help", (req, res) => {
   res.render("includes/help", { page: "help" });
@@ -277,25 +296,25 @@ app.get("/course/:courseName", async (req, res) => {
   }
 });
 
-// ✅ Add in your routes file
 app.post("/watch/:videoId", async (req, res) => {
   try {
+    // ✅ 1. Check if user is logged in
     if (!req.session.user) return res.status(401).send("Login required");
 
+    // ✅ 2. Get videoId and enrollmentId from session
     const videoId = req.params.videoId;
-    const userIdentifier = req.session.user.id; // could be _id or enrollmentId
+    const enrollmentId = req.session.user.id; // this is enrollmentId stored in session
+    console.log("🎥 Video ID:", videoId);
 
-    // Try fetching by Mongo _id first, fallback to enrollmentId
-    const user =
-      (await userModel.findById(userIdentifier)) ||
-      (await userModel.findOne({ enrollmentId: userIdentifier }));
+    // ✅ 3. Find user by enrollmentId (not _id)
+    const user = await userModel.findOne({ enrollmentId });
 
     if (!user) return res.status(404).send("User not found");
 
-    // ✅ Prevent duplicates
-    const alreadyWatched = user.watchedVideos.some(
-      (v) => v.videoId.toString() === videoId
-    );
+    // ✅ 4. Log current watchedVideos
+    console.log(" Current watchedVideos:", user.watchedVideos);
+    // ✅ 4. Prevent duplicate entries
+    const alreadyWatched = user.watchedVideos.some((v) => v.videoId.toString() === videoId);
 
     if (!alreadyWatched) {
       user.watchedVideos.push({ videoId });
@@ -309,21 +328,20 @@ app.post("/watch/:videoId", async (req, res) => {
   }
 });
 
-
-
+//---USER DASHBOARD---
 app.get("/userdashboard", async (req, res) => {
   try {
-    // 🔸 Check if user is logged in
+    // Check if user is logged in
     if (!req.session.user) {
       return res.redirect("/login");
     }
 
-    // 🔸 Fetch the logged-in user's data from DB if needed
+    // Fetch the logged-in user's data from DB if needed
     const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
     // Get unique course names from all videos
     const courses = await videoModel.distinct("course");
 
-     const progressData = {};
+    const progressData = {};
 
     // If you want, you can also fetch some videos for thumbnails
     const courseThumbnails = {};
@@ -336,28 +354,109 @@ app.get("/userdashboard", async (req, res) => {
     // progressData[course] = progress;
     // }
 
-
-      for (const course of courses) {
-      // 🔸 (Optional) Fetch first video thumbnail per course
+    for (const course of courses) {
+      // Optional) Fetch first video thumbnail per course
       const firstVideo = await videoModel.findOne({ course });
       courseThumbnails[course] = firstVideo?.thumbnailUrl || "";
 
-      // 🔸 Calculate progress
+      // Calculate progress
       const total = await videoModel.countDocuments({ course });
-      const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
+      const watched = user.watchedVideos.filter((v) => v.videoId?.course === course).length;
       const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
       progressData[course] = progress;
     }
 
     res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user,progressData });
-    // res.render("user/userdashboard", { courses, courseThumbnails });
-  } catch (err) {
+    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user, progressData });
     console.error(err);
-    res.status(500).send("Error loading dashboard");
   }
 });
 
-// SIGNUP TRY
+//CERTIFICATE PAGE
+app.get("/certificates", async (req, res) => {
+  try {
+    if (!req.session.user) return res.redirect("/login");
+
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
+
+    const courses = await videoModel.distinct("course");
+    const completedCourses = [];
+
+    for (const course of courses) {
+      const total = await videoModel.countDocuments({ course });
+      const watched = user.watchedVideos.filter((v) => v.videoId?.course === course).length;
+      const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+
+      completedCourses.push({
+        title: course,
+        progress,
+      });
+    }
+
+    res.render("includes/certificates", {
+      page: "certificates",
+      user,
+      completedCourses,
+    });
+  } catch (error) {
+    console.error("Error loading certificates:", error);
+    res.status(500).send("Server Error");
+  }
+});
+
+// app.get("/show_certificate", async (req, res) => {
+//   try {
+//     if (!req.session.user) return res.redirect("/login");
+
+//     const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+
+//     const courses = await videoModel.distinct("course");
+//     // const completedCourses = [];
+
+//     // Loop through courses and calculate progress (same as dashboard)
+//     for (const course of courses) {
+//       const total = await videoModel.countDocuments({ course });
+//       const watched = user.watchedVideos.filter((v) => v.videoId?.course === course).length;
+//       const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+
+//       if (progress === 100) {
+//         completedCourses.push(course);
+//       }
+//     }
+
+//     res.render("includes/show_certificate.ejs", {
+//       page: "show_certificate",
+//       user,
+//       // completedCourses: completedCourses || [],
+//       // courses,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching certificates:", error);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+// app.get("/show_certificate", async (req, res) => {
+//   try {
+//     if (!req.session.user) return res.redirect("/login");
+
+//     const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+
+//     const courseName = req.query.course; // from ?course=...
+//     if (!courseName) return res.status(400).send("Course name missing");
+
+//     res.render("includes/show_certificate.ejs", {
+//       page: "show_certificate",
+//       user,
+//       courseName, // send just this
+//     });
+//   } catch (error) {
+//     console.error("Error fetching certificate:", error);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+// SIGNUP
 app.post("/signup", async (req, res) => {
   try {
     const { name, enrollmentId, password, collegeName, batch } = req.body;
@@ -380,6 +479,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+//LOGIN
 app.post("/login", async (req, res) => {
   const { uniqueId, password } = req.body;
 
@@ -400,12 +500,6 @@ app.post("/login", async (req, res) => {
   if (!user) {
     return res.status(401).render("users/login", { error: "User not found", values: { uniqueId }, page: "login" });
   }
-
-  // if (user.password !== password) {
-  //   return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
-  // }
-
-  console.log(user);
 
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {
@@ -454,9 +548,6 @@ app.post("/deleteuser/:id", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
-
 
 app.get("/profile", async (req, res) => {
   try {
@@ -465,13 +556,11 @@ app.get("/profile", async (req, res) => {
       return res.redirect("/login");
     }
 
-    console.log("Logged-in session user:", req.session.user);
     // ✅ 2. Get user ID from session
     const userId = req.session.user.id;
 
     // ✅ 3. Fetch user details using correct field name
     const user = await userModel.findOne({ enrollmentId: userId }).lean();
-    console.log("Fetched user:", user);
 
     if (!user) {
       return res.status(404).render("includes/profile", {
@@ -494,7 +583,198 @@ app.get("/profile", async (req, res) => {
   }
 });
 
->>>>>>> upstream/main
+// ===== Download Certificate as Image (PNG) =====
+
+// app.get("/download_certificate_image", async (req, res) => {
+//   try {
+//     const course = req.query.course || "Web Development Fundamentals";
+//     const userName = req.session.user?.name || "Student"; // dynamically from session
+
+//     const browser = await puppeteer.launch({
+//       headless: true,
+//       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+//     });
+
+//     const page = await browser.newPage();
+
+//     // Load your existing certificate page (with dynamic params)
+//     await page.goto(
+//       `http://localhost:8080/show_certificate?course=${encodeURIComponent(
+//         course
+//       )}&name=${encodeURIComponent(userName)}`,
+//       { waitUntil: "networkidle0" }
+//     );
+
+//     // Give fonts/CSS a moment to render
+//     await new Promise((r) => setTimeout(r, 1000));
+
+//     // Select only the certificate container
+//     const cert = await page.$(".certificate-container");
+
+//     // Screenshot just that part
+//     const imageBuffer = await cert.screenshot({
+//       type: "png",
+//       omitBackground: false,
+//     });
+
+//     await browser.close();
+
+//     // Send as download
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename="${userName}-${course}-Certificate.png"`
+//     );
+//     res.contentType("image/png");
+//     res.send(imageBuffer);
+//   } catch (err) {
+//     console.error("Error generating certificate image:", err);
+//     res.status(500).send("Failed to generate certificate image");
+//   }
+// });
+
+// app.get("/download_certificate_image", async (req, res) => {
+//   try {
+//     const course = req.query.course ;
+//     const userName = req.session.user?.name || "Student";
+
+//     // ✅ Use dynamic base URL (works on deploy)
+//     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+
+//     const browser = await puppeteer.launch({
+//       headless: true,
+//       args: [
+//         "--no-sandbox",
+//         "--disable-setuid-sandbox",
+//         "--disable-dev-shm-usage",
+//         "--single-process",
+//         "--no-zygote",
+//       ],
+//     });
+
+//     const page = await browser.newPage();
+
+//     // ✅ Use your deployed domain instead of localhost
+//     const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(
+//       course
+//     )}&name=${encodeURIComponent(userName)}`;
+
+//     console.log("Generating certificate for:", targetUrl);
+
+//     await page.goto(targetUrl, { waitUntil: "networkidle0" });
+//     await new Promise((r) => setTimeout(r, 1000)); // Wait for CSS/fonts
+
+//     const cert = await page.$(".certificate-container");
+//     if (!cert) throw new Error("Certificate container not found on page.");
+
+//     const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
+//     await browser.close();
+
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename="${userName}-${course}-Certificate.png"`
+//     );
+//     res.contentType("image/png");
+//     res.send(imageBuffer);
+//   } catch (err) {
+//     console.error("Error generating certificate image:", err);
+//     res.status(500).send("Failed to generate certificate image");
+//   }
+// });
+
+// app.get("/download_certificate_image", async (req, res) => {
+//   try {
+//     const course = req.query.course;
+//     const userName = req.session.user?.name || "Student";
+
+//     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+
+//     const browser = await puppeteer.launch({
+//       headless: true,
+//       args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--single-process", "--no-zygote"],
+//     });
+
+//     const page = await browser.newPage();
+
+//     const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(course)}&name=${encodeURIComponent(userName)}`;
+
+//     console.log("Generating certificate for:", targetUrl);
+
+//     await page.goto(targetUrl, { waitUntil: "networkidle0" });
+//     await new Promise((r) => setTimeout(r, 1000));
+
+//     const cert = await page.$(".certificate-container");
+//     if (!cert) throw new Error("Certificate container not found on page.");
+
+//     const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
+//     await browser.close();
+
+//     // ⬇ THIS LINE IS FIXED ⬇
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename="${userName}-${course}-Certificate.png"` // this line have error
+//     );
+//     res.contentType("image/png");
+//     res.send(imageBuffer);
+//   } catch (err) {
+//     console.error("Error generating certificate image:", err);
+//     res.status(500).send("Failed to generate certificate image");
+//   }
+// });
+
+app.get("/download_certificate_image", async (req, res) => {
+  try {
+    if (!req.session.user) return res.redirect("/login");
+
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+    const courseName = req.query.course;
+    const download = req.query.download === "true"; // if true → download image
+    const userName = req.query.name || user.name || "Student";
+
+    if (!courseName) return res.status(400).send("Course name missing");
+
+    // ✅ If not downloading → just render certificate page
+    if (!download) {
+      return res.render("includes/show_certificate.ejs", {
+        page: "show_certificate",
+        user,
+        userName,
+        courseName,
+      });
+    }
+
+    // ✅ Else, generate image using Puppeteer
+    const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--single-process", "--no-zygote"],
+      // Uncomment below line if puppeteer-core throws Chrome not found error
+      // executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    });
+
+    const page = await browser.newPage();
+
+    const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(courseName)}&name=${encodeURIComponent(userName)}`;
+    console.log("Generating certificate for:", targetUrl);
+
+    await page.goto(targetUrl, { waitUntil: "networkidle0" });
+    await new Promise((r) => setTimeout(r, 1000));
+
+    const cert = await page.$(".certificate-container");
+    if (!cert) throw new Error("Certificate container not found on page.");
+
+    const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
+    await browser.close();
+
+    res.setHeader("Content-Disposition", `attachment; filename="${userName}-${courseName}-Certificate.png"`);
+    res.contentType("image/png");
+    return res.send(imageBuffer);
+  } catch (err) {
+    console.error("Error generating certificate image:", err);
+    res.status(500).send("Failed to generate certificate image");
+  }
+});
+
 app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });

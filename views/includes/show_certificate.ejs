@@ -3,7 +3,7 @@
 <style>
   body {
     background-color: #f4f7fb;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Segoe UI", sans-serif;
     margin: 0;
     padding: 0;
   }
@@ -33,7 +33,7 @@
     transition: all 0.3s ease;
     text-decoration: none;
     z-index: 9999;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
   .back-btn:hover {
@@ -49,7 +49,7 @@
     padding: 3rem 4rem;
     width: 900px;
     text-align: center;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
 
   .certificate-header {
@@ -118,13 +118,63 @@
     color: #003366;
     opacity: 0.6;
   }
+
+  .certificate-container {
+    background: white;
+    border: 6px solid #003366;
+    border-radius: 16px;
+    padding: 3rem 4rem;
+    width: 90%;
+    max-width: 900px; /* keeps it from getting too wide on desktop */
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
+
+  .certificate-header {
+    font-size: 2.2rem;
+  }
+
+  .cert-name {
+    font-size: 2rem;
+  }
+
+  .cert-course {
+    font-size: 1.3rem;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 600px) {
+    .certificate-container {
+      padding: 2rem 1.5rem;
+    }
+
+    .certificate-header {
+      font-size: 1.5rem;
+    }
+
+    .cert-name {
+      font-size: 1.5rem;
+    }
+
+    .cert-course {
+      font-size: 1.1rem;
+    }
+
+    .certificate-footer {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .signature-block {
+      text-align: center !important;
+    }
+  }
 </style>
 
 <div class="main-content">
   <!-- Go Back Button -->
-  <a href="/certificates" class="back-btn">
-    <i class="fa-solid fa-arrow-left me-2"></i> Go Back
-  </a>
+  <a href="/certificates" class="back-btn"> <i class="fa-solid fa-arrow-left me-2"></i> Go Back </a>
 
   <!-- Certificate -->
   <div class="certificate-container">
@@ -132,15 +182,15 @@
     <div class="certificate-subtitle">This is to proudly certify that</div>
 
     <div class="certificate-body">
-      <div class="cert-name">Yana Malhotra</div>
+      <div class="cert-name"><%= user.name %></div>
       <div class="cert-text">has successfully completed the course</div>
-      <div class="cert-course">"Web Development Fundamentals"</div>
+      <div class="cert-course"><%= courseName %></div>
     </div>
 
     <div class="certificate-footer">
       <div class="signature-block">
         <div class="signature-line"></div>
-        <div class="signature-name">Prof. Adarsh Kumar</div>
+        <div class="signature-name">Prof. Pardeep Singh</div>
         <div class="text-secondary">Course Instructor</div>
       </div>
 
@@ -148,7 +198,7 @@
         <i class="fa-solid fa-award"></i>
       </div>
 
-      <div class="signature-block" style="text-align: right;">
+      <div class="signature-block" style="text-align: right">
         <div class="signature-line"></div>
         <div class="signature-name">GTB4CEC LMS</div>
         <div class="text-secondary">Official Seal</div>
