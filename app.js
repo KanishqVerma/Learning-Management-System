@@ -405,7 +405,6 @@ app.get("/certificates", async (req, res) => {
   }
 });
 
-//TRIAL ISME ERROR AARA
 // app.get("/show_certificate", async (req, res) => {
 //   try {
 //     if (!req.session.user) return res.redirect("/login");
@@ -438,25 +437,25 @@ app.get("/certificates", async (req, res) => {
 //   }
 // });
 
-app.get("/show_certificate", async (req, res) => {
-  try {
-    if (!req.session.user) return res.redirect("/login");
+// app.get("/show_certificate", async (req, res) => {
+//   try {
+//     if (!req.session.user) return res.redirect("/login");
 
-    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+//     const user = await userModel.findOne({ enrollmentId: req.session.user.id });
 
-    const courseName = req.query.course; // from ?course=...
-    if (!courseName) return res.status(400).send("Course name missing");
+//     const courseName = req.query.course; // from ?course=...
+//     if (!courseName) return res.status(400).send("Course name missing");
 
-    res.render("includes/show_certificate.ejs", {
-      page: "show_certificate",
-      user,
-      courseName, // send just this
-    });
-  } catch (error) {
-    console.error("Error fetching certificate:", error);
-    res.status(500).send("Server Error");
-  }
-});
+//     res.render("includes/show_certificate.ejs", {
+//       page: "show_certificate",
+//       user,
+//       courseName, // send just this
+//     });
+//   } catch (error) {
+//     console.error("Error fetching certificate:", error);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 // SIGNUP
 app.post("/signup", async (req, res) => {
@@ -682,22 +681,80 @@ app.get("/profile", async (req, res) => {
 //   }
 // });
 
+// app.get("/download_certificate_image", async (req, res) => {
+//   try {
+//     const course = req.query.course;
+//     const userName = req.session.user?.name || "Student";
+
+//     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
+
+//     const browser = await puppeteer.launch({
+//       headless: true,
+//       args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--single-process", "--no-zygote"],
+//     });
+
+//     const page = await browser.newPage();
+
+//     const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(course)}&name=${encodeURIComponent(userName)}`;
+
+//     console.log("Generating certificate for:", targetUrl);
+
+//     await page.goto(targetUrl, { waitUntil: "networkidle0" });
+//     await new Promise((r) => setTimeout(r, 1000));
+
+//     const cert = await page.$(".certificate-container");
+//     if (!cert) throw new Error("Certificate container not found on page.");
+
+//     const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
+//     await browser.close();
+
+//     // ⬇ THIS LINE IS FIXED ⬇
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename="${userName}-${course}-Certificate.png"` // this line have error
+//     );
+//     res.contentType("image/png");
+//     res.send(imageBuffer);
+//   } catch (err) {
+//     console.error("Error generating certificate image:", err);
+//     res.status(500).send("Failed to generate certificate image");
+//   }
+// });
+
 app.get("/download_certificate_image", async (req, res) => {
   try {
-    const course = req.query.course;
-    const userName = req.session.user?.name || "Student";
+    if (!req.session.user) return res.redirect("/login");
 
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+    const courseName = req.query.course;
+    const download = req.query.download === "true"; // if true → download image
+    const userName = req.query.name || user.name || "Student";
+
+    if (!courseName) return res.status(400).send("Course name missing");
+
+    // ✅ If not downloading → just render certificate page
+    if (!download) {
+      return res.render("includes/show_certificate.ejs", {
+        page: "show_certificate",
+        user,
+        userName,
+        courseName,
+      });
+    }
+
+    // ✅ Else, generate image using Puppeteer
     const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 
     const browser = await puppeteer.launch({
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage", "--single-process", "--no-zygote"],
+      // Uncomment below line if puppeteer-core throws Chrome not found error
+      // executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     });
 
     const page = await browser.newPage();
 
-    const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(course)}&name=${encodeURIComponent(userName)}`;
-
+    const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(courseName)}&name=${encodeURIComponent(userName)}`;
     console.log("Generating certificate for:", targetUrl);
 
     await page.goto(targetUrl, { waitUntil: "networkidle0" });
@@ -709,13 +766,9 @@ app.get("/download_certificate_image", async (req, res) => {
     const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
     await browser.close();
 
-    // ⬇ THIS LINE IS FIXED ⬇
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${userName}-${course}-Certificate.png"` // this line have error
-    );
+    res.setHeader("Content-Disposition", `attachment; filename="${userName}-${courseName}-Certificate.png"`);
     res.contentType("image/png");
-    res.send(imageBuffer);
+    return res.send(imageBuffer);
   } catch (err) {
     console.error("Error generating certificate image:", err);
     res.status(500).send("Failed to generate certificate image");
