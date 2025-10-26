@@ -437,25 +437,25 @@ app.get("/certificates", async (req, res) => {
 //   }
 // });
 
-// app.get("/show_certificate", async (req, res) => {
-//   try {
-//     if (!req.session.user) return res.redirect("/login");
+app.get("/show_certificate", async (req, res) => {
+  try {
+    if (!req.session.user) return res.redirect("/login");
 
-//     const user = await userModel.findOne({ enrollmentId: req.session.user.id });
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id });
 
-//     const courseName = req.query.course; // from ?course=...
-//     if (!courseName) return res.status(400).send("Course name missing");
+    const courseName = req.query.course; // from ?course=...
+    if (!courseName) return res.status(400).send("Course name missing");
 
-//     res.render("includes/show_certificate.ejs", {
-//       page: "show_certificate",
-//       user,
-//       courseName, // send just this
-//     });
-//   } catch (error) {
-//     console.error("Error fetching certificate:", error);
-//     res.status(500).send("Server Error");
-//   }
-// });
+    res.render("includes/show_certificate.ejs", {
+      page: "show_certificate",
+      user,
+      courseName, // send just this
+    });
+  } catch (error) {
+    console.error("Error fetching certificate:", error);
+    res.status(500).send("Server Error");
+  }
+});
 
 // SIGNUP
 app.post("/signup", async (req, res) => {
