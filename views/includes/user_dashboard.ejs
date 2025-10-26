@@ -189,7 +189,7 @@
   <main class="main-content flex-grow-1">
     <!-- Header -->
     <div class="dashboard-header">
-      <h2>Welcome, <%= user.name %> </h2>
+      <h2>Welcome, <%= user.name %></h2>
       <p>Here’s your learning overview.</p>
     </div>
 
@@ -233,28 +233,21 @@
       <h4>Continue Learning</h4>
 
       <div class="course-grid">
-        <% if (courses.length > 0) { %>
-          <% courses.forEach(course => { %>
-            <div class="course-card">
-              <div>
-                <h5><%= course %></h5>
-                <p class="progress-text">Progress: <%= progressData[course] %>%</p>
-                <div class="progress">
-                  <div class="progress-bar" style="width: <%= progressData[course] %>%"></div>
-                </div>
-              </div>
-              <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">
-                Continue Learning
-              </button>
+        <% if (courses.length > 0) { %> <% courses.forEach(course => { %>
+        <div class="course-card">
+          <div>
+            <h5><%= course %></h5>
+            <p class="progress-text">Progress: <%= progressData[course] %>%</p>
+            <div class="progress">
+              <div class="progress-bar" style="width: <%= progressData[course] %> %"></div>
             </div>
-          <% }) %>
-        <% } else { %>
-          <p class="text-muted mt-3">No courses available yet. Please check back later.</p>
+          </div>
+          <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">Continue Learning</button>
+        </div>
+        <% }) %> <% } else { %>
+        <p class="text-muted mt-3">No courses available yet. Please check back later.</p>
         <% } %>
       </div>
     </div>
   </main>
 </div>
-
-
-

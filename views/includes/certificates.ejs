@@ -1,48 +1,47 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="main-wrapper d-flex">
-
   <main class="main-content flex-grow-1">
     <div class="dashboard-header mb-4">
       <h2>Certificates</h2>
       <p>View and download your earned certificates</p>
     </div>
 
+    <% if (completedCourses && completedCourses.length > 0) { %>
     <!-- Summary Card -->
-    <div class="alert alert-success d-flex align-items-center mb-4" role="alert" style="border-radius: 12px;">
+    <div class="alert alert-success d-flex align-items-center mb-4" role="alert" style="border-radius: 12px">
       <i class="fa-solid fa-award me-2"></i>
       <div>
-        <strong>You've earned 8 certificates!</strong><br>
+        <strong>You've earned <%= completedCourses.length %> certificate<%= completedCourses.length > 1 ? 's' : '' %>!</strong><br />
         <span class="text-secondary">Keep up the great work in your learning journey</span>
       </div>
     </div>
 
     <!-- Certificates Grid -->
     <div class="certificate-grid">
-      <% const certificates = [
-        { title: "Introduction to Python Programming" },
-        { title: "Advanced JavaScript" },
-        { title: "Machine Learning Basics" },
-        { title: "Database Management Systems" },
-        { title: "Cloud Computing Fundamentals" },
-        { title: "Data Visualization with Python" }
-      ]; %>
+      <% completedCourses.forEach(course => { %> <% if (Number(course.progress) === 100) { %>
 
-      <% certificates.forEach(cert => { %>
       <div class="certificate-card">
         <div class="certificate-banner">
           <i class="fa-solid fa-award"></i>
         </div>
 
-        <div class="certificate-body text-center">
-          <h5><%= cert.title %></h5>
-        <a href="/download_certificate_image?course=<%= cert.title %>" class="btn-download mt-3">
+
+      <div class="certificate-body text-center">
+          <h5><%= course.title %></h5>
+        <a href="/download_certificate_image?course=<%= course.title %>&download=true" class="btn-download mt-3">
   <i class="fa-solid fa-download me-1"></i> Download Certificate
 </a>
 
         </div>
-      </div>
-      <% }) %>
+
+      <% } %> <% }) %>
     </div>
+    <% } else { %>
+    <div class="alert alert-info" style="border-radius: 12px">
+      <h5>No certificates yet 🎓</h5>
+      <p>Complete your courses to earn certificates.</p>
+    </div>
+    <% } %>
   </main>
 </div>
