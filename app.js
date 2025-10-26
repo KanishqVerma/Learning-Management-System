@@ -616,8 +616,8 @@ app.get("/download_certificate_image", async (req, res) => {
     await page.goto(targetUrl, { waitUntil: "networkidle0" });
     await new Promise((r) => setTimeout(r, 1000)); // Wait for CSS/fonts
 
-    // const cert = await page.$(".certificate-container");
-    // if (!cert) throw new Error("Certificate container not found on page.");
+    const cert = await page.$(".certificate-container");
+    if (!cert) throw new Error("Certificate container not found on page.");
 
     const imageBuffer = await cert.screenshot({ type: "png", omitBackground: false });
     await browser.close();
