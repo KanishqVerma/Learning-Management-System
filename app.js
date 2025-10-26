@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const path = require("path");
 const multer = require("multer");
 const ffmpeg = require("fluent-ffmpeg");
@@ -12,10 +11,20 @@ const ejsMate = require("ejs-mate");
 const dotenv = require("dotenv");
 const { encrypt, decrypt } = require("./utils/crypto");
 const bcrypt = require("bcrypt");
+const session = require("express-session");
+const bodyParser = require("body-parser");
 const userModel = require("./models/user");
 const adminModel = require("./models/admin");
 const videoModel = require("./models/video");
+const MongoStore = require("connect-mongo");
+const app = express();
+const cookieParser = require("cookie-parser");
 const { URLSearchParams } = require("url");
+<<<<<<< HEAD
+=======
+const { isAuthenticated } = require("./middleware.js");
+const flash = require("flash");
+>>>>>>> upstream/main
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
@@ -45,6 +54,7 @@ const KEY = process.env.PW_SECRET_KEY; // must be 32 bytes base64 or hex (see be
 if (!KEY) {
   throw new Error("Set PW_SECRET_KEY env var (32 bytes base64 string).");
 }
+app.use(express.static("public"));
 
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -55,9 +65,68 @@ app.use(express.static(path.join(__dirname, "public")));
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath); // add this line too
+
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+//     cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+//   })
+// );
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,       
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl:  process.env.MONGO_URI,
+      collectionName: "sessions",
+      ttl: 14 * 24 * 60 * 60,           // 14 days
+    }),
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7, 
+    },   
+  })
+);
+
+
+app.use(async (req, res, next) => {
+  // res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
+});
+
 app.get("/", (req, res) => {
   res.render("layouts/boilerplate.ejs", { page: "home" });
 });
+
+const admins = [
+  {
+    uniqueId: process.env.ADMIN1_ID,
+    password: process.env.ADMIN1_PASSWORD,
+    name: process.env.ADMIN1_NAME,
+    role: "admin",
+  },
+  {
+    uniqueId: process.env.ADMIN2_ID,
+    password: process.env.ADMIN2_PASSWORD,
+    name: process.env.ADMIN2_NAME,
+    role: "admin",
+  },
+];
+
+app.post("/logout", (req, res) => {
+  console.log("logging out");
+  req.session.destroy(() => res.redirect("/"));
+});
+
 // ===== ROUTES =====
 
 app.get("/login", (req, res) => {
@@ -125,9 +194,9 @@ app.get("/certificates", (req, res) => {
   res.render("includes/certificates", { page: "certificates" });
 });
 
-app.get("/profile", (req, res) => {
-  res.render("includes/profile", { page: "profile" });
-});
+// app.get("/profile", (req, res) => {
+//   res.render("includes/profile", { page: "profile" });
+// });
 
 app.get("/help", (req, res) => {
   res.render("includes/help", { page: "help" });
@@ -135,11 +204,6 @@ app.get("/help", (req, res) => {
 
 app.get("/developed_by", (req, res) => {
   res.render("includes/developed_by", { page: "developed_by" });
-});
-
-// Logout → back to landing
-app.post("/logout", (req, res) => {
-  res.redirect("/");
 });
 
 app.post("/upload-video", upload.single("video"), async (req, res) => {
@@ -205,7 +269,6 @@ app.get("/course/:courseName", async (req, res) => {
     // check which video is selected
     const selectedVideoId = req.query.v;
     const currentVideo = selectedVideoId ? await videoModel.findById(selectedVideoId) : videos[0]; // default = first video
-    console.log(videos);
 
     res.render("includes/show", { page: "show", videos, currentVideo, courseName });
   } catch (err) {
@@ -214,26 +277,85 @@ app.get("/course/:courseName", async (req, res) => {
   }
 });
 
+// ✅ Add in your routes file
+app.post("/watch/:videoId", async (req, res) => {
+  try {
+    if (!req.session.user) return res.status(401).send("Login required");
+
+    const videoId = req.params.videoId;
+    const userIdentifier = req.session.user.id; // could be _id or enrollmentId
+
+    // Try fetching by Mongo _id first, fallback to enrollmentId
+    const user =
+      (await userModel.findById(userIdentifier)) ||
+      (await userModel.findOne({ enrollmentId: userIdentifier }));
+
+    if (!user) return res.status(404).send("User not found");
+
+    // ✅ Prevent duplicates
+    const alreadyWatched = user.watchedVideos.some(
+      (v) => v.videoId.toString() === videoId
+    );
+
+    if (!alreadyWatched) {
+      user.watchedVideos.push({ videoId });
+      await user.save();
+    }
+
+    res.status(200).send("Progress updated");
+  } catch (err) {
+    console.error("Error updating progress:", err);
+    res.status(500).send("Error updating progress");
+  }
+});
+
+
+
 app.get("/userdashboard", async (req, res) => {
   try {
+    // 🔸 Check if user is logged in
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+
+    // 🔸 Fetch the logged-in user's data from DB if needed
+    const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
     // Get unique course names from all videos
     const courses = await videoModel.distinct("course");
 
+     const progressData = {};
+
     // If you want, you can also fetch some videos for thumbnails
     const courseThumbnails = {};
-    for (const course of courses) {
-      // const firstVideo = await videoModel.findOne({ course });
-      courseThumbnails[course] = "";
+    // for (const course of courses) {
+    //   // const firstVideo = await videoModel.findOne({ course });
+    //   courseThumbnails[course] = "";
+    // const total = await videoModel.countDocuments({ course });
+    // const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
+    // const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+    // progressData[course] = progress;
+    // }
+
+
+      for (const course of courses) {
+      // 🔸 (Optional) Fetch first video thumbnail per course
+      const firstVideo = await videoModel.findOne({ course });
+      courseThumbnails[course] = firstVideo?.thumbnailUrl || "";
+
+      // 🔸 Calculate progress
+      const total = await videoModel.countDocuments({ course });
+      const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
+      const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
+      progressData[course] = progress;
     }
-    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails });
+
+    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user,progressData });
     // res.render("user/userdashboard", { courses, courseThumbnails });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error loading dashboard");
   }
 });
-
-
 
 // SIGNUP TRY
 app.post("/signup", async (req, res) => {
@@ -258,6 +380,48 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { uniqueId, password } = req.body;
+
+  // 1️⃣ Check if admin (from .env)
+  const admin = admins.find((a) => a.uniqueId === uniqueId && a.password === password);
+
+  if (admin) {
+    req.session.user = {
+      id: admin.uniqueId,
+      name: admin.name,
+      role: admin.role,
+    };
+    return res.redirect("/admin/dashboard");
+  }
+
+  // 2️⃣ Else check MongoDB user
+  const user = await userModel.findOne({ enrollmentId: uniqueId });
+  if (!user) {
+    return res.status(401).render("users/login", { error: "User not found", values: { uniqueId }, page: "login" });
+  }
+
+  // if (user.password !== password) {
+  //   return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
+  // }
+
+  console.log(user);
+
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
+  if (!isMatch) {
+    return res.status(401).render("users/login", { error: "Incorrect password", values: { uniqueId }, page: "login" });
+  }
+
+  // success
+  req.session.user = {
+    id: user.enrollmentId,
+    name: user.name,
+    role: user.role || "user",
+  };
+
+  res.redirect("/userdashboard");
+  // res.render("includes/user_dashboard.ejs", { page: "userdashboard",user });
+});
 
 app.get("/showuser", async (req, res) => {
   try {
@@ -290,6 +454,47 @@ app.post("/deleteuser/:id", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+
+
+app.get("/profile", async (req, res) => {
+  try {
+    // ✅ 1. Check if user is logged in
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+
+    console.log("Logged-in session user:", req.session.user);
+    // ✅ 2. Get user ID from session
+    const userId = req.session.user.id;
+
+    // ✅ 3. Fetch user details using correct field name
+    const user = await userModel.findOne({ enrollmentId: userId }).lean();
+    console.log("Fetched user:", user);
+
+    if (!user) {
+      return res.status(404).render("includes/profile", {
+        layout: "layouts/boilerplate",
+        title: "Profile",
+        user: null,
+        message: "User not found",
+        page: "profile",
+      });
+    }
+
+    // ✅ 4. Render EJS with user data
+    res.render("includes/profile", {
+      user,
+      page: "profile",
+    });
+  } catch (err) {
+    console.error("Profile route error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+>>>>>>> upstream/main
 app.listen(PORT, () => {
   console.log("server is listening to port 8080");
 });

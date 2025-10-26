@@ -33,6 +33,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+   watchedVideos: [
+    {
+      videoId: { type: mongoose.Schema.Types.ObjectId, ref: "Video" },
+      watchedAt: { type: Date, default: Date.now }
+    }
+  ],
   createdAt: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model("User", userSchema);

@@ -1,5 +1,18 @@
 <% layout('layouts/boilerplate') %>
+<style>
+  @media (max-width: 768px) {
+  .dashboard-header h2 {
+    font-size: 1.5rem;
+  }
+  .dashboard-header p {
+    font-size: 0.9rem;
+  }
+  .card.p-4 {
+    padding: 1.2rem !important;
+  }
+}
 
+</style>
 <div class="d-flex">
 
   <!-- Main Content -->
@@ -114,3 +127,21 @@
     </div>
   </main>
 </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("toggle-btn");
+  const sidebar = document.getElementById("sidebar"); // ✅ note: using ID
+  const main = document.querySelector(".main-wrapper");
+
+  if (toggleBtn && sidebar && main) {
+    toggleBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      main.classList.toggle("shifted");
+    });
+  } else {
+    console.warn("Sidebar toggle not initialized — element(s) missing");
+  }
+});
+
+    </script>

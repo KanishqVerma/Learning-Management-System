@@ -4,27 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LMS GTB4CEC</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/png" href="/pictures/favicon.png" />
+    <!-- Bootstrap + Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
     <link rel="stylesheet" href="/css/style.css" />
   </head>
+
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile"|| page==="show_certificate") { %> <%-
-        include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %> <%- include("../includes/admin_sidebar.ejs") %> <% } %>
+        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page==="courses" || page==="help" || page==="show" || page==="profile"||
+        page==="show_certificate") { %>
+        <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
+        <%- include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %>
+        <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
+        <%- include("../includes/admin_sidebar.ejs") %> <% } %>
 
-        <div>
-          <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" || page==="show_certificate" || page
-          === "developed_by" || page==="about" || page === "courses" || page==="show" || page === "showuser") { %> <%- body %> <% } %>
+        <div class="main-wrapper">
+          <% if (page === "home") { %> <%- include("../includes/landing.ejs") %> <% } %> <% if (page === "login" || page==="signup" || page==="about" || page==="userdashboard" || page==="admindashboard" || page==="video_upload" || page==="profile" || page==="certificates" || page==="help" ||
+          page==="show_certificate" || page==="developed_by" || page==="courses" || page==="show" || page==="showuser") { %> <%- body %> <% } %>
         </div>
       </main>
 
       <footer><% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/footer.ejs") %> <% } %></footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleBtn = document.getElementById("toggle-btn");
+        const sidebar = document.getElementById("sidebar"); // ✅ note: using ID
+        const main = document.querySelector(".main-wrapper");
+
+        if (toggleBtn && sidebar && main) {
+          toggleBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            main.classList.toggle("shifted");
+          });
+        } else {
+          console.warn("Sidebar toggle not initialized — element(s) missing");
+        }
+      });
+    </script>
   </body>
 </html>
