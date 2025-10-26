@@ -19,39 +19,24 @@
 
     <!-- Certificates Grid -->
     <div class="certificate-grid">
-      <% completedCourses.forEach(course => { %> 
-        <% if (Number(course.progress) === 100) { %>
+      <% completedCourses.forEach(course => { %> <% if (Number(course.progress) === 100) { %>
 
-        <div class="certificate-card">
-          <div class="certificate-banner">
-            <i class="fa-solid fa-award"></i>
-          </div>
-
-          <div class="certificate-body text-center">
-            <h5><%= course.title %></h5>
-
-            <!-- ✅ Added certificate preview container for Puppeteer -->
-            <div class="certificate-container d-none">
-              <div style="width:1000px; background:white; border:10px solid gold; border-radius:16px; padding:50px; text-align:center;">
-                <h1 style="font-weight:700; margin-bottom:10px;">Certificate of Completion</h1>
-                <p>This is to certify that</p>
-                <h2><%= user.name %></h2>
-                <p>has successfully completed the course</p>
-                <h3><%= course.title %></h3>
-                <p style="margin-top:30px;">Awarded by <strong>GTB Learning Platform</strong></p>
-              </div>
-            </div>
-
-            <a href="/download_certificate_image?course=<%= course.title %>&download=true" class="btn-download mt-3">
-              <i class="fa-solid fa-download me-1"></i> Download Certificate
-            </a>
-          </div>
+      <div class="certificate-card">
+        <div class="certificate-banner">
+          <i class="fa-solid fa-award"></i>
         </div>
 
-      <% } %> 
-      <% }) %>
-    </div>
 
+     <div class="certificate-body text-center">
+          <h5><%= course.title %></h5>
+        <a href="/download_certificate_image?course=<%= course.title %>" class="btn-download mt-3">
+  <i class="fa-solid fa-download me-1"></i> Download Certificate
+</a>
+
+        </div>
+
+      <% } %> <% }) %>
+    </div>
     <% } else { %>
     <div class="alert alert-info" style="border-radius: 12px">
       <h5>No certificates yet 🎓</h5>
