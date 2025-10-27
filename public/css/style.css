@@ -1252,177 +1252,64 @@ label[for="videoFile"] {
 
 
 
-/* ===USER DASHBOARD=== */
-.dashboard-header h2 {
-  font-weight: 700;
-  color: #f0f0f0;
-}
 
 
-
-.dashboard-header p {
-  color: #f0f0f0;
-  font-size: 1rem;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.stat-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-}
-
-.stat-card i {
-  font-size: 1.8rem;
-  color: #003366;
-}
-
-.stat-card .stat-number {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.stat-card .stat-label {
-  font-size: 0.95rem;
-  color: #6b7280;
-}
-
-/* Continue Learning Section */
-.course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.course-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.course-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.course-card h5 {
-  font-weight: 600;
-  color: #111827;
-}
-
-.progress {
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  background-color: #003366;
-}
-
-.btn-continue {
-  background-color: #003366;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  width: 100%;
-  margin-top: 1rem;
-  padding: 10px;
-  transition: all 0.3s ease;
-}
-
-.btn-continue:hover {
-  background-color: #00264d;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
-}
-
-.main-content {
-  margin-left: 270px;
-  padding: 2.5rem;
-  background-color: #f9fafc;
-  min-height: 100vh;
-  transition: all 0.4s ease;
-}
-
-/* === Certificates Page (Clean Theme) === */
+/* === Certificates Page (Clean Compact Theme - Left aligned) === */
 .certificate-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
   margin-top: 1.5rem;
-  justify-items: center;
+  justify-items: start; /* ✅ Left aligned instead of centered */
 }
 
 .certificate-card {
-  width: 90%;
+  width: 100%;
+  max-width: 280px;
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  align-items: center;
 }
 
 .certificate-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Blue banner */
+/* --- Banner --- */
 .certificate-banner {
   background: linear-gradient(135deg, #003366, #0059b3);
   color: #fff;
-  height: 110px;
+  height: 90px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.3rem;
+  font-size: 2rem;
 }
 
+/* --- Body --- */
 .certificate-body {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 1.3rem 1rem 1.5rem;
+  padding: 1.2rem;
   text-align: center;
+  flex-grow: 1;
 }
 
 .certificate-body h5 {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 600;
   color: #111827;
-  font-size: 1.05rem;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+  min-height: 40px;
 }
 
 /* --- Download Button --- */
@@ -1432,17 +1319,15 @@ label[for="videoFile"] {
   font-weight: 600;
   border: none;
   border-radius: 10px;
-  padding: 9px 18px;
+  padding: 8px 16px;
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 3px 8px rgba(0, 51, 102, 0.15);
-  width: auto;              /* ✅ not full width */
-  min-width: 170px;         /* ✅ consistent size */
-  margin-top: auto;         /* ✅ stays at bottom */
+  min-width: 150px;
 }
 
 .btn-download i {
@@ -1452,11 +1337,27 @@ label[for="videoFile"] {
 .btn-download:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 18px rgba(0, 51, 102, 0.25);
-  filter: brightness(1.1);
+  filter: brightness(1.08);
 }
 
 .btn-download:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
+}
+
+/* --- Responsive tweaks --- */
+@media (max-width: 576px) {
+  .certificate-banner {
+    height: 80px;
+    font-size: 1.8rem;
+  }
+  .certificate-body h5 {
+    font-size: 0.95rem;
+  }
+  .btn-download {
+    min-width: 140px;
+    padding: 7px 14px;
+    font-size: 0.9rem;
+  }
 }
 
 

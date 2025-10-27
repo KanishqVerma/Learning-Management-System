@@ -14,7 +14,7 @@
   <body>
     <div class="page-container">
       <main class="content">
-        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "certificates" || page === "feedback" || page==="courses" || page==="help" || page==="show" || page==="profile") { %>
+        <% if (page === "home" || page === "login" || page==="developed_by" || page==="about") { %> <%- include("../includes/header.ejs") %> <% } %> <% if (page === "userdashboard" || page === "show" || page === "certificates" || page === "feedback" || page==="courses" || page==="help" || page==="show_certificate" || page==="profile") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
         <%- include("../includes/user_sidebar.ejs") %> <% } %> <% if (page === "admindashboard" || page === "video_upload" || page === "signup" || page === "showuser") { %>
         <button id="toggle-btn" class="toggle-btn"><i class="fa fa-bars"></i></button>
