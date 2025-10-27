@@ -19,28 +19,180 @@
 
     <!-- Certificates Grid -->
     <div class="certificate-grid">
-      <% completedCourses.forEach(course => { %> <% if (Number(course.progress) === 100) { %>
-
-      <div class="certificate-card">
-        <div class="certificate-banner">
-          <i class="fa-solid fa-award"></i>
-        </div>
-
-
-      <div class="certificate-body text-center">
-          <h5><%= course.title %></h5>
-          <a href="/show_certificate?course=<%= encodeURIComponent(course.title) %>" class="btn-download mt-3"> <i class="fa-solid fa-download me-1"></i> Download Certificate </a>
-        </div>
-      </div>
-        </div>
-
-      <% } %> <% }) %>
+      <% completedCourses.forEach(course => { %>
+        <% if (Number(course.progress) === 100) { %>
+          <div class="certificate-card">
+            <div class="certificate-banner">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="certificate-body text-center">
+              <h5><%= course.title %></h5>
+              <a href="/show_certificate?course=<%= encodeURIComponent(course.title) %>" class="btn-download mt-3">
+                <i class="fa-solid fa-download me-1"></i> Download Certificate
+              </a>
+            </div>
+          </div>
+        <% } %>
+      <% }) %>
     </div>
+
     <% } else { %>
-    <div class="alert alert-info" style="border-radius: 12px">
-      <h5>No certificates yet 🎓</h5>
-      <p>Complete your courses to earn certificates.</p>
-    </div>
+      <div class="alert alert-info" style="border-radius: 12px">
+        <h5>No certificates yet 🎓</h5>
+        <p>Complete your courses to earn certificates.</p>
+      </div>
     <% } %>
   </main>
 </div>
+
+<style>
+/* === Certificates Page (Compact, Left-aligned, Responsive Column Layout) === */
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem 1.5rem; /* smaller horizontal gap, nice vertical spacing */
+  margin-top: 1.5rem;
+  justify-items: start; /* left align cards */
+}
+
+.certificate-card {
+  width: 100%;
+  max-width: 270px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.certificate-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Banner --- */
+.certificate-banner {
+  background: linear-gradient(135deg, #003366, #0059b3);
+  color: #fff;
+  height: 90px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* --- Body --- */
+.certificate-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.certificate-body h5 {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+  min-height: 40px;
+}
+
+/* --- Download Button --- */
+.btn-download {
+  background: linear-gradient(135deg, #003366, #0059b3);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 3px 8px rgba(0, 51, 102, 0.15);
+  min-width: 150px;
+}
+
+.btn-download:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 51, 102, 0.25);
+  filter: brightness(1.08);
+}
+
+.btn-download:active {
+  transform: scale(0.97);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .certificate-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .certificate-banner {
+    height: 80px;
+    font-size: 1.8rem;
+  }
+  .certificate-body h5 {
+    font-size: 0.95rem;
+  }
+  .btn-download {
+    min-width: 140px;
+    padding: 7px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, max-content)); /* tighter columns */
+  gap: 2rem 2rem; /* 🔥 reduced gap */
+  margin-top: 1rem;
+  justify-content: start; /* keeps left aligned */
+  align-items: start;
+}
+
+.certificate-card {
+  width: 240px; /* fixed width for consistent spacing */
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.certificate-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive: stack neatly on small screens */
+@media (max-width: 768px) {
+  .certificate-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem;
+    justify-content: center;
+  }
+
+  .certificate-card {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+</style>
