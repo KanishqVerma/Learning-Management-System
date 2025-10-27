@@ -12,70 +12,99 @@
         </div>
 
         <!-- Back Button -->
-        <a href="/courses" class="btn btn-outline-primary px-3 py-1" style="border-radius: 8px; font-size: 0.9rem; display: flex; align-items: center"> <i class="fa-solid fa-arrow-left me-2" style="font-size: 0.85rem"></i> Back </a>
+        <a
+          href="/courses"
+          class="btn btn-outline-primary px-3 py-1"
+          style="border-radius: 8px; font-size: 0.9rem; display: flex; align-items: center"
+        >
+          <i class="fa-solid fa-arrow-left me-2" style="font-size: 0.85rem"></i>
+          Back
+        </a>
       </div>
 
       <!-- Course Layout -->
-      <div class="d-flex flex-wrap" style="gap: 20px">
-        <!-- Topics Sidebar -->
-        <aside class="p-3 bg-white shadow-sm sidebar-course" style="width: 300px; border-radius: 12px; height: fit-content; max-height: 85vh; overflow-y: auto">
-          <h5 class="fw-semibold mb-3" style="color: #003366">Course Topics</h5>
-          <ul class="list-unstyled mb-0">
-            <% videos.forEach(video => { %> <% const isActive = currentVideo && video._id.toString() === currentVideo._id.toString(); %>
-            <li class="mb-2">
-              <a href="/course/<%= encodeURIComponent(video.course) %>?v=<%= video._id %>" class="d-block text-decoration-none px-3 py-2 topic-link <%= isActive ? 'active-topic' : '' %>" style="border-radius: 6px; transition: background 0.2s"> <%= video.topic %> </a>
-            </li>
-            <% }) %>
-          </ul>
-        </aside>
-
-        <!-- Video + Summary -->
-        <section class="flex-grow-1 bg-white shadow-sm p-4 d-flex flex-wrap align-items-start" style="border-radius: 12px; min-width: 500px; gap: 20px">
+      <div class="course-layout d-flex flex-wrap" style="gap: 20px">
+        
+        <!-- ===== Video + Summary ===== -->
+        <section
+          class="video-summary-wrapper flex-grow-1 d-flex align-items-start justify-content-center"
+          style="border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 1.5rem; gap: 30px; flex-wrap: nowrap;"
+        >
           <% if (currentVideo) { %>
-          <!-- Left: Video -->
-          <div class="flex-grow-1 text-center" style="min-width: 500px">
-            <video controls poster="<%= currentVideo.thumbnailUrl %>" style="width: 100%; max-width: 850px; border-radius: 12px">
+          <!-- Left: Video + Description -->
+          <div class="video-section flex-grow-1 d-flex flex-column align-items-center" style="min-width: 0;">
+            <video
+              controls
+              poster="<%= currentVideo.thumbnailUrl %>"
+              style="width: 100%; max-width: 850px; border-radius: 12px; display: block; margin: 0 auto;"
+            >
               <source src="<%= currentVideo.videoUrl %>" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
-            <div class="mt-3 text-start">
-              <h4 class="fw-semibold" style="color: #003366"><i class="fa-solid fa-play-circle me-2"></i> <%= currentVideo.topic %></h4>
+            <div class="mt-3 text-start" style="width: 100%; max-width: 850px;">
+              <h4 class="fw-semibold" style="color: #003366">
+                <i class="fa-solid fa-play-circle me-2"></i>
+                <%= currentVideo.topic %>
+              </h4>
 
               <% if (currentVideo.description) { %>
-              <p class="text-secondary mt-1 mb-0"><strong>Description:</strong> <%= currentVideo.description %></p>
+              <p class="text-secondary mt-1 mb-0">
+                <strong>Description:</strong> <%= currentVideo.description %>
+              </p>
               <% } %>
             </div>
           </div>
 
           <!-- Right: Summary -->
           <% if (currentVideo.summary) { %>
-          <div class="bg-light p-3 rounded shadow-sm" style="width: 280px; border-left: 4px solid #003366; height: fit-content; position: sticky; top: 80px">
+          <div
+            class="summary-section bg-light p-3 rounded shadow-sm"
+            style="width: 280px; border-left: 4px solid #003366; height: fit-content; position: sticky; top: 80px;"
+          >
             <h6 class="fw-bold mb-2" style="color: #003366">Summary</h6>
             <p class="mb-0"><%= currentVideo.summary %></p>
           </div>
-          <% } %> <% } else { %>
+          <% } %>
+
+          <% } else { %>
           <p class="text-secondary text-center mt-5">Select a topic to start learning.</p>
           <% } %>
         </section>
+
+        <!-- ===== Topics Sidebar ===== -->
+        <aside
+          class="p-3 bg-white shadow-sm sidebar-course"
+          style="width: 300px; border-radius: 12px; height: fit-content; max-height: 85vh; overflow-y: auto"
+        >
+          <h5 class="fw-semibold mb-3" style="color: #003366">Course Topics</h5>
+          <ul class="list-unstyled mb-0">
+            <% videos.forEach(video => { %>
+              <% const isActive = currentVideo && video._id.toString() === currentVideo._id.toString(); %>
+              <li class="mb-2">
+                <a
+                  href="/course/<%= encodeURIComponent(video.course) %>?v=<%= video._id %>"
+                  class="d-block text-decoration-none px-3 py-2 topic-link <%= isActive ? 'active-topic' : '' %>"
+                  style="border-radius: 6px; transition: background 0.2s"
+                >
+                  <%= video.topic %>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+        </aside>
       </div>
     </div>
   </main>
 </div>
 
-<!-- ✅ Toggle Script -->
 <!-- ✅ Video Watch Progress Script -->
 <script>
-  // Get the actual video element (your <video> tag)
   const videoPlayer = document.querySelector("video");
-
   if (videoPlayer) {
-    const videoId = "<%= currentVideo._id %>"; // from backend
-
-    // Listen when video completes
+    const videoId = "<%= currentVideo._id %>";
     videoPlayer.addEventListener("ended", async () => {
       console.log("🎬 Video ended, marking as watched:", videoId);
-
       try {
         const res = await fetch(`/watch/${videoId}`, { method: "POST" });
         const msg = await res.text();
@@ -87,31 +116,73 @@
   }
 </script>
 
-<!-- ✅ Responsive Fix -->
+<!-- ✅ Styles -->
 <style>
+  .sidebar-course {
+    flex-shrink: 0;
+  }
+
+  .topic-link.active-topic {
+    background-color: #003366 !important;
+    color: #fff !important;
+  }
+
+  .topic-link:hover {
+    background-color: #e9f1ff;
+  }
+
+  .video-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  video {
+    display: block;
+    width: 100%;
+    max-width: 850px;
+    border-radius: 12px;
+  }
+
+  /* === Responsive Layout === */
   @media (max-width: 992px) {
+    .course-layout {
+      flex-direction: column !important;
+    }
+
+    .video-summary-wrapper {
+      order: 1;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .sidebar-course {
-      width: 100%;
-      max-height: none;
-      order: 2;
+      order: 2; /* 👈 Sidebar always below video */
+      width: 100% !important;
+      max-height: none !important;
+      margin-top: 1.5rem;
     }
-    .main-content {
-      padding: 1rem !important;
+
+    .summary-section {
+      width: 100% !important;
+      max-width: 850px !important;
+      position: static !important;
+      margin-top: 1.5rem !important;
     }
+
     video {
       max-width: 100% !important;
     }
-    section {
-      flex-direction: column;
+
+    .main-content {
+      padding: 1rem !important;
     }
-    .bg-light {
-      width: 100% !important;
-      position: static !important;
-      margin-top: 1rem;
-    }
+
     a.btn.btn-outline-primary {
       font-size: 0.85rem !important;
       padding: 4px 10px !important;
     }
   }
 </style>
+
