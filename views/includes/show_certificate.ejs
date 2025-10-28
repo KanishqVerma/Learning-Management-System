@@ -2,28 +2,38 @@
 
 <style>
   body {
-    background-color: #f4f7fb;
+    background-color: #fff;
     font-family: "Segoe UI", sans-serif;
     margin: 0;
     padding: 0;
   }
 
+  /* --- MAIN WRAPPER --- */
   .main-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* centers vertically */
+    justify-content: center;
     min-height: 100vh;
-    background-color: #f4f7fb;
+    background-color: #fff;
     position: relative;
     padding: 2rem;
+    transition: all 0.3s ease;
+    overflow-x: hidden;
   }
 
-  /* --- Go Back Button --- */
-  .back-btn {
+  /* --- BUTTONS --- */
+  .top-buttons {
     position: fixed;
     top: 20px;
     right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .action-btn {
     background-color: white;
     border: 1.5px solid #003366;
     color: #003366;
@@ -32,24 +42,30 @@
     padding: 0.5rem 1.2rem;
     transition: all 0.3s ease;
     text-decoration: none;
-    z-index: 9999;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
 
-  .back-btn:hover {
+  .action-btn:hover {
     background-color: #003366;
     color: white;
   }
 
-  /* --- Certificate --- */
+  /* --- CERTIFICATE --- */
   .certificate-container {
     background: white;
     border: 6px solid #003366;
     border-radius: 16px;
     padding: 3rem 4rem;
-    width: 900px;
+    width: 90%;
+    max-width: 900px;
     text-align: center;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin-top: 5rem;
   }
 
   .certificate-header {
@@ -119,38 +135,15 @@
     opacity: 0.6;
   }
 
-  .certificate-container {
-    background: white;
-    border: 6px solid #003366;
-    border-radius: 16px;
-    padding: 3rem 4rem;
-    width: 90%;
-    max-width: 900px; /* keeps it from getting too wide on desktop */
-    text-align: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-  }
-
-  .certificate-header {
-    font-size: 2.2rem;
-  }
-
-  .cert-name {
-    font-size: 2rem;
-  }
-
-  .cert-course {
-    font-size: 1.3rem;
-  }
-
-  /* Mobile adjustments */
-  @media (max-width: 600px) {
+  /* --- MOBILE RESPONSIVE --- */
+  @media (max-width: 768px) {
     .certificate-container {
       padding: 2rem 1.5rem;
+      margin-top: 6rem;
     }
 
     .certificate-header {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     .cert-name {
@@ -169,24 +162,55 @@
     .signature-block {
       text-align: center !important;
     }
+
+    .top-buttons {
+      top: 15px;
+      right: 15px;
+    }
+  }
+
+  /* --- PRINT MODE --- */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    .certificate-container,
+    .certificate-container * {
+      visibility: visible;
+    }
+
+    .certificate-container {
+      margin: 0;
+      border: none;
+      box-shadow: none;
+      width: 100%;
+      max-width: 100%;
+      page-break-inside: avoid;
+    }
   }
 </style>
 
 <div class="main-content">
-  <!-- Go Back Button -->
-  <a href="/certificates" class="back-btn"> <i class="fa-solid fa-arrow-left me-2"></i> Go Back </a>
-  
-  
-     
+  <!-- Top Right Buttons -->
+  <div class="top-buttons">
+    <a
+      href="/download_certificate_image?course=<%= courseName %>"
+      class="action-btn"
+    >
+      <i class="fa-solid fa-download"></i> Download Certificate
+    </a>
+    <a href="/certificates" class="action-btn">
+      <i class="fa-solid fa-arrow-left"></i> Go Back
+    </a>
+  </div>
 
   <!-- Certificate -->
-  <div class="certificate-container">
-      <a href="/download_certificate_image?course=<%= courseName %>" class="btn-download mt-3">
-<i class="fa-solid fa-download me-1"></i> Download Certificate
-</a>
-
+  <div class="certificate-container" id="certificate">
     <div class="certificate-header">Certificate of Completion</div>
-    <div class="certificate-subtitle">This is to proudly certify that</div>
+    <div class="certificate-subtitle">
+      This is to proudly certify that
+    </div>
 
     <div class="certificate-body">
       <div class="cert-name"><%= user.name %></div>
