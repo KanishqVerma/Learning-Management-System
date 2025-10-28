@@ -8,29 +8,28 @@
     padding: 0;
   }
 
-  /* --- MAIN WRAPPER --- */
+  /* === MAIN CONTENT === */
   .main-content {
+    margin-left: 260px; /* keep sidebar space */
+    padding: 3rem 2rem;
+    min-height: 100vh;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #fff;
     position: relative;
-    padding: 2rem;
     transition: all 0.3s ease;
-    overflow-x: hidden;
   }
 
-  /* --- BUTTONS --- */
+  /* === BUTTONS (TOP-LEFT, OUTSIDE SIDEBAR) === */
   .top-buttons {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 280px; /* adjusted so it appears outside sidebar */
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 1000;
+    z-index: 9999;
   }
 
   .action-btn {
@@ -54,7 +53,7 @@
     color: white;
   }
 
-  /* --- CERTIFICATE --- */
+  /* === CERTIFICATE === */
   .certificate-container {
     background: white;
     border: 6px solid #003366;
@@ -65,7 +64,7 @@
     text-align: center;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    margin-top: 5rem;
+    margin-top: 6rem;
   }
 
   .certificate-header {
@@ -135,133 +134,48 @@
     opacity: 0.6;
   }
 
-  /* --- MOBILE RESPONSIVE --- */
-  @media (max-width: 768px) {
-    .certificate-container {
-      padding: 2rem 1.5rem;
-      margin-top: 6rem;
+  /* === RESPONSIVE === */
+  @media (max-width: 992px) {
+    .main-content {
+      margin-left: 0 !important;
+      padding: 2rem 1rem;
     }
-
-    .certificate-header {
-      font-size: 1.6rem;
-    }
-
-    .cert-name {
-      font-size: 1.5rem;
-    }
-
-    .cert-course {
-      font-size: 1.1rem;
-    }
-
-    .certificate-footer {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .signature-block {
-      text-align: center !important;
-    }
-
     .top-buttons {
+      left: 20px;
       top: 15px;
-      right: 15px;
     }
   }
 
-  /* --- PRINT MODE --- */
+  /* === HIDE BUTTONS FOR DOWNLOAD/PRINT === */
   @media print {
-    body * {
-      visibility: hidden;
-    }
-
-    .certificate-container,
-    .certificate-container * {
-      visibility: visible;
-    }
-
-    .certificate-container {
-      margin: 0;
-      border: none;
-      box-shadow: none;
-      width: 100%;
-      max-width: 100%;
-      page-break-inside: avoid;
+    .top-buttons {
+      display: none !important;
     }
   }
-  /* --- HIDE BUTTONS IN DOWNLOAD / PRINT MODE --- */
-@media print, screen and (display-mode: download) {
-  .top-buttons {
+
+  body.download-mode .top-buttons {
     display: none !important;
-    visibility: hidden !important;
   }
-}
-/* === HIDE TOP BUTTONS FROM SCREENSHOTS === */
-.top-buttons {
-  isolation: isolate; /* ensures separate stacking */
-}
-
-.top-buttons::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: white;
-  opacity: 0; /* invisible */
-  pointer-events: none;
-}
-
-/* Trick html2canvas not to capture them */
-.top-buttons {
-  transform: translateY(-200vh); /* moves them far off-screen */
-  position: absolute;
-}
-
-/* But when hovering or in normal DOM, bring back */
-body:not(.screenshot-mode) .top-buttons {
-  transform: translateY(0);
-  position: fixed;
-}
-/* --- KEEP BUTTONS OUTSIDE CERTIFICATE AREA --- */
-.top-buttons {
-  position: fixed;
-  top: 40px;       /* increase top margin */
-  right: 40px;     /* increase side spacing */
-  z-index: 1000;
-  transform: translateY(-150px); /* pushes them well above certificate */
-}
-
-@media (max-width: 768px) {
-  .top-buttons {
-    top: 30px;
-    right: 20px;
-    transform: translateY(-100px);
-  }
-}
-
-
-
 </style>
 
 <div class="main-content">
-  <!-- Top Right Buttons -->
-  <% if (!downloadMode) { %>
+  <!-- Top Left Buttons -->
   <div class="top-buttons">
-    <a href="/download_certificate_image?course=<%= courseName %>" class="action-btn">
+    <a
+      href="/download_certificate_image?course=<%= courseName %>"
+      class="action-btn"
+    >
       <i class="fa-solid fa-download"></i> Download Certificate
     </a>
     <a href="/certificates" class="action-btn">
       <i class="fa-solid fa-arrow-left"></i> Go Back
     </a>
   </div>
-<% } %>
-
 
   <!-- Certificate -->
   <div class="certificate-container" id="certificate">
     <div class="certificate-header">Certificate of Completion</div>
-    <div class="certificate-subtitle">
-      This is to proudly certify that
-    </div>
+    <div class="certificate-subtitle">This is to proudly certify that</div>
 
     <div class="certificate-body">
       <div class="cert-name"><%= user.name %></div>
