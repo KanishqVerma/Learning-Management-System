@@ -1,6 +1,120 @@
 <% layout('layouts/boilerplate') %>
 
 <style>
+
+  /* ===USER DASHBOARD=== */
+.dashboard-header h2 {
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+
+
+.dashboard-header p {
+  color: #f0f0f0;
+  font-size: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card i {
+  font-size: 1.8rem;
+  color: #003366;
+}
+
+.stat-card .stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-card .stat-label {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* Continue Learning Section */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.course-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.course-card h5 {
+  font-weight: 600;
+  color: #111827;
+}
+
+.progress {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #003366;
+}
+
+.btn-continue {
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-continue:hover {
+  background-color: #00264d;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 51, 102, 0.3);
+}
+
+.main-content {
+  margin-left: 270px;
+  padding: 2.5rem;
+  background-color: #f9fafc;
+  min-height: 100vh;
+  transition: all 0.4s ease;
+}
   /* ===== MAIN CONTENT ===== */
   .main-content {
     padding: 2rem;
@@ -112,7 +226,7 @@
   }
 
   .btn-continue {
-    background-color: #004aad;
+    background-color: #00337c;
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -127,6 +241,26 @@
   .btn-continue:hover {
     background-color: #00337c;
   }
+
+  .course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-card-header h5 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.course-card-header .badge {
+  font-size: 13px;
+  background-color: #e6f0ff;
+  color: #003366;
+}
+
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 992px) {
@@ -233,21 +367,32 @@
       <h4>Continue Learning</h4>
 
       <div class="course-grid">
-        <% if (courses.length > 0) { %> <% courses.forEach(course => { %>
-        <div class="course-card">
-          <div>
-            <h5><%= course %></h5>
-            <p class="progress-text">Progress: <%= progressData[course] %>%</p>
-            <div class="progress">
-              <div class="progress-bar" style="width: <%= progressData[course] %> %"></div>
-            </div>
-          </div>
-          <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">Continue Learning</button>
+  <% if (courses.length > 0) { %>
+    <% courses.forEach(course => { %>
+      <div class="course-card">
+        <!-- Course name -->
+        <h5 class="mb-3"><%= course %></h5>
+
+        <!-- Progress row -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <p class="progress-text mb-0">Progress:</p>
+          <span class="badge rounded-pill px-3 py-2 fw-semibold" style="background-color: #e6f0ff; color: #003366;">
+            <%= progressData[course] %>%
+          </span>
         </div>
-        <% }) %> <% } else { %>
-        <p class="text-muted mt-3">No courses available yet. Please check back later.</p>
-        <% } %>
+
+
+        <!-- Continue button -->
+        <button class="btn-continue" onclick="location.href='/course/<%= encodeURIComponent(course) %>'">
+          Continue Learning
+        </button>
       </div>
+    <% }) %>
+  <% } else { %>
+    <p class="text-muted mt-3">No courses available yet. Please check back later.</p>
+  <% } %>
+</div>
+
     </div>
   </main>
 </div>

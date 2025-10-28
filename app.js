@@ -285,7 +285,7 @@ app.get("/course/:courseName", async (req, res) => {
     const courseName = decodeURIComponent(req.params.courseName);
 
     // get all videos of that course
-    const videos = await videoModel.find({ course: courseName }).sort({ createdAt: -1 });
+    const videos = await videoModel.find({ course: courseName }).sort({ createdAt: 1 });
 
     // check which video is selected
     const selectedVideoId = req.query.v;
@@ -381,20 +381,25 @@ app.get("/certificates", async (req, res) => {
   try {
     if (!req.session.user) return res.redirect("/login");
 
-    const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
+    const user = await userModel
+      .findOne({ enrollmentId: req.session.user.id })
+      .populate("watchedVideos.videoId");
 
     const courses = await videoModel.distinct("course");
     const completedCourses = [];
 
     for (const course of courses) {
       const total = await videoModel.countDocuments({ course });
-      const watched = user.watchedVideos.filter((v) => v.videoId?.course === course).length;
+      const watched = user.watchedVideos.filter(v => v.videoId?.course === course).length;
       const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
 
-      completedCourses.push({
-        title: course,
-        progress,
-      });
+      // ✅ Only push fully completed courses
+      if (progress === 100) {
+        completedCourses.push({
+          title: course,
+          progress,
+        });
+      }
     }
 
     res.render("includes/certificates", {
@@ -407,6 +412,7 @@ app.get("/certificates", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 
 // app.get("/show_certificate", async (req, res) => {
 //   try {
@@ -681,6 +687,7 @@ app.get("/download_certificate_image", async (req, res) => {
     });
 
     const page = await browser.newPage();
+await page.evaluate(() => document.body.classList.add("download-mode"));
 
     // Puppeteer opens certificate page directly
     const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(course)}&name=${encodeURIComponent(userName)}`;
