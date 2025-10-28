@@ -683,6 +683,7 @@ app.get("/download_certificate_image", async (req, res) => {
     });
 
     const page = await browser.newPage();
+await page.evaluate(() => document.body.classList.add("download-mode"));
 
     // Puppeteer opens certificate page directly
     const targetUrl = `${baseUrl}/show_certificate?course=${encodeURIComponent(course)}&name=${encodeURIComponent(userName)}`;
