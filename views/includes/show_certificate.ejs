@@ -196,6 +196,48 @@
     visibility: hidden !important;
   }
 }
+/* === HIDE TOP BUTTONS FROM SCREENSHOTS === */
+.top-buttons {
+  isolation: isolate; /* ensures separate stacking */
+}
+
+.top-buttons::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0; /* invisible */
+  pointer-events: none;
+}
+
+/* Trick html2canvas not to capture them */
+.top-buttons {
+  transform: translateY(-200vh); /* moves them far off-screen */
+  position: absolute;
+}
+
+/* But when hovering or in normal DOM, bring back */
+body:not(.screenshot-mode) .top-buttons {
+  transform: translateY(0);
+  position: fixed;
+}
+/* --- KEEP BUTTONS OUTSIDE CERTIFICATE AREA --- */
+.top-buttons {
+  position: fixed;
+  top: 40px;       /* increase top margin */
+  right: 40px;     /* increase side spacing */
+  z-index: 1000;
+  transform: translateY(-150px); /* pushes them well above certificate */
+}
+
+@media (max-width: 768px) {
+  .top-buttons {
+    top: 30px;
+    right: 20px;
+    transform: translateY(-100px);
+  }
+}
+
 
 </style>
 
