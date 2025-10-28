@@ -20,8 +20,6 @@ const MongoStore = require("connect-mongo");
 const app = express();
 const cookieParser = require("cookie-parser");
 const { URLSearchParams } = require("url");
-const { isAuthenticated } = require("./middleware.js");
-const flash = require("flash");
 const PORT = process.env.PORT || 5000;
 const { isAuthenticated } = require("./middleware.js");
 const flash = require("flash");
@@ -217,6 +215,10 @@ app.get("/courses", async (req, res) => {
   }
 });
 
+app.get("/about_us", (req, res) => {
+  res.render("includes/about_us", { page: "about_us" });
+});
+
 app.get("/help", (req, res) => {
   res.render("includes/help", { page: "help" });
 });
@@ -331,12 +333,12 @@ app.post("/watch/:videoId", async (req, res) => {
 //---USER DASHBOARD---
 app.get("/userdashboard", async (req, res) => {
   try {
-    // Check if user is logged in
+    // 🔸 Check if user is logged in
     if (!req.session.user) {
       return res.redirect("/login");
     }
 
-    // Fetch the logged-in user's data from DB if needed
+    // 🔸 Fetch the logged-in user's data from DB if needed
     const user = await userModel.findOne({ enrollmentId: req.session.user.id }).populate("watchedVideos.videoId");
     // Get unique course names from all videos
     const courses = await videoModel.distinct("course");
@@ -355,20 +357,22 @@ app.get("/userdashboard", async (req, res) => {
     // }
 
     for (const course of courses) {
-      // Optional) Fetch first video thumbnail per course
+      // 🔸 (Optional) Fetch first video thumbnail per course
       const firstVideo = await videoModel.findOne({ course });
       courseThumbnails[course] = firstVideo?.thumbnailUrl || "";
 
-      // Calculate progress
+      // 🔸 Calculate progress
       const total = await videoModel.countDocuments({ course });
       const watched = user.watchedVideos.filter((v) => v.videoId?.course === course).length;
       const progress = total > 0 ? Math.round((watched / total) * 100) : 0;
       progressData[course] = progress;
     }
 
-    res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user,progressData });
     res.render("includes/user_dashboard.ejs", { page: "userdashboard", courses, courseThumbnails, user, progressData });
+    // res.render("user/userdashboard", { courses, courseThumbnails });
+  } catch (err) {
     console.error(err);
+    res.status(500).send("Error loading dashboard");
   }
 });
 

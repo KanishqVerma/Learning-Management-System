@@ -1,0 +1,318 @@
+<% layout('layouts/boilerplate') %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Guru Tegh Bahadur 4th Centenary Engineering College</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ------------------------- */
+        /* --- DESIGN SYSTEM --- */
+        /* ------------------------- */
+        :root {
+            /* Colors */
+            --color-primary: #005A9C; /* A deeper, professional blue */
+            --color-primary-dark: #003D6B;
+            --color-accent: #FFC107; /* A warm accent color */
+            --color-text-dark: #212529; /* Dark charcoal for text */
+            --color-text-light: #f8f9fa; /* Off-white for dark backgrounds */
+            --color-background-light: #ffffff;
+            --color-background-medium: #f8f9fa; /* Light grey for sections */
+            --color-border: #dee2e6;
+
+            /* Typography */
+            --font-primary: 'Poppins', sans-serif;
+            --font-size-base: 16px;
+            --line-height-base: 1.7;
+
+            /* Spacing & Layout */
+            --container-width: 1140px;
+            --spacing-section: 5rem;
+            --border-radius: 8px;
+            --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ------------------------- */
+        /* --- GLOBAL STYLES --- */
+        /* ------------------------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-base);
+            color: var(--color-text-dark);
+            background-color: var(--color-background-light);
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-align: center;
+            position: relative;
+            color: #00264D;
+            margin: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--color-accent);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* ------------------------- */
+        /* --- HERO SECTION --- */
+        /* ------------------------- */
+        .hero-section {
+            background: linear-gradient(rgba(0, 61, 107, 0.45), rgba(0, 90, 156, 0.45)), url('/pictures/header-bg.jpg') no-repeat center center/cover;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--color-text-light);
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            opacity: 0.9;
+        }
+
+        /* ------------------------- */
+        /* --- CONTENT SECTIONS --- */
+        /* ------------------------- */
+        .info-section {
+            padding: var(--spacing-section) 0;
+        }
+
+        .info-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .programs-section {
+            padding: var(--spacing-section) 0;
+            background-color: var(--color-background-medium);
+        }
+
+        /* ------------------------- */
+        /* --- GRIDS & CARDS --- */
+        /* ------------------------- */
+        .programs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .program-card {
+            background-color: var(--color-background-light);
+            color: var(--color-primary);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 50px; /* Pill shape */
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .program-card:hover {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .club-card {
+            background-color: var(--color-background-light);
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-soft);
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .club-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-medium);
+            border-bottom-color: var(--color-accent);
+        }
+
+        .club-card h3 {
+            color: var(--color-primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ------------------------- */
+        /* --- LOCATION/MAP SECTION --- */
+        /* ------------------------- */
+        .location-section {
+            padding-bottom: var(--spacing-section);
+        }
+
+        .map-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            height: 450px;
+        }
+
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ------------------------- */
+        /* --- FOOTER --- */
+        /* ------------------------- */
+        .footer {
+            background-color: var(--color-primary-dark);
+            color: var(--color-text-light);
+            padding: 3rem 0;
+            margin-top: var(--spacing-section);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-contact h3 {
+            margin-bottom: 1rem;
+            color: var(--color-accent);
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-contact a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            margin-top: 2rem;
+            opacity: 0.8;
+        }
+
+        /* ------------------------- */
+        /* --- RESPONSIVE DESIGN --- */
+        /* ------------------------- */
+        @media (max-width: 768px) {
+            :root {
+                --spacing-section: 3rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Guru Tegh Bahadur 4th Centenary Engineering College</h1>
+            <p class="hero-subtitle">Engineering the Future with Excellence and Integrity</p>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        
+        <section class="info-section">
+            <div class="container">
+                <h2 class="section-title">Our Journey & Vision</h2>
+                <p>Established by the Delhi Sikh Gurdwara Management Committee (DSGMC), our journey began in 1994. To commemorate the 400th birth anniversary of Guru Tegh Bahadur Sahib Ji, we were proudly upgraded to a degree-level engineering college in 2022. Affiliated with <strong>Guru Gobind Singh Indraprastha University (GGSIPU)</strong> and approved by AICTE, our vision is to be a beacon of innovation, developing ethical and competent professionals ready to tackle global challenges.</p>
+            </div>
+        </section>
+
+        <section class="programs-section">
+            <div class="container">
+                <h2 class="section-title">Academic Programs</h2>
+                <div class="programs-grid">
+                    <div class="program-card">Computer Science & Engineering</div>
+                    <div class="program-card">Information Technology</div>
+                    <div class="program-card">Electronics & Communication</div>
+                    <div class="program-card">Artificial Intelligence & ML</div>
+                    <div class="program-card">Data Science</div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
