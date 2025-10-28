@@ -239,21 +239,22 @@ body:not(.screenshot-mode) .top-buttons {
 }
 
 
+
 </style>
 
 <div class="main-content">
   <!-- Top Right Buttons -->
+  <% if (!downloadMode) { %>
   <div class="top-buttons">
-    <a
-      href="/download_certificate_image?course=<%= courseName %>"
-      class="action-btn"
-    >
+    <a href="/download_certificate_image?course=<%= courseName %>" class="action-btn">
       <i class="fa-solid fa-download"></i> Download Certificate
     </a>
     <a href="/certificates" class="action-btn">
       <i class="fa-solid fa-arrow-left"></i> Go Back
     </a>
   </div>
+<% } %>
+
 
   <!-- Certificate -->
   <div class="certificate-container" id="certificate">

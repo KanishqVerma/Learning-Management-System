@@ -472,7 +472,7 @@ app.get("/show_certificate", async (req, res) => {
     const user = { name: name || req.session.user?.name || "Student" };
 
     // Render the certificate page
-    res.render("includes/show_certificate", { page:"show_certificate",user, courseName });
+    res.render("includes/show_certificate", { page:"show_certificate",user, courseName, downloadMode: downloadMode === "true"});
   } catch (err) {
     console.error("Error rendering certificate:", err);
     res.status(500).send("Failed to render certificate page");
