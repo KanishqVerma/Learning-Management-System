@@ -189,6 +189,14 @@
       page-break-inside: avoid;
     }
   }
+  /* --- HIDE BUTTONS IN DOWNLOAD / PRINT MODE --- */
+@media print, screen and (display-mode: download) {
+  .top-buttons {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
 </style>
 
 <div class="main-content">
